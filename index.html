@@ -67,10 +67,12 @@ a:hover{border-bottom-color:var(--pgm)}
 .guide-title h2{font-size:16px;margin:0 0 4px}.guide-title p{margin:0;color:var(--muted);font-size:12px}
 .guide-counter{font:12px var(--mono);color:var(--pgm);white-space:nowrap}
 .guide-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.guide-step{border:1px solid var(--line2);background:#0E1014;color:var(--muted);border-radius:7px;padding:9px 11px;text-align:left;cursor:pointer}
+.guide-step{border:1px solid var(--line2);background:#0E1014;color:var(--muted);border-radius:7px;padding:9px 11px;text-align:left}
 .guide-step b{display:block;color:var(--tx);font-size:12px;margin-bottom:3px}.guide-step span{font-size:10.5px}
 .guide-step.active{border-color:var(--pgm);background:rgba(79,209,197,.09)}
-.guide-foot{display:flex;align-items:center;gap:10px;margin-top:12px}.guide-current{color:var(--tx);font-size:11.5px;flex:1}.guide-current strong{color:var(--pgm)}
+.guide-foot{display:flex;align-items:center;gap:10px;margin-top:12px}.guide-current{color:var(--tx);font-size:11.5px;flex:1 1 auto;min-width:0;overflow-wrap:anywhere}.guide-current strong{color:var(--pgm);display:block;margin-bottom:3px}
+.guide-foot .ghostbtn,.guide-foot button.primary{width:auto;min-width:max-content;flex:0 0 auto;margin:0;padding:8px 14px;white-space:nowrap}
+.steps button:disabled{opacity:.45;cursor:not-allowed}
 .guided-focus{outline:2px solid var(--pgm);outline-offset:2px;box-shadow:0 0 0 5px rgba(79,209,197,.08)}
 .panel{scroll-margin-top:82px}
 .advanced details{border-top:1px solid var(--line);padding:10px 12px}.advanced summary{cursor:pointer;color:var(--muted);font-size:11px;font-weight:600}
@@ -343,7 +345,7 @@ table.os-table td{padding:10px 12px;border-bottom:1px solid #1B1E25;vertical-ali
  opacity:0;pointer-events:none;transition:.25s;z-index:99;max-width:80vw;box-shadow:0 8px 24px rgba(0,0,0,.5)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 @media(max-width:1180px){.grid{grid-template-columns:1fr}.hero{grid-template-columns:1fr}
- .stats{grid-template-columns:repeat(2,1fr)}.guide-steps{grid-template-columns:repeat(2,1fr)}.research{grid-template-columns:1fr}.takeaway{grid-column:span 1}
+ .stats{grid-template-columns:repeat(2,1fr)}.guide-steps{grid-template-columns:repeat(2,1fr)}.guide-foot{flex-wrap:wrap}.guide-current{flex-basis:100%}.research{grid-template-columns:1fr}.takeaway{grid-column:span 1}
  .monitor-wall{grid-template-columns:1fr}}
 </style></head><body>
 <div class="topbar">
@@ -369,10 +371,10 @@ table.os-table td{padding:10px 12px;border-bottom:1px solid #1B1E25;vertical-ali
 <section class="guide" aria-label="四步评测指引">
   <div class="guide-title"><div><h2>评测思路与操作顺序</h2><p>先选任务，再逐步观察；确认状态差异后标注，最后保存一条可复查记录。</p></div><span class="guide-counter" id="guideCounter">第 1 步 / 共 4 步</span></div>
   <div class="guide-steps">
-    <button class="guide-step active" data-guide="1"><b>1 · 选任务</b><span>选择影视或游戏任务，读清预期状态</span></button>
-    <button class="guide-step" data-guide="2"><b>2 · 逐步观察</b><span>按顺序播放，比较 A/B 与状态账本</span></button>
-    <button class="guide-step" data-guide="3"><b>3 · 标注差异</b><span>给练习评分、选故障标签、看候选动作</span></button>
-    <button class="guide-step" data-guide="4"><b>4 · 保存记录</b><span>记录本次练习，再查看或导出结果</span></button>
+    <div class="guide-step active" data-guide="1"><b>1 · 选任务</b><span>选择影视或游戏任务，读清预期状态</span></div>
+    <div class="guide-step" data-guide="2"><b>2 · 逐步观察</b><span>按顺序播放，比较 A/B 与状态账本</span></div>
+    <div class="guide-step" data-guide="3"><b>3 · 标注差异</b><span>给练习评分、选故障标签、看候选动作</span></div>
+    <div class="guide-step" data-guide="4"><b>4 · 保存记录</b><span>记录本次练习，再查看或导出结果</span></div>
   </div>
   <div class="guide-foot"><div class="guide-current" id="guideCurrent"><strong>第 1 步：选择一个任务。</strong> 从左侧场景库选影视预演或游戏交互，再读右侧任务要求。</div><button class="ghostbtn" id="guidePrev" disabled>上一步</button><button class="tbtn primary" id="guideNext">开始：去选任务</button></div>
 </section>
@@ -600,9 +602,9 @@ const DIMS=[
  {k:'instruct',n:'指令遵循'},{k:'latency',n:'交互延迟'},{k:'memory',n:'长时记忆与因果'},{k:'editability',n:'局部可编辑性'}
 ];
 function loadRecords(){try{const value=JSON.parse(localStorage.getItem('wmfl_records')||'[]');return Array.isArray(value)?value:[]}catch{return []}}
-let active='V01',beat=0,guideStep=1,zoom=false,logged=new Set(),scoresA={},scoresB={},picks={},evState={},ladder=3,
-    chal={on:false,score:0,streak:0,tries:0,hits:0,revealed:false},
-    records=loadRecords(),timer=null;
+let records=loadRecords();
+let active='V01',beat=0,furthestBeat=0,guideStep=1,zoom=false,logged=new Set(records.map(r=>r.case_id)),scoresA={},scoresB={},picks={},evState={},ladder=3,
+    chal={on:false,score:0,streak:0,tries:0,hits:0,revealed:false},timer=null;
 const $=(s)=>document.querySelector(s);
 const getCase=()=>cases[active];
 const evOf=id=>evState[id]||(evState[id]={on:new Set(),custom:'',beat:0});
@@ -621,7 +623,7 @@ function renderList(track){
  Object.values(cases).filter(c=>c.track===track).forEach(c=>{
   const b=document.createElement('button');b.className='scenario'+(c.id===active?' active':'');
   b.innerHTML=`<b>${c.id}　${c.title}<span class="score-mini">${logged.has(c.id)?'已记录':''}</span></b><span>${c.track==='film'?'影视预演':'游戏交互'} · ${c.beats.length} 步 · ${c.keys.length} 项状态</span>`;
-  b.onclick=()=>{stopAuto();active=c.id;beat=0;goGuideStep(2,false);render()};list.appendChild(b)});
+  b.onclick=()=>{stopAuto();active=c.id;beat=0;furthestBeat=0;goGuideStep(2,false);render()};list.appendChild(b)});
 }
 function reaction(side,idx){
  const c=getCase(),d=(side==='B'&&DEFECT[c.id]&&DEFECT[c.id][idx])||null;
@@ -732,8 +734,8 @@ function renderSteps(){
  const c=getCase(),bar=$('#stepsBar');
  bar.innerHTML=c.beats.map((b,i)=>{
   const has=!!(DEFECT[c.id]&&DEFECT[c.id][i]);
-  return `<button class="${i===beat?'active':''}${has&&logged.has(c.id)?' bad':''}" data-i="${i}">${i+1}${has&&i===beat?' ⚠':''}</button>`}).join('');
- bar.querySelectorAll('button').forEach(b=>b.onclick=()=>{beat=+b.dataset.i;render()});
+  return `<button ${i>furthestBeat?'disabled':''} title="${i>furthestBeat?'请先完成前面的步骤':'前往第 '+(i+1)+' 步'}" class="${i===beat?'active':''}${has&&logged.has(c.id)?' bad':''}" data-i="${i}">${i+1}${has&&i===beat?' ⚠':''}</button>`}).join('');
+  bar.querySelectorAll('button').forEach(b=>b.onclick=()=>{if(+b.dataset.i<=furthestBeat){beat=+b.dataset.i;render()}});
 }
 function renderChal(){
  $('#chalScore').textContent=chal.score;
@@ -746,7 +748,7 @@ function rankName(){const s=chal.score;return s>=60?'总导演（评测负责人
 function startChal(){
  const ids=Object.keys(DEFECT),cid=ids[Math.floor(Math.random()*ids.length)];
  const bs=Object.keys(DEFECT[cid]),b=+bs[Math.floor(Math.random()*bs.length)];
- stopAuto();active=cid;beat=b;picks[cid]=[];chal.on=true;chal.revealed=false;
+ stopAuto();active=cid;beat=b;furthestBeat=b;document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('active',x.dataset.track===cases[cid].track));picks[cid]=[];chal.on=true;chal.revealed=false;
  render();toast('挑战开始：'+cid+' 第 '+(b+1)+' 步 —— 观察预设示意画面，练习选择故障标签');
 }
 function submitChal(){
@@ -813,7 +815,7 @@ function renderGuide(){
   2:['按顺序观察。',`正在查看第 ${beat+1}/${getCase().beats.length} 步。对照 A/B 示意画面和下方状态账本，点按钮推进。`,beat<getCase().beats.length-1?'下一步：播放第 '+(beat+2)+' 步':'完成观察：去标注'],
   3:['标注观察结果。','给示意画面练习评分，选择故障标签，并查看候选数据动作。所有数值仅用于演示。','去步骤 4：保存记录'],
   4:['保存并复查。','点击右侧“记录本次练习”；记录保存在当前浏览器，下方可查看或导出 JSON / CSV。','回到步骤 1']};
- const [title,body,next]=labels[guideStep];$('#guideCurrent').innerHTML=`<strong>第 ${guideStep} 步：${title}</strong> ${body}`;$('#guideNext').textContent=next;
+ const [title,body,next]=labels[guideStep];$('#guideCurrent').innerHTML=`<strong>第 ${guideStep} 步：${title}</strong><span>${body}</span>`;$('#guideNext').textContent=next;
 }
 function goGuideStep(n,scroll=true){
  guideStep=Math.max(1,Math.min(4,n));renderGuide();
@@ -841,10 +843,9 @@ function render(){
  renderList(c.track);renderRecords();
  renderGuide();
 }
-document.querySelectorAll('.guide-step').forEach(b=>b.onclick=()=>goGuideStep(+b.dataset.guide));
 $('#guideNext').onclick=()=>{
  if(guideStep===1){goGuideStep(2);return}
- if(guideStep===2){if(beat<getCase().beats.length-1){beat++;render();$('#panelCenter').scrollIntoView({behavior:'smooth',block:'start'})}else goGuideStep(3);return}
+ if(guideStep===2){if(beat<getCase().beats.length-1){advanceBeat();$('#panelCenter').scrollIntoView({behavior:'smooth',block:'start'})}else goGuideStep(3);return}
  if(guideStep===3){goGuideStep(4);return}
  goGuideStep(1);
 };
@@ -867,14 +868,19 @@ function download(name,content,type){const a=document.createElement('a');a.href=
 function csvCell(value){const text=String(value??'');const safe=/^\s*[=+\-@]/.test(text)?"'"+text:text;return '"'+safe.replace(/"/g,'""')+'"'}
 function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast._h);toast._h=setTimeout(()=>t.classList.remove('show'),2400)}
 function stopAuto(){if(timer){clearInterval(timer);timer=null;$('#autoPlay').classList.remove('on')}}
+function advanceBeat(){
+ if(beat>=getCase().beats.length-1){stopAuto();toast('已经到达本任务最后一步');return false}
+ beat++;furthestBeat=Math.max(furthestBeat,beat);render();return true;
+}
+function rewindBeat(){if(beat<=0){toast('已经是本任务第一步');return false}beat--;render();return true}
 document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{
  document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active');
- stopAuto();active=b.dataset.track==='film'?'V01':'G01';beat=0;goGuideStep(2,false);render()});
-$('#nextBeat').onclick=()=>{beat=(beat+1)%getCase().beats.length;render()};
-$('#prevBeat').onclick=()=>{beat=(beat-1+getCase().beats.length)%getCase().beats.length;render()};
+ stopAuto();active=b.dataset.track==='film'?'V01':'G01';beat=0;furthestBeat=0;goGuideStep(2,false);render()});
+$('#nextBeat').onclick=advanceBeat;
+$('#prevBeat').onclick=rewindBeat;
 $('#resetScene').onclick=()=>{stopAuto();beat=0;render()};
 $('#viewToggle').onclick=e=>{zoom=!zoom;e.target.classList.toggle('on',zoom);e.target.textContent=zoom?'导演视角':'机位视角';['A','B'].forEach(paintScene);toast(zoom?'已切换到机位视角（放大观察细节）':'已回到导演视角')};
-$('#autoPlay').onclick=e=>{if(timer){stopAuto();return}e.target.classList.add('on');timer=setInterval(()=>{beat=(beat+1)%getCase().beats.length;render()},1400)};
+$('#autoPlay').onclick=e=>{if(timer){stopAuto();return}if(beat>=getCase().beats.length-1){toast('已经到达本任务最后一步');return}e.target.classList.add('on');timer=setInterval(()=>{if(!advanceBeat()||beat>=getCase().beats.length-1)stopAuto()},1400)};
 $('#scoreA').oninput=e=>{scoresA[active]=+e.target.value;$('#scoreNumA').textContent=e.target.value+' / 5';renderGap()};
 $('#scoreB').oninput=e=>{scoresB[active]=+e.target.value;$('#scoreNumB').textContent=e.target.value+' / 5';renderGap()};
 document.querySelectorAll('#eventChips [data-ev]').forEach(b=>b.onclick=()=>{
@@ -891,6 +897,7 @@ $('#revealBtn').onclick=()=>{chal.revealed=true;render();toast('已揭示状态�
 $('#genReport').onclick=()=>{$('#reportBox').textContent=buildReport();toast('诊断报告已生成，可复制或截图带走')};
 $('#copyReport').onclick=()=>{const t=$('#reportBox').textContent;if(navigator.clipboard)navigator.clipboard.writeText(t).then(()=>toast('已复制到剪贴板'));else toast('请手动选中复制')};
 $('#record').onclick=()=>{const c=getCase(),sel=picks[active]||[],st=evOf(active);
+ if(guideStep!==4){toast('请按顺序完成前面的步骤，再保存记录');return}
  const evNames=[...st.on].map(k=>EVENTS[k].zh);if(st.custom)evNames.push('自定义：'+st.custom);
  records.push({case_id:active,title:c.title,track:c.track==='film'?'影视预演':'游戏交互',step:beat+1,steps:c.beats.length,
   zoom:zoom,ladder:ladder,drift_count:driftCount(),
@@ -913,13 +920,12 @@ $('#exportCsv').onclick=()=>{
 $('#clearRecords').onclick=()=>{if(!records.length)return;if(!confirm('确定清空全部本地评测记录？'))return;
  records=[];logged.clear();localStorage.removeItem('wmfl_records');render()};
 document.addEventListener('keydown',e=>{
- if(/input|select|textarea/i.test(e.target.tagName))return;
- if(e.code==='Space'||e.key==='ArrowRight'){e.preventDefault();beat=(beat+1)%getCase().beats.length;render()}
- else if(e.key==='ArrowLeft'){beat=(beat-1+getCase().beats.length)%getCase().beats.length;render()}
+ if(/input|select|textarea|button/i.test(e.target.tagName))return;
+ if(e.code==='Space'||e.key==='ArrowRight'){e.preventDefault();advanceBeat()}
+ else if(e.key==='ArrowLeft'){rewindBeat()}
  else if(e.key==='v'||e.key==='V'){$('#viewToggle').click()}
- else if(e.key==='r'||e.key==='R'){$('#record').click()}
  else if(e.key==='e'||e.key==='E'){document.querySelector('#eventChips [data-ev="rain"]').click()}
- else if(/^[1-4]$/.test(e.key)){const i=+e.key-1;if(i<getCase().beats.length){beat=i;render()}}
+ else if(/^[1-4]$/.test(e.key)){const i=+e.key-1;if(i<getCase().beats.length&&i<=furthestBeat){beat=i;render()}}
 });
 renderLadder();render();
 </script></body></html>
