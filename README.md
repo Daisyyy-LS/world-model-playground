@@ -52,6 +52,20 @@
 - **RoboWM-Bench**（[arXiv:2604.19092](https://arxiv.org/abs/2604.19092)）：视觉合理 ≠ 具身可执行。这是本工具把故障标签绑定「数据回流」而非「分数」的依据。
 - **Genie 3 官方局限**：动作空间受限 / 多智能体交互 / 真实地理位置 / 文字渲染 / 交互时长——每一条都对应一张可设计的评测任务卡。
 
+## 开源世界模型入口（2026-10-28 补）
+
+页面第 05 节列出了可直接点开的开源模型，并写明「用本页的标签体系我要测什么」：
+
+| 项目 | 代码 / 权重 / 体验 | 我要测什么 |
+|---|---|---|
+| **Hy-Nomas**（腾讯混元，2026-10-23，Apache 2.0） | [GitHub](https://github.com/Tencent-Hunyuan/Hy-Nomas) · [HF 权重](https://huggingface.co/tencent/Hy-Nomas) · [在线 demo](https://hy-nomas.hy.tencent.com/demo) | 事件持久化、房间回访（空间记忆）、影视分镜（相机轨迹控制） |
+| **HY-World 2.0**（腾讯混元，2026-04） | [GitHub](https://github.com/Tencent-Hunyuan/HY-World-2.0) · [HF 权重](https://huggingface.co/tencent/HY-World-2.0) | 场景拓扑可达性、跨视角一致性 |
+| **HunyuanWorld-1.0**（腾讯混元，2025-07） | [GitHub](https://github.com/Tencent-Hunyuan/HunyuanWorld-1.0) | 对照组：3D 路线 vs 视频路线的失败模式差异 |
+
+完整上手命令（Docker / 单卡 4090 两种路径）、Reactor 本地交互步骤与四条评测任务设计，见 [world-model-data-kit · open_models/hy-nomas_eval_plan.md](https://github.com/Daisyyy-LS/world-model-data-kit/blob/main/open_models/hy-nomas_eval_plan.md)。
+
+> ⚠️ 上述能力描述来自官方 README 与公开报道，我尚未在 GPU 上实跑（无可用算力），该文档是**计划而非实测结果**。
+
 ## 产品与技术边界（诚实声明）
 
 - 这是一个**产品流程原型**，不连接任何生成模型 API；示意画面由 SVG/CSS 绘制，分数只是本地交互，**不代表模型测试结果**
