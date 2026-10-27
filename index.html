@@ -1,377 +1,881 @@
 <!doctype html>
-<html lang="zh-CN">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>看片场 · 世界模型评测台 v4</title>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>看片场 · 世界模型评测台 v5 | World Model Field Lab</title>
 <style>
-:root{--paper:#F5F4EE;--card:#FFFFFF;--card2:#FBFAF6;--line:#E6E3D9;--line2:#D8D4C7;--ink:#1F1E1D;--ink2:#3D3B37;--muted:#6B6862;--faint:#96918A;--accent:#D97757;--accent2:#C25B3C;--accentsoft:#FBEDE7;--sage:#5F8A72;--sage2:#E6F0EA;--amber:#B8863B;--ambersoft:#F7EEDF;--screen:#2A2A28;--screen2:#1F1E1D}
+:root{
+ --bg:#0B0C0F;--panel:#14161B;--panel2:#191C22;--panel3:#1F232B;--line:#262A33;--line2:#323844;
+ --tx:#E6E8EC;--muted:#8B93A1;--faint:#5A6270;
+ --pgm:#4FD1C5;--pvw:#E8B04B;--red:#FF5F5F;--pur:#A78BFA;--blue:#6BA6F5;
+ --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+}
 *{box-sizing:border-box}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,"Microsoft YaHei",system-ui,-apple-system,sans-serif;font-size:14px;-webkit-font-smoothing:antialiased}
-button{font:inherit;cursor:pointer}
-h1,h2,h3{margin:0;font-weight:600;letter-spacing:-.01em}
-a{color:var(--accent2)}
-/* 左侧导航 */
-.rail{position:fixed;left:0;top:0;bottom:0;width:52px;background:var(--card2);border-right:1px solid var(--line);display:flex;flex-direction:column;align-items:center;padding:14px 0;gap:4px;z-index:9}
-.rail button{width:36px;height:36px;border:none;background:none;border-radius:10px;color:var(--faint);font-size:14px}
-.rail button:hover{background:var(--accentsoft);color:var(--accent2)}
-.rail .spacer{flex:1}
-.shell{max-width:1300px;margin:0 auto;padding:26px 28px 44px 76px}
-/* 顶栏 */
-.top{display:flex;align-items:center;justify-content:space-between;padding-bottom:16px;border-bottom:1px solid var(--line)}
-.brand{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;letter-spacing:.04em}
-.brand-mark{width:28px;height:28px;border-radius:9px;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:13px}
-.brand span.sub{font-weight:400;color:var(--faint);letter-spacing:0}
-.topmeta{font-size:11px;color:var(--faint);letter-spacing:.1em}
-/* Hero */
-.hero{display:grid;grid-template-columns:1.5fr .5fr;gap:32px;align-items:end;padding:34px 0 22px}
-.eyebrow{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--accent2)}
-.hero h1{font-size:clamp(30px,4.4vw,50px);line-height:1.08;letter-spacing:-.03em;margin:12px 0 12px}
-.hero h1 em{font-style:normal;color:var(--accent2)}
-.hero p{max-width:660px;color:var(--muted);line-height:1.75;margin:0}
-.hero-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
-.hero-card .big{font-size:20px;font-weight:600;color:var(--accent2)}
-.hero-card small{display:block;color:var(--muted);line-height:1.6;margin-top:6px;font-size:12px}
-/* stats */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:6px 0 22px}
-.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:13px 15px}
-.stat strong{display:block;font-size:19px;font-weight:600}
-.stat span{font-size:11px;color:var(--muted)}
-/* 主网格 */
-.grid{display:grid;grid-template-columns:236px minmax(0,1fr) 296px;gap:14px;align-items:start}
-.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
-.panel-head{display:flex;align-items:baseline;justify-content:space-between;padding:13px 16px;border-bottom:1px solid var(--line)}
-.panel-head h2{font-size:12.5px;letter-spacing:.02em}
-.panel-head small{font-size:10px;color:var(--faint);letter-spacing:.08em}
-/* 左栏 */
-.tabs{display:flex;gap:6px;padding:12px 14px 2px}
-.tabs button{flex:1;font-size:12px;padding:7px 0;border-radius:9px;border:1px solid var(--line);background:var(--card2);color:var(--muted)}
-.tabs button.active{border-color:var(--accent);color:var(--accent2);background:var(--accentsoft)}
-.scenario-list{padding:10px 12px 14px;display:flex;flex-direction:column;gap:8px}
-.scenario{text-align:left;border:1px solid var(--line);background:var(--card2);border-radius:11px;padding:10px 12px;color:var(--ink)}
-.scenario:hover{border-color:var(--line2)}
-.scenario.active{border-color:var(--accent);background:var(--accentsoft)}
-.scenario b{display:block;font-size:12.5px}
-.scenario span{font-size:10.5px;color:var(--muted)}
-.score-mini{float:right;font-size:10px;color:var(--sage)}
-/* 双视口 */
-.stage-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px}
-.stage{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card2)}
-.stage-head{display:flex;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid var(--line);background:var(--card)}
-.stage-head .dot{width:8px;height:8px;border-radius:50%}
-.stage-head b{font-size:12px}
-.stage-head .m{font-size:10px;color:var(--faint)}
-.stage-head .tc{margin-left:auto;font-size:10px;color:var(--faint);font-variant-numeric:tabular-nums}
-.scene{position:relative;height:236px;background:var(--screen);overflow:hidden}
-.scene .inner{position:absolute;inset:0;transition:transform .55s cubic-bezier(.2,.7,.2,1);transform-origin:50% 55%}
-.scene.zoom .inner{transform:scale(1.42)}
-.scene svg.grid-svg{position:absolute;inset:0;width:100%;height:100%}
-.ch{position:absolute;transition:transform .6s ease,background .5s ease}
-.ch .body{position:absolute;left:0;top:26px;width:46px;height:74px;border-radius:22px;background:#6C6A63;transition:background .5s}
-.ch .head{position:absolute;left:9px;top:0;width:28px;height:28px;border-radius:50%;background:#D9B49C}
-.ch.a{left:26%;bottom:34px}.ch.b{left:56%;bottom:34px}
-.ch.a .body{background:#7A6F63}.ch.b .body{background:#5F666B}
-.ch.drift .body{background:#8A6E4E}.ch.drift .head{background:#C9A98E}
-.tbl{position:absolute;left:44%;bottom:26px;width:22%;height:7px;background:#4A4843;border-radius:2px}
-.prop{position:absolute;left:47%;bottom:38px;width:16px;height:17px;border-radius:3px;background:linear-gradient(160deg,#D97757,#E8B98C);transition:transform .6s ease,opacity .4s}
-.prop.ghost{opacity:0;background:linear-gradient(160deg,#8A8F98,#C3C6C9)}
-.prop.dup{opacity:1;transform:translateX(34px)}
-.cat{position:absolute;right:8%;bottom:30px;font-size:18px;opacity:0;transition:opacity .5s}
-.rain{position:absolute;inset:0;opacity:0;transition:opacity .5s;background:repeating-linear-gradient(74deg,transparent 0 12px,rgba(160,190,215,.45) 12px 13px)}
-.dim{position:absolute;inset:0;background:#000;opacity:0;transition:opacity .5s}
-.axis{position:absolute;left:8%;right:8%;top:56%;height:0;border-top:2px dashed rgba(220,215,205,.35);transition:border-color .5s,transform .5s}
-.axis.flip{border-color:#D97757;transform:rotate(180deg)}
-.axis::after{content:'动作轴线';position:absolute;right:0;top:-16px;font-size:9px;color:rgba(230,225,215,.5)}
-.axis.flip::after{content:'越轴！';color:#E8927A;font-weight:600}
-.stage-note{padding:10px 12px;font-size:11.5px;line-height:1.6;color:var(--ink2);min-height:56px;background:var(--card);border-top:1px solid var(--line)}
-.stage-note .flag{display:inline-block;font-size:9.5px;font-weight:600;color:var(--accent2);background:var(--accentsoft);border-radius:5px;padding:1px 6px;margin-left:4px}
-.stage-note .ok{display:inline-block;font-size:9.5px;font-weight:600;color:var(--sage);background:var(--sage2);border-radius:5px;padding:1px 6px;margin-left:4px}
-/* 时间线 */
-.timeline{display:flex;align-items:center;gap:14px;padding:12px 16px 2px}
-.timeline .beat{flex:1}
-.timeline b{display:block;font-size:12px}
-.timeline span{font-size:11px;color:var(--muted)}
-.timeline-line{flex:.6;height:1px;background:var(--line2)}
-.actions{display:flex;gap:8px;padding:8px 16px 16px;flex-wrap:wrap}
-button.primary{background:var(--accent);border:none;color:#fff;padding:9px 16px;border-radius:10px;font-size:12.5px}
-button.primary:hover{background:var(--accent2)}
-button.secondary{background:var(--card2);border:1px solid var(--line);color:var(--muted);padding:9px 14px;border-radius:10px;font-size:12.5px}
-button.secondary:hover{border-color:var(--line2);color:var(--ink)}
-button.secondary.on{border-color:var(--accent);color:var(--accent2);background:var(--accentsoft)}
-.progress{height:3px;background:var(--line);border-radius:99px;margin:0 16px 12px;overflow:hidden}
-.progress i{display:block;height:100%;background:var(--accent);transition:width .4s}
-/* 右栏 */
-.right-body{padding:14px 16px;display:flex;flex-direction:column;gap:12px}
-.case-title{font-size:13.5px;font-weight:600;margin:0}
-.case-desc{margin:4px 0 0;font-size:11.5px;color:var(--muted);line-height:1.65}
-.expect{display:flex;gap:8px;align-items:baseline;padding:6px 0;border-bottom:1px dashed var(--line);font-size:11.5px;color:var(--ink2);line-height:1.55}
-.expect i{font-style:normal;font-size:9.5px;color:var(--accent2);font-weight:700}
-.score-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.score-box{border:1px solid var(--line);border-radius:11px;padding:9px 11px;background:var(--card2)}
-.score-box .lbl{font-size:10.5px;color:var(--muted);display:flex;justify-content:space-between;margin-bottom:4px}
-.score-box .lbl b{color:var(--ink)}
-.range{width:100%;accent-color:var(--accent)}
-.auto-line{font-size:10.5px;color:var(--muted);margin-top:5px;line-height:1.5}
-.auto-line b{color:var(--ink)}
-.gap-warn{margin-top:6px;font-size:10.5px;color:var(--amber);background:var(--ambersoft);border-radius:8px;padding:6px 9px;line-height:1.55;display:none}
-.gap-warn.show{display:block}
-.field-label{display:flex;justify-content:space-between;font-size:10.5px;color:var(--muted);margin:2px 0 6px}
-.failure-list{display:flex;flex-wrap:wrap;gap:6px}
-.tag{border:1px solid var(--line);background:var(--card2);border-radius:9px;padding:5px 9px;font-size:11px;color:var(--ink2);text-align:left}
-.tag .tag-en{display:block;font-size:8.5px;color:var(--faint)}
-.tag:hover{border-color:var(--line2)}
-.tag.on{border-color:var(--accent);background:var(--accentsoft);color:var(--accent2)}
-.tag.on .tag-en{color:#B98C77}
-.advice{border:1px dashed var(--line2);border-radius:11px;padding:10px 12px;background:var(--card2)}
-.advice h4{margin:0 0 5px;font-size:11px;color:var(--accent2)}
-.advice ul{margin:0;padding-left:15px;font-size:11px;line-height:1.65;color:var(--ink2)}
-.advice .hint{color:var(--faint)}
-.layer-pill{display:inline-block;font-size:9.5px;font-weight:700;color:var(--accent2);background:var(--accentsoft);border-radius:6px;padding:0 5px;margin-right:4px}
-select#note{width:100%;background:var(--card2);border:1px solid var(--line);color:var(--ink);border-radius:9px;padding:8px;font-size:12px}
-.mini-note{font-size:10px;color:var(--faint);line-height:1.65}
-/* 记录 */
-.records{margin-top:14px}
-.records .panel-head{display:flex;align-items:center;gap:10px}
+body{margin:0;background:var(--bg);color:var(--tx);
+ font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",system-ui,sans-serif;
+ font-size:13px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--pgm);text-decoration:none;border-bottom:1px solid rgba(79,209,197,.3)}
+a:hover{border-bottom-color:var(--pgm)}
+.shell{max-width:1440px;margin:0 auto;padding:0 18px 40px}
+
+/* ===== 顶部节目条 ===== */
+.topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:14px;
+ background:linear-gradient(180deg,#111318,#0C0D11);border-bottom:1px solid var(--line);
+ padding:9px 18px;margin:0 -18px 0;font-family:var(--mono)}
+.brand{display:flex;align-items:center;gap:9px;font-weight:700;letter-spacing:.06em;font-size:13px}
+.brand-mark{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;
+ border-radius:5px;background:linear-gradient(145deg,var(--pgm),#2E8C84);color:#06231F;font-size:13px;font-weight:800}
+.brand .sub{color:var(--faint);font-weight:400;letter-spacing:0;font-family:inherit}
+.tb-lights{display:flex;gap:7px;margin-left:6px}
+.tb-light{display:inline-flex;align-items:center;gap:5px;padding:2px 8px;border-radius:3px;
+ border:1px solid var(--line2);font-size:10px;letter-spacing:.08em;color:var(--muted)}
+.tb-light.on{color:#041F1C;background:var(--pgm);border-color:var(--pgm);font-weight:700}
+.tb-light.pvw{color:#241A05;background:var(--pvw);border-color:var(--pvw);font-weight:700}
+.rec{display:inline-flex;align-items:center;gap:6px;color:var(--red);font-size:10px;letter-spacing:.1em}
+.rec i{width:8px;height:8px;border-radius:50%;background:var(--red);animation:blink 1.4s infinite}
+@keyframes blink{0%,45%{opacity:1}55%,100%{opacity:.25}}
+.tb-tc{margin-left:auto;font-family:var(--mono);font-size:12px;color:var(--pgm);letter-spacing:.08em;
+ background:#08090C;border:1px solid var(--line2);padding:3px 10px;border-radius:3px}
+.tb-right{font-family:var(--mono);font-size:10px;color:var(--faint);letter-spacing:.06em}
+
+/* ===== hero ===== */
+.hero{display:grid;grid-template-columns:1.5fr .95fr;gap:16px;margin:20px 0 14px;align-items:stretch}
+.hero-main{background:
+ radial-gradient(900px 380px at 12% -10%,rgba(79,209,197,.10),transparent 60%),
+ linear-gradient(180deg,var(--panel2),var(--panel));
+ border:1px solid var(--line);border-radius:10px;padding:22px 24px;position:relative;overflow:hidden}
+.hero-main:before{content:"";position:absolute;inset:0;
+ background:repeating-linear-gradient(0deg,rgba(255,255,255,.022) 0 1px,transparent 1px 3px);pointer-events:none}
+.eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--pgm);text-transform:uppercase}
+.hero h1{margin:8px 0 10px;font-size:30px;line-height:1.25;letter-spacing:.01em}
+.hero h1 em{font-style:normal;color:var(--faint);font-weight:300}
+.hero p{margin:0;color:var(--muted);max-width:62ch}
+.hero-side{border:1px solid var(--line);border-radius:10px;background:linear-gradient(180deg,#171A20,#101216);
+ padding:18px;display:flex;flex-direction:column;justify-content:center}
+.hero-side .big{font-size:19px;font-weight:700;line-height:1.4;margin-bottom:8px}
+.hero-side small{color:var(--muted);display:block}
+.hero-side .kbd-row{margin-top:12px;display:flex;flex-wrap:wrap;gap:6px}
+.kbd{font-family:var(--mono);font-size:10px;border:1px solid var(--line2);border-bottom-width:2px;
+ border-radius:4px;padding:2px 7px;color:var(--muted);background:#0E1014}
+.kbd b{color:var(--tx)}
+
+/* ===== stats ===== */
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:11px 13px}
+.stat strong{display:block;font-family:var(--mono);font-size:19px;color:var(--pgm);letter-spacing:.03em}
+.stat span{display:block;font-size:10.5px;color:var(--faint);margin-top:2px}
+
+/* ===== main grid ===== */
+.grid{display:grid;grid-template-columns:255px minmax(0,1fr) 320px;gap:14px;align-items:start}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:14px}
+.panel-head{display:flex;align-items:center;gap:9px;flex-wrap:wrap;padding:11px 14px;
+ border-bottom:1px solid var(--line);background:var(--panel2)}
+.panel-head h2{margin:0;font-size:12.5px;letter-spacing:.03em}
+.panel-head small{font-family:var(--mono);font-size:9.5px;color:var(--faint);letter-spacing:.1em;text-transform:uppercase}
 .head-actions{margin-left:auto;display:flex;gap:6px}
-.head-actions button{font-size:11px;padding:5px 10px;border-radius:8px;border:1px solid var(--line);background:var(--card2);color:var(--muted)}
-.head-actions button:hover{border-color:var(--accent);color:var(--accent2)}
-.rec-wrap{max-height:300px;overflow:auto}
-.rec-table{width:100%;border-collapse:collapse;font-size:11.5px}
-.rec-table th,.rec-table td{border-bottom:1px solid var(--line);padding:8px 12px;text-align:left;vertical-align:top;line-height:1.55}
-.rec-table th{font-size:10px;color:var(--faint);position:sticky;top:0;background:var(--card2)}
-.rec-table td b{color:var(--accent2)}
-.rec-empty{padding:18px 16px;color:var(--faint);font-size:12px;line-height:1.7}
+.pad{padding:14px}
+
+/* 左侧 */
+.tabs{display:flex;gap:6px;padding:12px 14px 0}
+.tabs button{flex:1;padding:7px 8px;border-radius:6px;border:1px solid var(--line2);background:#0E1014;
+ color:var(--muted);font-size:11.5px;cursor:pointer;transition:.15s}
+.tabs button.active{background:var(--pgm);border-color:var(--pgm);color:#041F1C;font-weight:700}
+.tabs button:hover:not(.active){color:var(--tx);border-color:var(--pgm)}
+.scenario-list{padding:10px 12px 14px;display:flex;flex-direction:column;gap:7px}
+.scenario{text-align:left;border:1px solid var(--line);background:#101217;border-radius:7px;padding:9px 11px;cursor:pointer;transition:.15s}
+.scenario:hover{border-color:var(--line2);background:#161A21}
+.scenario.active{border-color:var(--pgm);background:rgba(79,209,197,.07)}
+.scenario b{display:block;font-size:12px}
+.scenario span{display:block;font-family:var(--mono);font-size:9.5px;color:var(--faint);margin-top:3px;letter-spacing:.05em}
+.score-mini{float:right;font-family:var(--mono);font-size:9px;color:var(--pgm)}
+.tag-line{display:inline-block;font-family:var(--mono);font-size:9px;padding:1px 6px;border-radius:3px;
+ background:#0E1014;border:1px solid var(--line2);color:var(--muted);margin-left:5px}
+
+/* 证据阶梯 */
+.ladder{display:flex;flex-direction:column;gap:5px;padding:12px}
+.ladder button{display:flex;align-items:center;gap:8px;text-align:left;padding:7px 9px;border-radius:6px;
+ border:1px solid var(--line);background:#101217;color:var(--muted);cursor:pointer;font-size:11.5px;transition:.15s}
+.ladder button:hover{border-color:var(--line2);color:var(--tx)}
+.ladder button.active{border-color:var(--pur);background:rgba(167,139,250,.10);color:var(--tx)}
+.ladder button i{font-family:var(--mono);font-style:normal;font-size:10px;color:var(--pur);
+ border:1px solid var(--pur);border-radius:3px;padding:0 5px;flex:none}
+.ladder button.active i{background:var(--pur);color:#1A1030}
+.ladder-desc{font-size:11px;color:var(--muted);padding:0 12px 10px;border-top:1px solid var(--line);margin-top:2px;padding-top:10px}
+.ladder-desc b{color:var(--pur)}
+.chk{display:flex;gap:6px;align-items:flex-start;font-size:11px;color:var(--muted);margin-top:5px}
+.chk i{font-family:var(--mono);font-style:normal;color:var(--pgm);flex:none}
+
+/* 挑战卡 */
+.chal{background:linear-gradient(160deg,#1B1620,#141118);border:1px solid #3A2E48}
+.chal .pad{text-align:center}
+.chal-score{font-family:var(--mono);font-size:26px;color:var(--pvw);letter-spacing:.02em}
+.chal-meta{font-family:var(--mono);font-size:10px;color:var(--faint);letter-spacing:.08em;margin-top:2px}
+.chal-hint{font-size:11px;color:var(--muted);margin:10px 0}
+.rank{display:inline-block;font-family:var(--mono);font-size:10px;padding:2px 8px;border-radius:3px;
+ background:rgba(232,176,75,.12);border:1px solid var(--pvw);color:var(--pvw);margin-top:8px}
+
+/* ===== 中间：监视器墙 ===== */
+.monitor-wall{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px}
+.monitor{border:1px solid var(--line2);border-radius:8px;background:#08090C;overflow:hidden}
+.mon-head{display:flex;align-items:center;gap:7px;padding:6px 9px;background:#101216;border-bottom:1px solid var(--line);
+ font-family:var(--mono);font-size:10px;letter-spacing:.08em}
+.mon-badge{padding:1px 6px;border-radius:3px;font-weight:700;letter-spacing:.1em}
+.mon-badge.pgm{background:var(--pgm);color:#041F1C}
+.mon-badge.pvw{background:var(--pvw);color:#241A05}
+.mon-head .m{color:var(--faint)}
+.mon-head .tc{margin-left:auto;color:var(--muted)}
+.scene{position:relative;height:236px;background:radial-gradient(120% 90% at 50% 20%,#20242C,#0C0E12 70%);overflow:hidden}
+.scene .inner{position:absolute;inset:0}
+/* 安全框 */
+.safe{position:absolute;inset:0;pointer-events:none;z-index:6}
+.safe i{position:absolute;border:1px dashed rgba(255,255,255,.16)}
+.safe i.a{inset:14px}
+.safe i.b{inset:30px;border-color:rgba(255,255,255,.09)}
+.safe u{position:absolute;width:14px;height:14px;border:1px solid rgba(79,209,197,.5)}
+.safe u.tl{top:8px;left:8px;border-right:0;border-bottom:0}
+.safe u.tr{top:8px;right:8px;border-left:0;border-bottom:0}
+.safe u.bl{bottom:8px;left:8px;border-right:0;border-top:0}
+.safe u.br{bottom:8px;right:8px;border-left:0;border-top:0}
+.grid-svg{position:absolute;inset:0;width:100%;height:100%;opacity:.75}
+.axis{position:absolute;left:8%;right:8%;top:56%;height:0;border-top:1px dashed rgba(232,176,75,.45);z-index:3}
+.axis:after{content:"ACTION AXIS 动作轴线";position:absolute;right:0;top:-14px;font-family:var(--mono);
+ font-size:8px;color:rgba(232,176,75,.6);letter-spacing:.1em}
+.axis.flip{border-top-color:var(--red);border-top-style:solid}
+.axis.flip:after{content:"✕ 越轴 / AXIS CROSSED 左右关系翻转";color:var(--red)}
+.rain{position:absolute;inset:0;opacity:0;transition:opacity .4s;z-index:4;pointer-events:none;
+ background:repeating-linear-gradient(105deg,rgba(150,200,255,.30) 0 1px,transparent 1px 9px);
+ animation:rainmove .7s linear infinite}
+@keyframes rainmove{to{background-position:-40px 60px}}
+.dim{position:absolute;inset:0;background:#000;opacity:0;transition:opacity .5s;z-index:4;pointer-events:none}
+.ch{position:absolute;bottom:52px;width:24px;height:52px;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.ch.a{left:92px}.ch.b{right:92px}
+.ch .head{position:absolute;top:0;left:4px;width:16px;height:16px;border-radius:50%;background:#D6DAE2;display:block}
+.ch .body{position:absolute;top:16px;left:2px;width:20px;height:36px;border-radius:7px 7px 3px 3px;background:#7E8695;display:block}
+.ch.b .body{background:#6C7B98}
+.ch.drift .body{background:var(--pvw);animation:flick 1s infinite}
+.ch.drift .head{background:var(--pvw)}
+@keyframes flick{50%{opacity:.55}}
+.tbl{position:absolute;bottom:38px;left:50%;transform:translateX(-50%);width:132px;height:7px;border-radius:2px;background:#2A2F39;z-index:2}
+.tbl:after{content:"";position:absolute;left:14px;right:14px;top:7px;height:14px;background:#20242C}
+.prop{position:absolute;bottom:52px;left:50%;margin-left:-8px;width:15px;height:19px;border-radius:2px;
+ background:var(--pvw);z-index:3;transition:transform .6s cubic-bezier(.2,.7,.2,1),opacity .3s}
+.prop.ghost{opacity:0;background:var(--red)}
+.prop.ghost.dup{opacity:.9}
+.cat{position:absolute;bottom:50px;right:56px;font-size:18px;opacity:0;transition:opacity .4s;z-index:4}
+.scene.zoom .inner{transform:scale(1.42) translateY(-6px);transform-origin:50% 55%;transition:transform .5s}
+.mon-foot{display:flex;align-items:center;gap:8px;padding:6px 9px;background:#0B0D11;border-top:1px solid var(--line);
+ font-family:var(--mono);font-size:9.5px;color:var(--faint);letter-spacing:.06em}
+.stage-note{padding:8px 10px;font-size:11.5px;color:var(--muted);background:#0E1014;border-top:1px solid var(--line);min-height:56px}
+.stage-note .flag{display:inline-block;font-family:var(--mono);font-size:9.5px;color:var(--red);
+ border:1px solid var(--red);border-radius:3px;padding:0 5px;margin-left:5px}
+.stage-note .ok{display:inline-block;font-family:var(--mono);font-size:9.5px;color:var(--pgm);
+ border:1px solid rgba(79,209,197,.4);border-radius:3px;padding:0 5px;margin-left:5px}
+.stage-note .mask{color:var(--pvw);font-family:var(--mono);letter-spacing:.1em}
+
+/* transport */
+.transport{display:flex;align-items:center;gap:8px;padding:0 14px 12px;flex-wrap:wrap}
+.tbtn{min-width:38px;height:32px;border-radius:6px;border:1px solid var(--line2);background:#101217;
+ color:var(--muted);cursor:pointer;font-family:var(--mono);font-size:12px;transition:.15s}
+.tbtn:hover{color:var(--tx);border-color:var(--line2);background:#171B22}
+.tbtn.primary{background:var(--pgm);border-color:var(--pgm);color:#041F1C;font-weight:700;min-width:118px}
+.tbtn.primary:hover{filter:brightness(1.08)}
+.tbtn.on{background:var(--pvw);border-color:var(--pvw);color:#241A05;font-weight:700}
+.progress{height:4px;background:#0E1014;border-radius:2px;overflow:hidden;margin:0 14px 10px}
+.progress i{display:block;height:100%;background:linear-gradient(90deg,var(--pgm),var(--pur));width:0;transition:width .35s}
+.timeline{display:flex;align-items:flex-end;gap:12px;padding:0 14px 12px}
+.timeline .beat{flex:1}
+.timeline .beat b{display:block;font-size:12px}
+.timeline .beat span{display:block;font-size:11px;color:var(--faint)}
+.timeline .beat.right{text-align:right;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--muted)}
+.steps{display:flex;gap:5px;padding:0 14px 12px}
+.steps button{flex:1;padding:5px 0;border-radius:5px;border:1px solid var(--line);background:#0E1014;
+ color:var(--faint);font-family:var(--mono);font-size:10px;cursor:pointer}
+.steps button.active{background:rgba(79,209,197,.14);border-color:var(--pgm);color:var(--pgm)}
+.steps button.bad{border-color:rgba(255,95,95,.5);color:var(--red)}
+
+/* 事件注入 */
+.promptbar{margin:0 14px 14px;border:1px solid var(--line2);border-radius:8px;background:#0C0E12;overflow:hidden}
+.promptbar .pb-head{display:flex;align-items:center;gap:8px;padding:7px 11px;background:#101216;
+ border-bottom:1px solid var(--line);font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;color:var(--faint)}
+.promptbar .pb-head b{color:var(--pvw);letter-spacing:.14em}
+.pb-body{display:flex;gap:7px;align-items:center;padding:10px 11px;flex-wrap:wrap}
+.pb-body button{padding:5px 11px;border-radius:20px;border:1px solid var(--line2);background:#13161C;
+ color:var(--muted);font-size:11.5px;cursor:pointer;transition:.15s}
+.pb-body button:hover{border-color:var(--pvw);color:var(--tx)}
+.pb-body button.on{background:var(--pvw);border-color:var(--pvw);color:#241A05;font-weight:700}
+.pb-body input{flex:1;min-width:150px;background:#08090C;border:1px solid var(--line2);border-radius:6px;
+ color:var(--tx);padding:6px 10px;font-size:11.5px;font-family:inherit}
+.pb-body input::placeholder{color:var(--faint)}
+
+/* 状态账本 */
+.ledger{margin:0 14px 14px;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.ledger h4{margin:0;padding:9px 12px;background:var(--panel2);border-bottom:1px solid var(--line);
+ font-size:11.5px;display:flex;align-items:center;gap:8px}
+.ledger h4 small{font-family:var(--mono);font-size:9px;color:var(--faint);letter-spacing:.1em;margin-left:auto}
+table.led{width:100%;border-collapse:collapse;font-size:11px}
+table.led th{background:#0E1014;color:var(--faint);font-weight:600;text-align:left;padding:6px 10px;
+ border-bottom:1px solid var(--line);font-size:10px;letter-spacing:.05em}
+table.led td{padding:6px 10px;border-bottom:1px solid #1B1E25;vertical-align:top}
+table.led tr:last-child td{border-bottom:0}
+table.led td.k{color:var(--muted);font-family:var(--mono);font-size:10px;white-space:nowrap}
+table.led td.va{color:var(--pgm)}
+table.led td.vb{color:var(--pvw)}
+table.led td.vb.bad{color:var(--red);font-weight:700}
+table.led td.vb.bad:before{content:"✕ ";font-family:var(--mono)}
+table.led td.va:before{content:"✓ ";font-family:var(--mono);opacity:.6}
+table.led td.mask{color:var(--faint);font-family:var(--mono);letter-spacing:.18em}
+
+/* 8 维剖面 */
+.dims{margin:0 14px 14px;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.dims h4{margin:0;padding:9px 12px;background:var(--panel2);border-bottom:1px solid var(--line);font-size:11.5px}
+.dim-row{display:grid;grid-template-columns:76px 1fr 34px;gap:8px;align-items:center;padding:5px 12px;border-bottom:1px solid #1B1E25}
+.dim-row:last-child{border-bottom:0}
+.dim-row .nm{font-size:10.5px;color:var(--muted)}
+.dimbars{display:flex;flex-direction:column;gap:3px}
+.dimbars i{display:block;height:5px;border-radius:2px;background:#22262E;position:relative;overflow:hidden}
+.dimbars i b{position:absolute;left:0;top:0;bottom:0;border-radius:2px;display:block}
+.dimbars i.a b{background:var(--pgm)}
+.dimbars i.b b{background:var(--pvw)}
+.dim-row .vv{font-family:var(--mono);font-size:10px;text-align:right;color:var(--faint)}
+.dim-row.na .nm,.dim-row.na .vv{color:var(--faint);opacity:.55}
+
+/* ===== 右侧 ===== */
+.right-body{padding:14px;display:flex;flex-direction:column;gap:14px}
+.case-title{margin:0;font-size:13.5px;font-weight:700}
+.case-desc{margin:4px 0 0;font-size:11.5px;color:var(--muted)}
+.expect{border:1px solid var(--line);border-radius:6px;padding:7px 9px;margin-top:6px;background:#101217;
+ display:flex;gap:8px;font-size:11.5px;color:var(--muted)}
+.expect i{font-family:var(--mono);font-style:normal;color:var(--pgm);flex:none;font-size:10px}
+.score-row{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.score-box{border:1px solid var(--line);border-radius:8px;padding:10px;background:#101217}
+.score-box .lbl{display:flex;justify-content:space-between;align-items:baseline;font-size:10.5px;color:var(--muted)}
+.score-box .lbl b{font-family:var(--mono);font-size:15px;color:var(--tx)}
+.range{width:100%;margin:8px 0 4px;accent-color:var(--pgm)}
+.score-box.b .range{accent-color:var(--pvw)}
+.auto-line{font-family:var(--mono);font-size:9.5px;color:var(--faint)}
+.auto-line b{color:var(--pur)}
+.gap-warn{margin-top:9px;border:1px solid var(--pvw);background:rgba(232,176,75,.08);border-radius:7px;
+ padding:9px 11px;font-size:11px;color:#F0D9AE;display:none}
+.gap-warn.show{display:block}
+.field-label{display:flex;justify-content:space-between;align-items:center;font-size:10.5px;
+ color:var(--faint);letter-spacing:.05em;margin-bottom:7px}
+.failure-list{display:flex;flex-wrap:wrap;gap:6px}
+.tag{border:1px solid var(--line2);background:#101217;border-radius:6px;padding:5px 9px;cursor:pointer;
+ font-size:11px;color:var(--muted);transition:.15s;text-align:left}
+.tag:hover{border-color:var(--red);color:var(--tx)}
+.tag.on{background:rgba(255,95,95,.14);border-color:var(--red);color:#FFD9D9}
+.tag .tag-en{display:block;font-family:var(--mono);font-size:8.5px;color:var(--faint);letter-spacing:.04em}
+.advice{margin-top:9px;border:1px dashed var(--line2);border-radius:7px;padding:10px;background:#0C0E12}
+.advice h4{margin:0 0 7px;font-size:11px;color:var(--pur);font-family:var(--mono);letter-spacing:.06em}
+.advice ul{margin:0;padding-left:16px}
+.advice li{font-size:11px;color:var(--muted);margin-bottom:5px}
+.advice li b{color:var(--tx)}
+.advice .hint{list-style:none;margin-left:-16px;color:var(--faint)}
+.layer-pill{display:inline-block;font-family:var(--mono);font-size:9px;padding:0 5px;border-radius:3px;
+ border:1px solid var(--pur);color:var(--pur);margin-right:5px}
+select,textarea{width:100%;background:#0C0E12;border:1px solid var(--line2);border-radius:6px;color:var(--tx);
+ padding:7px 9px;font-size:11.5px;font-family:inherit}
+button.primary{width:100%;margin-top:10px;padding:10px;border-radius:7px;border:0;cursor:pointer;
+ background:linear-gradient(180deg,var(--pgm),#33A79C);color:#041F1C;font-weight:700;font-size:12.5px}
+button.primary:hover{filter:brightness(1.08)}
+button.ghostbtn{padding:5px 10px;border-radius:6px;border:1px solid var(--line2);background:#101217;
+ color:var(--muted);cursor:pointer;font-size:11px}
+button.ghostbtn:hover{color:var(--tx);border-color:var(--pgm)}
+.mini-note{font-size:10px;color:var(--faint);margin-top:9px;line-height:1.55}
+.queue{border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.queue h4{margin:0;padding:9px 12px;background:var(--panel2);border-bottom:1px solid var(--line);font-size:11.5px}
+.qbars{padding:11px 12px;display:flex;flex-direction:column;gap:6px}
+.qbar{display:grid;grid-template-columns:30px 1fr 26px;gap:8px;align-items:center;font-size:10.5px;color:var(--muted)}
+.qbar i{display:block;height:6px;border-radius:3px;background:#22262E;overflow:hidden;position:relative}
+.qbar i b{position:absolute;left:0;top:0;bottom:0;background:var(--pur);display:block}
+.qbar .n{font-family:var(--mono);text-align:right;color:var(--faint)}
+.qempty{padding:12px;font-size:11px;color:var(--faint)}
+.reportbox{font-family:var(--mono);font-size:10.5px;line-height:1.6;background:#08090C;border:1px solid var(--line2);
+ border-radius:7px;padding:11px;white-space:pre-wrap;max-height:230px;overflow:auto;color:var(--muted)}
+
+/* 记录表 */
+.rec-wrap{padding:12px 14px;overflow-x:auto}
+.rec-empty{font-size:11.5px;color:var(--faint);padding:6px 2px}
+table.rec-table{width:100%;border-collapse:collapse;font-size:11px}
+table.rec-table th{text-align:left;padding:7px 9px;background:#0E1014;color:var(--faint);font-size:10px;
+ border-bottom:1px solid var(--line);white-space:nowrap;letter-spacing:.05em}
+table.rec-table td{padding:7px 9px;border-bottom:1px solid #1B1E25;vertical-align:top}
+table.rec-table tr:hover td{background:#12151B}
+
 /* 开源表 */
-.opensrc{margin-top:14px}
-.os-table{width:100%;border-collapse:collapse;font-size:11.5px}
-.os-table th,.os-table td{border-bottom:1px solid var(--line);padding:9px 14px;text-align:left;vertical-align:top;line-height:1.6}
-.os-table th{font-size:10px;color:var(--faint)}
-.os-table td b{color:var(--ink)}
-.os-note{padding:10px 14px;font-size:10.5px;color:var(--muted);line-height:1.7;border-top:1px solid var(--line)}
+table.os-table{width:100%;border-collapse:collapse;font-size:11.5px}
+table.os-table th{text-align:left;padding:9px 12px;background:var(--panel2);color:var(--faint);
+ font-size:10px;border-bottom:1px solid var(--line);letter-spacing:.05em}
+table.os-table td{padding:10px 12px;border-bottom:1px solid #1B1E25;vertical-align:top}
+.os-note{padding:11px 14px;font-size:11px;color:var(--muted);background:#0C0E12;border-top:1px solid var(--line)}
+
 /* 研究卡 */
-.research{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:14px}
-.research-card,.takeaway{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
-.pill{display:inline-block;font-size:9.5px;font-weight:700;letter-spacing:.08em;color:var(--accent2);background:var(--accentsoft);border-radius:99px;padding:2px 9px;margin-bottom:9px}
-.research-card h3{font-size:14px;margin-bottom:7px}
-.research-card p{margin:0;font-size:11.5px;line-height:1.75;color:var(--muted)}
-.takeaway{grid-column:1/-1;background:var(--card2);border-color:var(--line2)}
-.takeaway h3{margin-bottom:6px;font-size:14px;color:var(--accent2)}
-.takeaway p{margin:0;font-size:11.5px;line-height:1.8;color:var(--ink2)}
-.takeaway b{color:var(--ink)}
-.footer{margin-top:18px;padding-top:14px;border-top:1px solid var(--line);font-size:11px;color:var(--faint);line-height:1.8}
-.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(70px);background:var(--ink);color:#fff;font-size:12px;padding:10px 18px;border-radius:99px;transition:transform .25s;pointer-events:none;z-index:99}
-.toast.show{transform:translateX(-50%) translateY(0)}
-@media(max-width:1080px){.grid{grid-template-columns:210px minmax(0,1fr)}.right{grid-column:1/-1}.right-body{display:grid;grid-template-columns:1fr 1fr;gap:4px 18px}.mini-note{grid-column:1/-1}.hero{grid-template-columns:1fr .6fr}}
-@media(max-width:760px){.shell{padding:16px 16px 34px 66px}.hero{grid-template-columns:1fr;gap:14px}.grid{grid-template-columns:1fr}.stage-grid{grid-template-columns:1fr}.research{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.right-body{display:block}}
-</style>
-</head>
-<body>
-<nav class="rail" aria-label="快捷导航">
-  <button title="场景库" data-goto="panelLeft">▤</button>
-  <button title="双模型对照" data-goto="panelCenter">◎</button>
-  <button title="标注与评分" data-goto="panelRight">✎</button>
-  <button title="评测记录" data-goto="panelRecords">⧉</button>
-  <button title="开源模型" data-goto="panelOpen">⌘</button>
-  <div class="spacer"></div>
-  <button title="回到顶部" data-goto="pageTop">↑</button>
-</nav>
-<div class="shell" id="pageTop">
-<header class="top"><div class="brand"><span class="brand-mark">场</span> WORLD MODEL FIELD LAB<span class="sub"> / 梁爽的岗位作品样例 · v4</span></div><div class="topmeta">A/B EVALUATION × FILM LANGUAGE × DATA LOOP</div></header>
+.research{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:6px}
+.research-card{background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:15px;
+ border-top:2px solid var(--pgm)}
+.research-card:nth-child(2){border-top-color:var(--pvw)}
+.research-card:nth-child(3){border-top-color:var(--pur)}
+.research-card:nth-child(4){border-top-color:var(--red)}
+.research-card:nth-child(5){border-top-color:var(--blue)}
+.pill{display:inline-block;font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--faint);
+ border:1px solid var(--line2);border-radius:3px;padding:1px 6px;margin-bottom:8px}
+.research-card h3{margin:0 0 7px;font-size:13.5px}
+.research-card p{margin:0;font-size:11.5px;color:var(--muted)}
+.research-card b{color:var(--tx)}
+.takeaway{background:linear-gradient(160deg,#151820,#0E1014);border:1px solid var(--line);border-radius:9px;padding:16px;
+ grid-column:span 3}
+.takeaway h3{margin:0 0 9px;font-size:14px}
+.takeaway p{margin:0;font-size:11.5px;color:var(--muted)}
 
-<section class="hero"><div><div class="eyebrow">Making models measurable, one shot at a time</div><h1>看片场<em> / </em>世界模型评测台</h1><p>同一任务交给两个示意模型同时跑，观察它们对同一动作、同一事件注入的不同反应；再按故障标签定位缺陷，实时翻译成「回流到哪层数据、补什么标注」，并把人工评分与规则法自动预估的差异一起导出。</p></div><div class="hero-card"><div class="big">同一任务，两个反应。</div><small>A/B 对照是评测的基本功：不看绝对分数，看差异发生在第几步、属于哪一类失败——那才是能变成数据的东西。</small></div></section>
-
-<div class="stats"><div class="stat"><strong>02</strong><span>场景轨道 · 影视预演 / 游戏交互</span></div><div class="stat"><strong>04</strong><span>评测任务 · 动作与连续性</span></div><div class="stat"><strong>03</strong><span>可注入世界事件 · 状态持续性</span></div><div class="stat"><strong id="doneCount">00 / 04</strong><span>已记录评测 · 本地交互状态</span></div></div>
-
-<main class="grid">
-<section class="panel left" id="panelLeft"><div class="panel-head"><h2>01 / 场景库</h2><small>CASE LIBRARY</small></div><div class="tabs"><button class="active" data-track="film">影视预演</button><button data-track="game">游戏交互</button></div><div class="scenario-list" id="scenarioList"></div></section>
-
-<section class="panel center" id="panelCenter"><div class="panel-head"><h2>02 / 双模型对照观察</h2><small id="taskId">TASK V01</small></div>
-<div class="stage-grid">
-  <div class="stage" id="stageA"><div class="stage-head"><span class="dot" style="background:#5F8A72"></span><b>模型 A</b><span class="m">一致性优先 · 长记忆</span><span class="tc" id="tcA">00:00.0</span></div><div class="scene" id="sceneA"></div><div class="stage-note" id="noteA"></div></div>
-  <div class="stage" id="stageB"><div class="stage-head"><span class="dot" style="background:#D97757"></span><b>模型 B</b><span class="m">实时性优先 · 短记忆</span><span class="tc" id="tcB">00:00.0</span></div><div class="scene" id="sceneB"></div><div class="stage-note" id="noteB"></div></div>
+.footer{text-align:center;font-size:10.5px;color:var(--faint);padding:22px 0 0;line-height:1.8}
+.toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(14px);background:#171B22;
+ border:1px solid var(--line2);border-radius:8px;padding:10px 16px;font-size:12px;color:var(--tx);
+ opacity:0;pointer-events:none;transition:.25s;z-index:99;max-width:80vw;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:1180px){.grid{grid-template-columns:1fr}.hero{grid-template-columns:1fr}
+ .stats{grid-template-columns:repeat(2,1fr)}.research{grid-template-columns:1fr}.takeaway{grid-column:span 1}
+ .monitor-wall{grid-template-columns:1fr}}
+</style></head><body>
+<div class="topbar">
+  <div class="brand"><span class="brand-mark">场</span>WORLD MODEL FIELD LAB<span class="sub">／看片场 · 世界模型评测台 v5 · 梁爽的岗位作品样例</span></div>
+  <div class="tb-lights"><span class="tb-light on">PGM · A</span><span class="tb-light pvw">PVW · B</span><span class="rec"><i></i>REC</span></div>
+  <div class="tb-tc" id="masterTC">00:00:00:00</div>
+  <div class="tb-right">A/B PAIRED EVAL × FILM LANGUAGE × DATA REFLOW</div>
 </div>
-<div class="progress"><i id="progress" style="width:0%"></i></div>
-<div class="timeline"><div class="beat"><b id="beatTitle">起始状态</b><span id="beatText">两人面对面，桌上有杯子</span></div><div class="timeline-line"></div><div class="beat" style="text-align:right"><b id="beatNo">STEP 1 / 4</b><span id="beatState">等待动作</span></div></div>
-<div class="actions"><button class="primary" id="nextBeat">播放下一动作 →</button><button class="secondary" id="autoPlay">自动播放</button><button class="secondary" id="viewToggle">机位视角</button><button class="secondary" id="resetScene">重置</button></div>
-<div class="chips" style="padding:0 16px 14px" id="eventChips"><span style="font-size:11px;color:var(--muted);margin-right:2px;line-height:28px">注入世界事件：</span><button data-ev="rain">🌧 雨天</button><button data-ev="cat">🐈 新增角色</button><button data-ev="dim">🌙 关灯</button><button id="clearEvents">清除</button></div>
+
+<div class="shell">
+<section class="hero">
+  <div class="hero-main">
+    <div class="eyebrow">Making world models measurable — one state at a time</div>
+    <h1>看片场<em> ／ </em>世界模型评测台</h1>
+    <p>把同一个任务同时交给两个示意模型，看它们对同一动作、同一事件注入的<strong>不同反应</strong>；再用故障标签定位缺陷，实时翻译成「回流到 L0–L3 哪一层、补什么标注」。核心不是打分——<strong>世界模型是一个状态机，要测的是「世界记不记得发生了什么」</strong>。</p>
+    <div class="kbd-row"><span class="kbd"><b>空格</b> 下一步</span><span class="kbd"><b>V</b> 切视角</span><span class="kbd"><b>E</b> 注入雨天</span><span class="kbd"><b>R</b> 记录</span><span class="kbd"><b>1-4</b> 跳步</span></div>
+  </div>
+  <div class="hero-side">
+    <div class="big">同一任务，两个反应<br>同一个世界，两种记忆。</div>
+    <small>A/B 配对对照是评测的基本功：不看绝对分数，看差异发生在第几步、属于哪一类失败——那才是能变成数据的东西。事件注入后，A 的雨还在下，B 的雨停了，世界记忆的差异就成了肉眼可见的分差。</small>
+  </div>
 </section>
 
-<section class="panel right" id="panelRight"><div class="panel-head"><h2>03 / 标注与评分</h2><small>HUMAN REVIEW</small></div><div class="right-body"><div><p class="case-title" id="caseTitle"></p><p class="case-desc" id="caseDesc"></p><div id="expectations"></div></div>
-<div class="score-row">
-  <div class="score-box"><div class="lbl"><span>模型 A 人工分</span><b id="scoreNumA">4 / 5</b></div><input class="range" id="scoreA" type="range" min="1" max="5" value="4"><div class="auto-line">规则法自动预估 <b id="autoA">4.5</b></div></div>
-  <div class="score-box"><div class="lbl"><span>模型 B 人工分</span><b id="scoreNumB">3 / 5</b></div><input class="range" id="scoreB" type="range" min="1" max="5" value="3"><div class="auto-line">规则法自动预估 <b id="autoB">3.0</b></div></div>
+<div class="stats">
+  <div class="stat"><strong>04</strong><span>评测任务 · 影视预演 / 游戏交互</span></div>
+  <div class="stat"><strong>04</strong><span>证据阶梯档位 · 牛津综述口径</span></div>
+  <div class="stat"><strong>08</strong><span>评测维度 · 实时 A/B 剖面</span></div>
+  <div class="stat"><strong>15</strong><span>故障标签 · 绑定数据回流层</span></div>
+  <div class="stat"><strong id="doneCount">00 / 04</strong><span>已记录评测 · 本地状态</span></div>
 </div>
-<div class="gap-warn" id="gapWarn"></div>
-<div><div class="field-label"><span>故障标签（当前观察对象：模型 B）</span><span>可多选</span></div><div class="failure-list" id="failureList"></div><div class="advice" id="advice"></div></div>
-<div><div class="field-label"><span>评测员备注</span></div><select id="note"><option>片段时间码与任务条件可复查</option><option>需补充更明确的动作/状态标准</option><option>疑似提示理解问题，需复测</option><option>疑似物理或空间状态错误</option><option>事件注入后状态未持续</option><option>人工与自动预估差异需复核标注定义</option></select><button class="primary" id="record" style="width:100%;margin-top:12px">记录本次评测（含 A/B 双分）</button><div class="mini-note">原型演示：示意画面由 CSS 绘制，两个「模型」是预设的示意反应，不连接任何生成服务，分数不代表真实模型测试结果。评测记录保存在本地浏览器，可导出 JSON / CSV；故障标签的回流层对应 <a href="https://github.com/Daisyyy-LS/world-model-data-kit" target="_blank" rel="noreferrer">world-model-data-kit</a> 的 L0–L3 数据分层。</div></div></div></section>
+
+<main class="grid">
+<!-- ========== 左：场景库 / 证据阶梯 / 挑战 ========== -->
+<section class="panel" id="panelLeft">
+  <div class="panel-head"><h2>01 / 场景库</h2><small>CASE LIBRARY</small></div>
+  <div class="tabs"><button class="active" data-track="film">影视预演</button><button data-track="game">游戏交互</button></div>
+  <div class="scenario-list" id="scenarioList"></div>
+  <div class="panel-head" style="border-top:1px solid var(--line)"><h2>02 / 证据阶梯</h2><small>EVIDENCE LADDER</small></div>
+  <div class="ladder" id="ladderBar"></div>
+  <div class="ladder-desc" id="ladderDesc"></div>
+  <div class="panel-head" style="border-top:1px solid var(--line)"><h2>03 / 找茬挑战</h2><small>SPOT THE FLAW</small></div>
+  <div class="chal pad" id="chalCard">
+    <div class="chal-score" id="chalScore">0</div>
+    <div class="chal-meta" id="chalMeta">COMBO 0 · ACCURACY —</div>
+    <div class="chal-hint" id="chalHint">随机抽一帧有缺陷的画面，只给你看画面，不给提示——找出模型 B 的问题并勾对标签。</div>
+    <button class="ghostbtn" id="chalBtn" style="width:100%">开始挑战</button>
+    <div class="rank" id="chalRank">实习评测员</div>
+  </div>
+</section>
+
+<!-- ========== 中：监视器墙 ========== -->
+<section class="panel" id="panelCenter">
+  <div class="panel-head"><h2>04 / 双模型对照 · 监视器墙</h2><small id="taskId">TASK V01</small>
+    <div class="head-actions"><span class="tag-line" id="ladderTag">档位 3 · 一致世界状态</span></div>
+  </div>
+  <div class="monitor-wall">
+    <div class="monitor">
+      <div class="mon-head"><span class="mon-badge pgm">PGM</span><b>模型 A</b><span class="m">一致性优先 · 长记忆</span><span class="tc" id="tcA">00:00.0</span></div>
+      <div class="scene" id="sceneA"></div>
+      <div class="mon-foot"><span>1280×704</span><span>·</span><span>24 FPS</span><span>·</span><span id="viewA">导演视角</span><span style="margin-left:auto">CAM A</span></div>
+      <div class="stage-note" id="noteA"></div>
+    </div>
+    <div class="monitor">
+      <div class="mon-head"><span class="mon-badge pvw">PVW</span><b>模型 B</b><span class="m">实时性优先 · 短记忆</span><span class="tc" id="tcB">00:00.0</span></div>
+      <div class="scene" id="sceneB"></div>
+      <div class="mon-foot"><span>1280×704</span><span>·</span><span>24 FPS</span><span>·</span><span id="viewB">导演视角</span><span style="margin-left:auto">CAM B</span></div>
+      <div class="stage-note" id="noteB"></div>
+    </div>
+  </div>
+  <div class="transport">
+    <button class="tbtn" id="prevBeat" title="上一步">◀◀</button>
+    <button class="tbtn primary" id="nextBeat">▶ 播放下一动作</button>
+    <button class="tbtn" id="autoPlay">▶❙❙</button>
+    <button class="tbtn" id="resetScene">⏹</button>
+    <button class="tbtn" id="viewToggle">机位视角</button>
+    <span style="font-family:var(--mono);font-size:10px;color:var(--faint);margin-left:auto" id="beatTag">STEP 1 / 4</span>
+  </div>
+  <div class="progress"><i id="progress" style="width:0%"></i></div>
+  <div class="steps" id="stepsBar"></div>
+  <div class="timeline"><div class="beat"><b id="beatTitle">起始状态</b><span id="beatText"></span></div>
+    <div class="beat right"><b id="beatNo">STEP 1 / 4</b><span id="beatState">等待动作</span></div></div>
+
+  <div class="promptbar">
+    <div class="pb-head"><b>PROMPTABLE WORLD EVENT</b><span>注入世界事件 · 观察后续步骤两侧是否都「记住」</span></div>
+    <div class="pb-body" id="eventChips">
+      <button data-ev="rain">🌧 雨天</button><button data-ev="cat">🐈 新增角色</button><button data-ev="dim">🌙 关灯</button>
+      <input id="customEv" placeholder="自定义事件，例如：窗外驶过一辆车">
+      <button class="ghostbtn" id="clearEvents">清除</button>
+    </div>
+  </div>
+
+  <div class="ledger">
+    <h4>世界状态账本 <span style="font-weight:400;color:var(--faint)">WORLD STATE LEDGER</span><small>逐格对照 · ✕ 表示状态漂移</small></h4>
+    <table class="led"><thead><tr><th style="width:26%">状态项</th><th>模型 A（应然）</th><th style="width:38%">模型 B（实然）</th></tr></thead><tbody id="ledgerBody"></tbody></table>
+  </div>
+
+  <div class="dims">
+    <h4>8 维实时剖面 <span style="font-weight:400;color:var(--faint);font-size:10px">DIMENSION PROFILE · 来自 world-model-data-kit</span></h4>
+    <div id="dimsBody"></div>
+  </div>
+</section>
+
+<!-- ========== 右：标注 / 回流 / 报告 ========== -->
+<section class="panel" id="panelRight">
+  <div class="panel-head"><h2>05 / 标注与评分</h2><small>HUMAN REVIEW</small></div>
+  <div class="right-body">
+    <div><p class="case-title" id="caseTitle"></p><p class="case-desc" id="caseDesc"></p><div id="expectations"></div></div>
+    <div class="score-row">
+      <div class="score-box"><div class="lbl"><span>模型 A 人工分</span><b id="scoreNumA">4 / 5</b></div>
+        <input class="range" id="scoreA" type="range" min="1" max="5" value="4">
+        <div class="auto-line">规则法自动预估 <b id="autoA">4.5</b></div></div>
+      <div class="score-box b"><div class="lbl"><span>模型 B 人工分</span><b id="scoreNumB">3 / 5</b></div>
+        <input class="range" id="scoreB" type="range" min="1" max="5" value="3">
+        <div class="auto-line">规则法自动预估 <b id="autoB">3.0</b></div></div>
+    </div>
+    <div class="gap-warn" id="gapWarn"></div>
+    <div><div class="field-label"><span>故障标签（观察对象：模型 B）</span><span>可多选</span></div>
+      <div class="failure-list" id="failureList"></div>
+      <div class="advice" id="advice"></div>
+      <button class="ghostbtn" id="revealBtn" style="margin-top:8px;display:none">揭示状态账本（连击归零）</button>
+    </div>
+    <div><div class="field-label"><span>评测员备注</span></div>
+      <select id="note">
+        <option>片段时间码与任务条件可复查</option><option>需补充更明确的动作/状态标准</option>
+        <option>疑似提示理解问题，需复测</option><option>疑似物理或空间状态错误</option>
+        <option>事件注入后状态未持续</option><option>人工与自动预估差异需复核标注定义</option>
+      </select>
+      <button class="primary" id="record">记录本次评测（含 A/B 双分）</button>
+      <div class="mini-note">原型演示：示意画面由 CSS 绘制，两个「模型」是预设的示意反应，不连接任何生成服务，分数不代表真实模型测试结果。故障标签的回流层对应 <a href="https://github.com/Daisyyy-LS/world-model-data-kit" target="_blank" rel="noreferrer">world-model-data-kit</a> 的 L0–L3 数据分层。</div>
+    </div>
+    <div class="queue"><h4>回流队列 · REFLOW QUEUE</h4><div id="queueBody"><div class="qempty">勾选标签后，这里按 L0–L3 统计待补标注的样本分布。</div></div></div>
+    <div class="queue"><h4>诊断报告 · 一键生成 <span style="float:right"><button class="ghostbtn" id="genReport">生成</button> <button class="ghostbtn" id="copyReport">复制</button></span></h4>
+      <div style="padding:10px 12px"><div class="reportbox" id="reportBox">点「生成」产出一份可直接贴进文档的 Markdown 诊断报告：任务、证据档位、A/B 分差、状态漂移、故障标签与回流动作、下一步建议。</div></div>
+    </div>
+  </div>
+</section>
 </main>
 
-<section class="panel records" id="panelRecords"><div class="panel-head"><h2>04 / 评测记录与导出</h2><small>SESSION LOG · 含 A/B 双分、自动预估与差异，可导出接入数据流水线</small><div class="head-actions"><button id="exportJson">导出 JSON</button><button id="exportCsv">导出 CSV</button><button id="clearRecords">清空</button></div></div><div class="rec-wrap" id="recordsBody"></div></section>
+<section class="panel" id="panelRecords">
+  <div class="panel-head"><h2>06 / 评测记录与导出</h2><small>SESSION LOG · 含 A/B 双分、自动预估、状态漂移与回流动作</small>
+    <div class="head-actions"><button class="ghostbtn" id="exportJson">导出 JSON</button><button class="ghostbtn" id="exportCsv">导出 CSV</button><button class="ghostbtn" id="clearRecords">清空</button></div>
+  </div>
+  <div class="rec-wrap" id="recordsBody"></div>
+</section>
 
-<section class="panel opensrc" id="panelOpen">
-<div class="panel-head"><h2>05 / 开源世界模型 · 上手与实测入口</h2><small>OPEN MODELS · 可直接点开</small></div>
-<table class="os-table">
-<thead><tr><th>项目</th><th>定位与关键能力</th><th>代码 / 权重</th><th>我要测什么</th></tr></thead>
-<tbody>
-<tr><td><b>Hy-Nomas</b><br><span style="color:var(--faint);font-size:10px">腾讯混元 · 2026-10-23 · Apache 2.0</span></td><td>自由形态交互式<b>视频</b>世界模型：文本 + 相机轨迹双控制，分段自回归 + lifelong KV cache，蒸馏 4–8 步，1280×704；单张 RTX 4090（INT8 + 滑动窗口 + CPU offload）可跑</td><td><a href="https://github.com/Tencent-Hunyuan/Hy-Nomas" target="_blank" rel="noreferrer">GitHub</a> · <a href="https://huggingface.co/tencent/Hy-Nomas" target="_blank" rel="noreferrer">HF 权重</a> · <a href="https://hy-nomas.hy.tencent.com/demo" target="_blank" rel="noreferrer">在线 demo</a></td><td>事件持久化 · 房间回访（空间记忆）· 影视分镜（相机轨迹控制）</td></tr>
-<tr><td><b>HY-World 2.0</b><br><span style="color:var(--faint);font-size:10px">腾讯混元 · 2026-04</span></td><td>多模态 <b>3D</b> 世界模型：全景 → 轨迹规划 → 世界扩展 → 合成，输出 3DGS / mesh，可漫游带物理碰撞</td><td><a href="https://github.com/Tencent-Hunyuan/HY-World-2.0" target="_blank" rel="noreferrer">GitHub</a> · <a href="https://huggingface.co/tencent/HY-World-2.0" target="_blank" rel="noreferrer">HF 权重</a></td><td>场景拓扑可达性 · 跨视角一致性 · 与 CG 管线对接方式</td></tr>
-<tr><td><b>HunyuanWorld-1.0</b><br><span style="color:var(--faint);font-size:10px">腾讯混元 · 2025-07</span></td><td>文本 / 图像 → 可交互沉浸式 3D 世界，可导出 mesh 供 CG 管线使用</td><td><a href="https://github.com/Tencent-Hunyuan/HunyuanWorld-1.0" target="_blank" rel="noreferrer">GitHub</a></td><td>对照组：3D 路线 vs 视频路线的失败模式差异</td></tr>
-</tbody></table>
-<div class="os-note">只有能在本地复现的模型，才谈得上「评测 → 定位缺陷 → 回流标注 → 回归验证」的闭环。完整上手命令与四条评测任务设计见 <a href="https://github.com/Daisyyy-LS/world-model-data-kit/blob/main/open_models/hy-nomas_eval_plan.md" target="_blank" rel="noreferrer">hy-nomas_eval_plan.md</a>。⚠️ 上述能力来自官方 README 与公开报道，我尚未在 GPU 上实跑验证。</div>
+<section class="panel" id="panelOpen">
+  <div class="panel-head"><h2>07 / 开源世界模型 · 上手与实测入口</h2><small>OPEN MODELS · 可直接点开</small></div>
+  <table class="os-table"><thead><tr><th style="width:16%">项目</th><th style="width:34%">定位与关键能力</th><th style="width:20%">代码 / 权重</th><th>我要测什么</th></tr></thead>
+  <tbody>
+  <tr><td><b>Hy-Nomas</b><br><span style="color:var(--faint);font-size:10px">腾讯混元 · 2026-10-23 · Apache 2.0</span></td>
+    <td>自由形态交互式<b>视频</b>世界模型：文本 + 相机轨迹双控制，分段自回归 + lifelong KV cache，蒸馏 4–8 步，1280×704；单张 RTX 4090（INT8 + 滑动窗口 + CPU offload）可跑</td>
+    <td><a href="https://github.com/Tencent-Hunyuan/Hy-Nomas" target="_blank" rel="noreferrer">GitHub</a> · <a href="https://huggingface.co/tencent/Hy-Nomas" target="_blank" rel="noreferrer">HF 权重</a> · <a href="https://hy-nomas.hy.tencent.com/demo" target="_blank" rel="noreferrer">在线 demo</a></td>
+    <td>事件持久化 · 房间回访（空间记忆）· 影视分镜（相机轨迹控制）</td></tr>
+  <tr><td><b>HY-World 2.0</b><br><span style="color:var(--faint);font-size:10px">腾讯混元 · 2026-04</span></td>
+    <td>多模态 <b>3D</b> 世界模型：全景 → 轨迹规划 → 世界扩展 → 合成，输出 3DGS / mesh，可漫游带物理碰撞</td>
+    <td><a href="https://github.com/Tencent-Hunyuan/HY-World-2.0" target="_blank" rel="noreferrer">GitHub</a> · <a href="https://huggingface.co/tencent/HY-World-2.0" target="_blank" rel="noreferrer">HF 权重</a></td>
+    <td>场景拓扑可达性 · 跨视角一致性 · 与 CG 管线对接方式</td></tr>
+  <tr><td><b>HunyuanWorld-1.0</b><br><span style="color:var(--faint);font-size:10px">腾讯混元 · 2025-07</span></td>
+    <td>文本 / 图像 → 可交互沉浸式 3D 世界，可导出 mesh 供 CG 管线使用</td>
+    <td><a href="https://github.com/Tencent-Hunyuan/HunyuanWorld-1.0" target="_blank" rel="noreferrer">GitHub</a></td>
+    <td>对照组：3D 路线 vs 视频路线的失败模式差异</td></tr>
+  </tbody></table>
+  <div class="os-note">只有能在本地复现的模型，才谈得上「评测 → 定位缺陷 → 回流标注 → 回归验证」的闭环。完整上手命令与四条评测任务设计见 <a href="https://github.com/Daisyyy-LS/world-model-data-kit/blob/main/open_models/hy-nomas_eval_plan.md" target="_blank" rel="noreferrer">hy-nomas_eval_plan.md</a>。⚠️ 上述能力来自官方 README 与公开报道，我尚未在 GPU 上实跑验证。</div>
 </section>
 
 <section class="research">
-<article class="research-card"><span class="pill">EVIDENCE LADDER · arXiv:2610.31668</span><h3>“世界模型”自称之前，先过证据阶梯</h3><p>牛津等校 102 页综述《Reading, Writing, Sharing, and Interacting with the World through Video》（2026-10-22）提出：视频不是世界，只是对世界有损的时序投影；领域可收拢为读 / 写 / 共享 / 交互四种操作，证据分四档——合理输出 → 忠实条件 → <b>一致世界状态</b> → 决策效用，至少到第三档才配叫世界模型。本台把打分逻辑对齐它：评出低分先问「证据在哪一档」。</p></article>
-<article class="research-card"><span class="pill">EXECUTABILITY · arXiv:2604.19092</span><h3>看着对 ≠ 做得到</h3><p>RoboWM-Bench 把生成视频经逆动力学转成动作序列、放进物理仿真执行，发现视觉分数高度聚集而执行成功率差异显著。这是本台把故障标签绑定「数据回流」而非「分数」的依据；也是我把人工评分与规则法自动预估并列显示的原因——自动指标会聚集，人的判断才知道差在哪一步。</p></article>
-<article class="research-card"><span class="pill">OFFICIAL LIMITS · Genie 3</span><h3>官方承认的局限，就是任务卡</h3><p>Genie 3 博客自列：动作空间受限、多智能体交互难、真实地理位置失真、文字渲染不稳、连续交互仅数分钟。每一条都对应一张评测任务卡——本台的 V01 双人交接测多主体与接触时序，G02 开门进屋测状态持久与拓扑。</p></article>
-<article class="research-card"><span class="pill">LANDSCAPE · 四大阵营（2026.10）</span><h3>越封闭的阵营，数据回流越稀缺</h3><p>Google Genie 3 封闭订阅｜NVIDIA Cosmos 3 开放权重｜World Labs（Marble/Atlas）并入 AMD｜Meta V-JEPA 2.1 开源、LeCun 出走创办 AMI Labs。<b>2026-10-23 补记</b>：腾讯开源 Hy-Nomas（Apache 2.0，单卡 4090 可跑），开源侧第一次有了可本地复现的交互式世界模型——闭环不必再依附封闭 API。</p></article>
-<article class="research-card"><span class="pill">论文地图 · world-model-data-kit</span><h3>14 篇已核实编号的文献</h3><p>按「奠基与架构 / 交互生成 / 评测基准 / 综述」四类整理在 <a href="https://github.com/Daisyyy-LS/world-model-data-kit/blob/main/research/literature.md" target="_blank" rel="noreferrer">research/literature.md</a>：World Models（1803.10122）、DreamerV3（2301.04104）、Genie（2402.15391）、GameNGen（2408.14837）、DIAMOND（2405.12399）、Navigation World Models（2412.03572）、Cosmos（2501.03575）、V-JEPA 2（2506.09985）、RoboWM-Bench、EWMBench、WBench、WorldRoamBench、WorldSimBench、WorldModelBench——每篇一句话要点 + 与岗位的关系。</p></article>
-<div class="takeaway"><h3>我的拆解逻辑<br><span style="font-weight:400;color:var(--muted)">从片场约束到模型评测</span></h3><p><b>影视生成：</b>主体/道具连续性、动作顺序、镜头运动、视听同步——机位视角切换演示的就是「同一世界，换镜头观察」。<br><b>交互世界：</b>动作是否生效、状态是否持续、后果是否合理、换视角后空间关系是否稳定——事件注入演示的是「世界会不会记住发生了什么」，而 A/B 对照让「记不记得」变成可比的分差。<br><b>数据闭环：</b>用失败标签定位问题属于场景覆盖、标注定义、产品控制还是模型能力，再补进回归集。</p></div></section>
+  <article class="research-card"><span class="pill">EVIDENCE LADDER · arXiv:2610.31668</span><h3>“世界模型”自称之前，先过证据阶梯</h3>
+    <p>牛津等校 102 页综述《Reading, Writing, Sharing, and Interacting with the World through Video》（2026-10-22）提出：视频不是世界，只是对世界有损的时序投影；领域可收拢为读 / 写 / 共享 / 交互四种操作，证据分四档——合理输出 → 忠实条件 → <b>一致世界状态</b> → 决策效用，至少到第三档才配叫世界模型。本台把「证据阶梯」做成了前置选择器。</p></article>
+  <article class="research-card"><span class="pill">STATE MACHINE · 本台核心</span><h3>世界模型不是生成视频，是维护状态</h3>
+    <p>判断一个系统是不是世界模型，看它能否在交互后<b>保持并更新一份可查询的世界状态</b>：门开了还开着、雨下了还在下、离开房间再回来布局不变。所以本台把「逐帧看画」升级为<b>逐格状态账本</b>——每一步都列出该步应然状态，模型 B 偏离的格子标 ✕。这也是故障标签能落到具体标注动作的前提。</p></article>
+  <article class="research-card"><span class="pill">EXECUTABILITY · arXiv:2604.19092</span><h3>看着对 ≠ 做得到</h3>
+    <p>RoboWM-Bench 把生成视频经逆动力学转成动作、放进物理仿真执行，发现视觉分数高度聚集而执行成功率差异显著。这是本台把故障标签绑定「数据回流」而非「分数」的依据；也是把人工评分与规则法自动预估并列显示的原因——自动指标会聚集，人的判断才知道差在哪一步。</p></article>
+  <article class="research-card"><span class="pill">OFFICIAL LIMITS · Genie 3</span><h3>官方承认的局限，就是任务卡</h3>
+    <p>Genie 3 博客自列：动作空间受限、多智能体交互难、真实地理位置失真、文字渲染不稳、连续交互仅数分钟。每一条对应一张评测任务卡——本台 V01 双人交接测多主体与接触时序、V02 绕拍测跨视角一致与轴线、G01 推球测动作生效与因果、G02 开门进屋测状态持久与拓扑。</p></article>
+  <article class="research-card"><span class="pill">LANDSCAPE · 四大阵营（2026.10）</span><h3>越封闭的阵营，数据回流越稀缺</h3>
+    <p>Google Genie 3 封闭订阅｜NVIDIA Cosmos 3 开放权重｜World Labs（Marble/Atlas）并入 AMD｜Meta V-JEPA 2.1 开源。<b>2026-10-23 补记</b>：腾讯开源 Hy-Nomas（Apache 2.0，单卡 4090 可跑），开源侧第一次有了可本地复现的交互式世界模型——闭环不必再依附封闭 API。</p></article>
+  <div class="takeaway"><h3>我的拆解逻辑<br><span style="font-weight:400;color:var(--muted)">从片场约束到模型评测，再到数据回流</span></h3>
+    <p><b>影视生成：</b>主体/道具连续性、动作顺序、镜头运动与轴线——机位视角切换演示的就是「同一世界，换镜头观察」。<br>
+    <b>交互世界：</b>动作是否生效、状态是否持续、后果是否合理、换视角后空间关系是否稳定——事件注入演示的是「世界会不会记住发生了什么」，A/B 对照让「记不记得」变成可比的分差。<br>
+    <b>数据闭环：</b>用失败标签定位问题属于场景覆盖、标注定义、产品控制还是模型能力，再补进回归集——这就是这个岗位每天要做的事。</p></div>
+</section>
 
 <footer class="footer">梁爽 · 中国传媒大学国际新闻学硕士在读 · 作品方法样例（非真实模型测试结果） · 信息核对日期 2026-10-28 · 配套仓库：<a href="https://github.com/Daisyyy-LS/world-model-data-kit" target="_blank" rel="noreferrer">world-model-data-kit</a> · <a href="https://github.com/Daisyyy-LS/cinematic-shot-spec" target="_blank" rel="noreferrer">cinematic-shot-spec</a></footer>
 </div><div class="toast" id="toast"></div>
+
 <script>
 const cases={
- V01:{track:'film',id:'V01',title:'双人交接：动作连续吗？',desc:'影视预演 · 中景双人对话。A 把杯子递给 B，B 接过后放在桌面。观察接触时序、手部路径和道具状态。',step:18,py:8,beats:['A 与 B 对坐，杯子在 A 手中','A 向 B 递杯，杯子应保持单一','B 接杯后，A 的手应自然离开','B 把杯子放桌上，杯子稳定停留'],expect:['动作顺序：递出 → 接触 → 接收 → 放置','道具状态：杯子数量、位置、朝向连续','镜头约束：保持双人轴线与景别'],tags:['contact_error','object_duplication','hand_morph','state_jump']},
- V02:{track:'film',id:'V02',title:'绕拍镜头：角色一致吗？',desc:'影视预演 · 镜头围绕角色从正面移到侧面。观察人物外观、空间位置、屏幕方向与背景关系。',step:12,py:4,beats:['角色站在窗边，右手拿伞','相机沿左侧平滑绕行','人物外观与伞保持一致','窗户仍在角色身后同一侧'],expect:['角色身份/服装跨视角保持一致','空间布局能被视角变化正确解释','镜头路径平滑，不跳切或穿透主体'],tags:['identity_drift','spatial_flip','camera_jump','prop_disappear']},
- G01:{track:'game',id:'G01',title:'推球过坡：动作有后果吗？',desc:'游戏交互 · 玩家把球推向斜坡。观察速度、方向、碰撞与停止状态是否符合场景规律。',step:26,py:10,beats:['球在平台中央，坡面向右下倾斜','玩家向右推球，球开始滚动','球顺坡加速，方向保持连续','球撞墙后减速并停在可解释位置'],expect:['输入动作能触发可辨认的状态变化','运动方向/速度随坡度与碰撞合理变化','多步交互后物体仍保持可追踪状态'],tags:['action_ignored','causal_break','physics_error','state_reset']},
- G02:{track:'game',id:'G02',title:'开门进屋：世界状态持续吗？',desc:'游戏交互 · 玩家开门、走入房间，再回头观察。检查可达性、状态持久与视角一致。',step:22,py:6,beats:['玩家在关门的门外，房间可见','玩家与门交互，门旋转打开','玩家通过门洞进入室内','门保持打开，房间布局不重置'],expect:['门状态随交互改变并持续','门洞与房间空间连通且可通行','转身/换视角后房间拓扑关系稳定'],tags:['interaction_missing','topology_error','state_reset','view_inconsistency']}
+ V01:{track:'film',id:'V01',title:'双人交接：动作连续吗？',desc:'影视预演 · 中景双人对话。A 把杯子递给 B，B 接过后放在桌面。观察接触时序、手部路径与道具状态。',
+  step:18,py:8,beats:['A 与 B 对坐，杯子在 A 手中','A 向 B 递杯，杯子应保持单一','B 接杯后，A 的手自然离开','B 把杯子放桌上，杯子稳定停留'],
+  expect:['动作顺序：递出 → 接触 → 接收 → 放置','道具状态：杯子数量、位置、朝向连续','镜头约束：保持双人轴线与景别'],
+  tags:['contact_error','object_duplication','hand_morph','state_jump'],
+  keys:['道具 杯子','杯子位置','接触状态','手部形态'],
+  states:[['1 个','A 手中','未接触','正常'],['1 个','A→B 交接','接触中','正常'],['1 个','B 手中','已分离','正常'],['1 个','桌面稳定','已放置','正常']]},
+ V02:{track:'film',id:'V02',title:'绕拍镜头：角色一致吗？',desc:'影视预演 · 镜头围绕角色从正面移到侧面。观察人物外观、空间位置、屏幕方向与背景关系。',
+  step:12,py:4,beats:['角色站在窗边，右手拿伞','相机沿左侧平滑绕行','人物外观与伞保持一致','窗户仍在角色身后同一侧'],
+  expect:['角色身份/服装跨视角保持一致','空间布局能被视角变化正确解释','镜头路径平滑，不跳切或穿透主体'],
+  tags:['identity_drift','spatial_flip','camera_jump','prop_disappear'],
+  keys:['人物外观','屏幕方位','道具 伞','背景 窗户'],
+  states:[['一致','正面','右手持伞','身后左侧'],['一致','侧 45°','右手持伞','身后左侧'],['一致','侧面','右手持伞','身后左侧'],['一致','侧面','右手持伞','身后左侧']]},
+ G01:{track:'game',id:'G01',title:'推球过坡：动作有后果吗？',desc:'游戏交互 · 玩家把球推向斜坡。观察速度、方向、碰撞与停止状态是否符合场景规律。',
+  step:26,py:10,beats:['球在平台中央，坡面向右下倾斜','玩家向右推球，球开始滚动','球顺坡加速，方向保持连续','球撞墙后减速并停在可解释位置'],
+  expect:['输入动作能触发可辨认的状态变化','运动方向/速度随坡度与碰撞合理变化','多步交互后物体仍保持可追踪状态'],
+  tags:['action_ignored','causal_break','physics_error','state_reset'],
+  keys:['球位置','球速度','碰撞状态','可追踪性'],
+  states:[['平台中央','静止','无','可追踪'],['向右滚动','加速中','无','可追踪'],['坡面中段','顺坡加速','无','可追踪'],['撞墙后停止','减速 → 0','已碰撞','可追踪']]},
+ G02:{track:'game',id:'G02',title:'开门进屋：世界状态持续吗？',desc:'游戏交互 · 玩家开门、走入房间，再回头观察。检查可达性、状态持久与视角一致。',
+  step:22,py:6,beats:['玩家在关门的门外，房间可见','玩家与门交互，门旋转打开','玩家通过门洞进入室内','门保持打开，房间布局不重置'],
+  expect:['门状态随交互改变并持续','门洞与房间空间连通且可通行','转身/换视角后房间拓扑关系稳定'],
+  tags:['interaction_missing','topology_error','state_reset','view_inconsistency'],
+  keys:['门状态','门后空间','房间布局','视角一致性'],
+  states:[['关闭','房间可见','—','一致'],['打开','可通行','一致','一致'],['保持打开','已进入','一致','一致'],['保持打开','—','一致','一致']]}
 };
 const TAGS={
- contact_error:{zh:'接触时序错误',layer:'L1',action:'补「手—物接触帧」时序标注（起始/接触/分离）'},
- object_duplication:{zh:'道具复制',layer:'L1',action:'补道具跨帧唯一 ID 与状态快照'},
- hand_morph:{zh:'手部形变',layer:'L3',action:'整段入库为 hard negative，标「肢体细节」类'},
- state_jump:{zh:'状态跳变',layer:'L1+L3',action:'标注跳变前后状态对，用于一致性训练'},
- identity_drift:{zh:'角色身份漂移',layer:'L1',action:'补跨视角角色外观锚点（服装/发型特征帧）'},
- spatial_flip:{zh:'空间关系翻转',layer:'L1',action:'补场景拓扑与左右关系标注'},
- camera_jump:{zh:'镜头跳切/穿透',layer:'L2',action:'补（运镜指令, 实际轨迹）配对数据'},
- prop_disappear:{zh:'道具丢失',layer:'L1',action:'补道具持久 ID 与存在区间'},
- action_ignored:{zh:'动作未响应',layer:'L2',action:'补指令—执行结果人工判定对'},
- causal_break:{zh:'因果断裂',layer:'L3',action:'多步链整条入库，标关键状态记忆点'},
- physics_error:{zh:'物理异常',layer:'L1+L3',action:'标违反的物理类别，作 hard negative'},
- state_reset:{zh:'状态重置',layer:'L3',action:'标「世界记忆丢失」，失败链整条入库'},
- interaction_missing:{zh:'交互未触发',layer:'L2',action:'补可交互物清单与触发条件标注'},
- topology_error:{zh:'空间连通错误',layer:'L1',action:'补场景拓扑（可达性）标注'},
- view_inconsistency:{zh:'跨视角不一致',layer:'L1',action:'补跨视角一致性锚点（门/窗/家具方位）'}
+ contact_error:{zh:'接触时序错误',layer:'L1',action:'补「手—物接触帧」时序标注（起始/接触/分离）',dim:'causal'},
+ object_duplication:{zh:'道具复制',layer:'L1',action:'补道具跨帧唯一 ID 与状态快照',dim:'persist'},
+ hand_morph:{zh:'手部形变',layer:'L3',action:'整段入库为 hard negative，标「肢体细节」类',dim:'spatial'},
+ state_jump:{zh:'状态跳变',layer:'L1+L3',action:'标注跳变前后状态对，用于一致性训练',dim:'spatial'},
+ identity_drift:{zh:'角色身份漂移',layer:'L1',action:'补跨视角角色外观锚点（服装/发型特征帧）',dim:'persist'},
+ spatial_flip:{zh:'空间关系翻转',layer:'L1',action:'补场景拓扑与左右关系标注',dim:'spatial'},
+ camera_jump:{zh:'镜头跳切/穿透',layer:'L2',action:'补（运镜指令, 实际轨迹）配对数据',dim:'camera'},
+ prop_disappear:{zh:'道具丢失',layer:'L1',action:'补道具持久 ID 与存在区间',dim:'persist'},
+ action_ignored:{zh:'动作未响应',layer:'L2',action:'补指令—执行结果人工判定对',dim:'instruct'},
+ causal_break:{zh:'因果断裂',layer:'L3',action:'多步链整条入库，标关键状态记忆点',dim:'causal'},
+ physics_error:{zh:'物理异常',layer:'L1+L3',action:'标违反的物理类别，作 hard negative',dim:'physics'},
+ state_reset:{zh:'状态重置',layer:'L3',action:'标「世界记忆丢失」，失败链整条入库',dim:'memory'},
+ interaction_missing:{zh:'交互未触发',layer:'L2',action:'补可交互物清单与触发条件标注',dim:'instruct'},
+ topology_error:{zh:'空间连通错误',layer:'L1',action:'补场景拓扑（可达性）标注',dim:'spatial'},
+ view_inconsistency:{zh:'跨视角不一致',layer:'L1',action:'补跨视角一致性锚点（门/窗/家具方位）',dim:'memory'}
 };
-/* 模型 B 在指定步骤暴露的缺陷（模型 A 始终正确） */
 const DEFECT={
- V01:{1:{text:'递出瞬间桌上出现第二个杯子',s:{dup:1},flags:['object_duplication']},
-      2:{text:'接触前道具跳回原位，接触时序错乱',s:{px:0},flags:['state_jump','contact_error']},
-      3:{text:'杯子落桌但朝向与前一帧不一致',s:{},flags:['state_jump']}},
- V02:{1:{text:'绕行后两人左右位置互换——越轴',s:{axis:1},flags:['spatial_flip','camera_jump']},
-      2:{text:'角色服装颜色漂移，伞消失',s:{drift:1},flags:['identity_drift','prop_disappear']},
-      3:{text:'窗户跑到角色另一侧，背景关系不一致',s:{axis:1},flags:['view_inconsistency']}},
- G01:{1:{text:'推球后画面几乎无变化——动作未响应',s:{px:0},flags:['action_ignored']},
-      2:{text:'球突然瞬移到坡底，速度不连续',s:{px:80,py:-20},flags:['physics_error','causal_break']},
-      3:{text:'球穿墙而过并淡出消失',s:{fade:1},flags:['physics_error','state_reset']}},
- G02:{1:{text:'门打开后门后是墙——拓扑错误',s:{axis:1},flags:['topology_error','interaction_missing']},
-      2:{text:'进入后房间布局与开门前不一致',s:{drift:1},flags:['view_inconsistency']},
-      3:{text:'回头时门已关上——世界状态重置',s:{px:0,reset:1},flags:['state_reset','view_inconsistency']}}
+ V01:{1:{text:'递出瞬间桌上出现第二个杯子',s:{dup:1},flags:['object_duplication'],st:['2 个','A 手中','未接触','正常']},
+      2:{text:'接触前道具跳回原位，接触时序错乱',s:{px:0},flags:['state_jump','contact_error'],st:['1 个','跳回 A 手中','时序错乱','正常']},
+      3:{text:'杯子落桌但朝向与前一帧不一致',s:{},flags:['state_jump'],st:['1 个','桌面','朝向跳变','正常']}},
+ V02:{1:{text:'绕行后两人左右位置互换——越轴',s:{axis:1},flags:['spatial_flip','camera_jump'],st:['一致','左右互换（越轴）','右手持伞','身后左侧']},
+      2:{text:'角色服装颜色漂移，伞消失',s:{drift:1},flags:['identity_drift','prop_disappear'],st:['服装漂移','侧面','伞消失','身后左侧']},
+      3:{text:'窗户跑到角色另一侧，背景关系不一致',s:{axis:1},flags:['view_inconsistency'],st:['一致','侧面','右手持伞','跑到另一侧']}},
+ G01:{1:{text:'推球后画面几乎无变化——动作未响应',s:{px:0},flags:['action_ignored'],st:['平台中央','静止','无','可追踪']},
+      2:{text:'球突然瞬移到坡底，速度不连续',s:{px:80,py:-20},flags:['physics_error','causal_break'],st:['瞬移到坡底','速度不连续','无','可追踪']},
+      3:{text:'球穿墙而过并淡出消失',s:{fade:1},flags:['physics_error','state_reset'],st:['穿墙消失','—','穿透','丢失']}},
+ G02:{1:{text:'门打开后门后是墙——拓扑错误',s:{axis:1},flags:['topology_error','interaction_missing'],st:['打开','门后是墙','一致','一致']},
+      2:{text:'进入后房间布局与开门前不一致',s:{drift:1},flags:['view_inconsistency'],st:['保持打开','已进入','布局漂移','不一致']},
+      3:{text:'回头时门已关上——世界状态重置',s:{reset:1},flags:['state_reset','view_inconsistency'],st:['重置为关闭','—','一致','不一致']}}
 };
 const EVENTS={rain:{zh:'雨天'},cat:{zh:'新增角色'},dim:{zh:'关灯'}};
-let active='V01',beat=0,zoom=false,logged=new Set(),scoresA={},scoresB={},picks={},evState={},
+const LADDERS=[
+ {n:1,name:'合理输出',desc:'帧面看起来对吗？',check:'只看单帧观感：清晰度、美观度、有无明显伪影。',hint:'够做 demo，不足以支撑结论。'},
+ {n:2,name:'忠实条件',desc:'结果依赖给定证据与控制吗？',check:'加「控制条件组 vs 无条件组」对照：给了相机轨迹/动作指令，画面是否真的照做。',hint:'本台的事件注入即在这档做对照。'},
+ {n:3,name:'一致世界状态',desc:'跨视角/跨步骤身份、布局、物理保持吗？',check:'逐格状态账本：模型 B 偏离应然状态的格子即失败证据。',hint:'自称世界模型至少要过这一档——本台主战场。'},
+ {n:4,name:'决策效用',desc:'能改进下游规划/策略吗？',check:'把生成结果转成可执行动作，进仿真器验证成功率（RoboWM-Bench 口径）。',hint:'超出本台范围，需具身基准配合。'}
+];
+const DIMS=[
+ {k:'spatial',n:'时空一致性'},{k:'persist',n:'物体恒存'},{k:'physics',n:'物理合理性'},{k:'camera',n:'相机控制'},
+ {k:'instruct',n:'指令遵循'},{k:'latency',n:'交互延迟'},{k:'memory',n:'长时记忆'},{k:'causal',n:'因果正确'}
+];
+let active='V01',beat=0,zoom=false,logged=new Set(),scoresA={},scoresB={},picks={},evState={},ladder=3,
+    chal={on:false,score:0,streak:0,tries:0,hits:0,revealed:false},
     records=JSON.parse(localStorage.getItem('wmfl_records')||'[]'),timer=null;
 const $=(s)=>document.querySelector(s);
-function getCase(){return cases[active]}
-function evOf(id){return evState[id]||(evState[id]={on:new Set(),custom:'',beat:0})}
-function renderList(track){const list=$('#scenarioList');list.innerHTML='';Object.values(cases).filter(c=>c.track===track).forEach(c=>{const b=document.createElement('button');b.className='scenario'+(c.id===active?' active':'');b.innerHTML=`<b>${c.id}　${c.title}<span class="score-mini">${logged.has(c.id)?'已记录':''}</span></b><span>${c.track==='film'?'影视预演':'游戏交互'} · ${c.beats.length} 步</span>`;b.onclick=()=>{stopAuto();active=c.id;beat=0;render()};list.appendChild(b)})}
-/* 组装某一侧（模型）在某一步的反应 */
-function reaction(side,idx){const c=getCase(),d=(side==='B'&&DEFECT[c.id]&&DEFECT[c.id][idx])||null;
+const getCase=()=>cases[active];
+const evOf=id=>evState[id]||(evState[id]={on:new Set(),custom:'',beat:0});
+const masked=()=>chal.on&&!chal.revealed;
+
+function renderLadder(){
+ const bar=$('#ladderBar');
+ bar.innerHTML=LADDERS.map(l=>`<button data-l="${l.n}" class="${l.n===ladder?'active':''}"><i>L${l.n}</i>${l.name}</button>`).join('');
+ bar.querySelectorAll('button').forEach(b=>b.onclick=()=>{ladder=+b.dataset.l;renderLadder();render();toast('已切到证据阶梯 L'+ladder+'：'+LADDERS[ladder-1].name)});
+ const l=LADDERS[ladder-1];
+ $('#ladderDesc').innerHTML=`<b>L${l.n} ${l.name}</b> — ${l.desc}<div class="chk"><i>检验</i><span>${l.check}</span></div><div class="chk"><i>提示</i><span>${l.hint}</span></div>`;
+ $('#ladderTag').textContent='档位 L'+ladder+' · '+l.name;
+}
+function renderList(track){
+ const list=$('#scenarioList');list.innerHTML='';
+ Object.values(cases).filter(c=>c.track===track).forEach(c=>{
+  const b=document.createElement('button');b.className='scenario'+(c.id===active?' active':'');
+  b.innerHTML=`<b>${c.id}　${c.title}<span class="score-mini">${logged.has(c.id)?'已记录':''}</span></b><span>${c.track==='film'?'影视预演':'游戏交互'} · ${c.beats.length} 步 · ${c.keys.length} 项状态</span>`;
+  b.onclick=()=>{stopAuto();active=c.id;beat=0;render()};list.appendChild(b)});
+}
+function reaction(side,idx){
+ const c=getCase(),d=(side==='B'&&DEFECT[c.id]&&DEFECT[c.id][idx])||null;
  const px=(d&&d.s&&typeof d.s.px==='number')?d.s.px:idx*c.step;
  const py=(d&&d.s&&typeof d.s.py==='number')?d.s.py:idx*(c.py||0);
- const flags=d?d.flags:[];
- let text=d?d.text:c.beats[idx];
- return {text,flags,px,py,dup:!!(d&&d.s&&d.s.dup),axis:!!(d&&d.s&&d.s.axis),drift:!!(d&&d.s&&d.s.drift),fade:!!(d&&d.s&&d.s.fade)}
+ return {text:d?d.text:c.beats[idx],flags:d?d.flags:[],px,py,
+  dup:!!(d&&d.s&&d.s.dup),axis:!!(d&&d.s&&d.s.axis),drift:!!(d&&d.s&&d.s.drift),
+  fade:!!(d&&d.s&&d.s.fade),reset:!!(d&&d.s&&d.s.reset)}
 }
-/* 事件是否在该侧持续（模型 B 只在注入那一步保留——短记忆） */
-function eventsVisible(side){const st=evOf(active);if(!st.on.size)return false;if(side==='A')return beat>=st.beat;return beat===st.beat}
+const eventsVisible=side=>{const st=evOf(active);if(!st.on.size&&!st.custom)return false;if(side==='A')return beat>=st.beat;return beat===st.beat};
 function buildScene(side){
  const el=$('#scene'+(side==='A'?'A':'B'));
  el.innerHTML=`<div class="inner">
-  <svg class="grid-svg" viewBox="0 0 300 236" preserveAspectRatio="none"><g stroke="#3A3A36" stroke-width="1"><line x1="0" y1="168" x2="300" y2="168"/><line x1="0" y1="186" x2="300" y2="186"/><line x1="0" y1="208" x2="300" y2="208"/><line x1="0" y1="232" x2="300" y2="232"/><line x1="-40" y1="236" x2="150" y2="120"/><line x1="60" y1="236" x2="150" y2="120"/><line x1="150" y1="236" x2="150" y2="120"/><line x1="240" y1="236" x2="150" y2="120"/><line x1="340" y1="236" x2="150" y2="120"/></g></svg>
+  <svg class="grid-svg" viewBox="0 0 300 236" preserveAspectRatio="none"><g stroke="#2E333D" stroke-width="1">
+   <line x1="0" y1="168" x2="300" y2="168"/><line x1="0" y1="186" x2="300" y2="186"/><line x1="0" y1="208" x2="300" y2="208"/><line x1="0" y1="232" x2="300" y2="232"/>
+   <line x1="-40" y1="236" x2="150" y2="120"/><line x1="60" y1="236" x2="150" y2="120"/><line x1="150" y1="236" x2="150" y2="120"/>
+   <line x1="240" y1="236" x2="150" y2="120"/><line x1="340" y1="236" x2="150" y2="120"/></g></svg>
   <div class="axis"></div><div class="rain"></div>
   <div class="ch a"><i class="head"></i><i class="body"></i></div>
   <div class="ch b"><i class="head"></i><i class="body"></i></div>
-  <div class="tbl"></div>
-  <div class="prop"></div><div class="prop ghost"></div>
-  <div class="cat">🐈</div><div class="dim"></div></div>`;
- return el
+  <div class="tbl"></div><div class="prop"></div><div class="prop ghost"></div>
+  <div class="cat">🐈</div><div class="dim"></div>
+  <div class="safe"><i class="a"></i><i class="b"></i><u class="tl"></u><u class="tr"></u><u class="bl"></u><u class="br"></u></div>
+ </div>`;return el;
 }
 function paintScene(side){
  const el=$('#scene'+(side==='A'?'A':'B')),r=reaction(side,beat),st=evOf(active);
  const prop=el.querySelector('.prop'),ghost=el.querySelector('.prop.ghost'),axis=el.querySelector('.axis');
  const chA=el.querySelector('.ch.a'),chB=el.querySelector('.ch.b');
- prop.style.transform=`translate(${r.px}px,${-r.py}px)`;
- prop.style.opacity=r.fade?'.15':'1';
- ghost.classList.toggle('dup',r.dup);
- axis.classList.toggle('flip',r.axis);
+ prop.style.transform=`translate(${r.px}px,${-r.py}px)`;prop.style.opacity=r.fade?'.15':'1';
+ ghost.classList.toggle('dup',r.dup);axis.classList.toggle('flip',r.axis);
  chA.classList.toggle('drift',r.drift);chB.classList.toggle('drift',r.drift);
  if(r.axis){chA.style.transform='translateX(90px)';chB.style.transform='translateX(-90px)'}else{chA.style.transform='';chB.style.transform=''}
  const vis=eventsVisible(side);
- el.querySelector('.rain').style.opacity=(vis&&st.on.has('rain'))?'.7':'0';
+ el.querySelector('.rain').style.opacity=(vis&&st.on.has('rain'))?'.75':'0';
  el.querySelector('.cat').style.opacity=(vis&&st.on.has('cat'))?'1':'0';
- el.querySelector('.dim').style.opacity=(vis&&st.on.has('dim'))?'.6':'0';
+ el.querySelector('.dim').style.opacity=(vis&&st.on.has('dim'))?'.62':'0';
  el.classList.toggle('zoom',zoom);
  const note=$('#note'+(side==='A'?'A':'B'));
- const lost=(side==='B'&&st.on.size&&beat>st.beat);
- note.innerHTML=r.text+(r.flags.length?'<span class="flag">'+r.flags.map(f=>TAGS[f]?TAGS[f].zh:f).join(' · ')+'</span>':'<span class="ok">未观察到故障</span>')+(lost?'<span class="flag">事件丢失</span>':'');
+ if(masked()&&side==='B'){note.innerHTML='<span class="mask">■■■ 挑战模式：只给画面，不给提示 —— 找出问题并勾选标签</span>';}
+ else{
+  note.innerHTML=r.text+(r.flags.length?'<span class="flag">'+r.flags.map(f=>TAGS[f]?TAGS[f].zh:f).join(' · ')+'</span>':'<span class="ok">未观察到故障</span>')
+   +(side==='B'&&(st.on.size||st.custom)&&beat>st.beat&&!r.fade?'<span class="flag">事件丢失 · 世界未记住</span>':'');
+ }
  const tc=$('#tc'+(side==='A'?'A':'B'));tc.textContent='00:0'+(beat*2)+'.0';
+ $('#view'+(side==='A'?'A':'B')).textContent=zoom?'机位视角（放大）':'导演视角';
+}
+function renderLedger(){
+ const c=getCase(),tb=$('#ledgerBody');
+ tb.innerHTML=c.keys.map((k,i)=>{
+  const va=c.states[beat][i];
+  let vb=va,bad=false;
+  const d=DEFECT[c.id]&&DEFECT[c.id][beat];
+  if(d&&d.st&&d.st[i]!==va){vb=d.st[i];bad=true}
+  const hide=masked()&&bad;
+  return `<tr><td class="k">${k}</td><td class="va">${va}</td>
+   <td class="${hide?'mask':'vb'+(bad?' bad':'')}">${hide?'? ? ?':vb}</td></tr>`}).join('');
+}
+function dimScore(side,k){
+ const c=getCase();
+ if(c.track==='film'&&k==='latency')return null;
+ if(c.track==='game'&&k==='camera')return null;
+ let s=5;
+ for(let i=0;i<=beat;i++){
+  reaction(side,i).flags.forEach(f=>{const t=TAGS[f];if(t&&t.dim===k)s-=1.6});
+  if(k==='memory'&&side==='B'&&evOf(active).on.size&&i>evOf(active).beat)s-=.8;
+ }
+ return Math.max(1,Math.min(5,Math.round(s*10)/10));
+}
+function renderDims(){
+ const a=dimScore('A'),_=0;
+ $('#dimsBody').innerHTML=DIMS.map(d=>{
+  const sa=dimScore('A',d.k),sb=dimScore('B',d.k);
+  if(sa===null)return `<div class="dim-row na"><span class="nm">${d.n}</span><span class="dimbars"><i><b style="width:0"></b></i></span><span class="vv">N/A</span></div>`;
+  const pa=sa/5*100,pb=sb/5*100;
+  return `<div class="dim-row"><span class="nm">${d.n}</span>
+   <span class="dimbars"><i class="a"><b style="width:${pa}%"></b></i><i class="b"><b style="width:${pb}%"></b></i></span>
+   <span class="vv">${sa.toFixed(1)}/${sb.toFixed(1)}</span></div>`}).join('');
 }
 function autoScore(side){let s=4.6;
- for(let i=0;i<=beat;i++){s-=.45*reaction(side,i).flags.length}
- const st=evOf(active);if(st.on.size&&side==='B'&&beat>st.beat)s-=.5;
+ for(let i=0;i<=beat;i++)s-=.45*reaction(side,i).flags.length;
+ const st=evOf(active);if((st.on.size||st.custom)&&side==='B'&&beat>st.beat)s-=.5;
  return Math.max(1,Math.min(5,Math.round(s*10)/10))
 }
-function renderAdvice(){const sel=picks[active]||[],box=$('#advice');
+function renderAdvice(){
+ const sel=picks[active]||[],box=$('#advice');
  if(!sel.length){box.innerHTML='<h4>数据回流建议</h4><ul><li class="hint">勾选模型 B 的故障标签后，这里实时给出：样本应回流到 L0–L3 哪一层、要补什么标注。</li></ul>';return}
- box.innerHTML='<h4>数据回流建议 · '+sel.length+' 项</h4><ul>'+sel.map(t=>{const d=TAGS[t];return d?`<li><span class="layer-pill">${d.layer}</span><b>${d.zh}</b>：${d.action}</li>`:''}).join('')+'</ul>'}
-function renderGap(){const aA=autoScore('A'),aB=autoScore('B'),hA=+$('#scoreA').value,hB=+$('#scoreB').value;
+ box.innerHTML='<h4>数据回流建议 · '+sel.length+' 项</h4><ul>'+sel.map(t=>{const d=TAGS[t];
+  return d?`<li><span class="layer-pill">${d.layer}</span><b>${d.zh}</b>：${d.action}</li>`:''}).join('')+'</ul>';
+}
+function renderQueue(){
+ const counts={};Object.values(picks).forEach(arr=>arr.forEach(t=>{const l=TAGS[t].layer.split('+')[0];counts[l]=(counts[l]||0)+1}));
+ const keys=['L0','L1','L2','L3'],max=Math.max(1,...Object.values(counts));
+ const body=$('#queueBody');
+ if(!Object.keys(counts).length){body.innerHTML='<div class="qempty">勾选标签后，这里按 L0–L3 统计待补标注的样本分布。</div>';return}
+ body.innerHTML='<div class="qbars">'+keys.map(k=>`<div class="qbar"><span>${k}</span><i><b style="width:${((counts[k]||0)/max*100)}%"></b></i><span class="n">${counts[k]||0}</span></div>`).join('')
+  +`<div style="font-size:10.5px;color:var(--faint);margin-top:4px">L0 原始采集 · L1 结构化标注 · L2 交互轨迹 · L3 失败链与 hard negative</div></div>`;
+}
+function renderGap(){
+ const aA=autoScore('A'),aB=autoScore('B'),hA=+$('#scoreA').value,hB=+$('#scoreB').value;
  $('#autoA').textContent=aA.toFixed(1);$('#autoB').textContent=aB.toFixed(1);
- const gaps=[];if(Math.abs(hA-aA)>=1)gaps.push(`模型 A：人工 ${hA} vs 自动预估 ${aA.toFixed(1)}`);if(Math.abs(hB-aB)>=1)gaps.push(`模型 B：人工 ${hB} vs 自动预估 ${aB.toFixed(1)}`);
- const w=$('#gapWarn');if(gaps.length){w.classList.add('show');w.innerHTML='⚠ 人工与自动预估差异 ≥1 分（'+gaps.join('；')+'）：优先复查标注定义是否一致，而不是急着改模型——对应牛津综述的挑战 4「世界属性的标准化评测」。'}else w.classList.remove('show')
+ const gaps=[];if(Math.abs(hA-aA)>=1)gaps.push(`模型 A：人工 ${hA} vs 自动 ${aA.toFixed(1)}`);
+ if(Math.abs(hB-aB)>=1)gaps.push(`模型 B：人工 ${hB} vs 自动 ${aB.toFixed(1)}`);
+ const w=$('#gapWarn');
+ if(gaps.length){w.classList.add('show');w.innerHTML='⚠ 人工与自动预估差异 ≥1 分（'+gaps.join('；')+'）：优先复查标注定义是否一致，而不是急着改模型——对应牛津综述的挑战 4「世界属性的标准化评测」。'}
+ else w.classList.remove('show');
 }
-function render(){const c=getCase();$('#taskId').textContent='TASK '+c.id;$('#caseTitle').textContent=c.title;$('#caseDesc').textContent=c.desc;
+function renderSteps(){
+ const c=getCase(),bar=$('#stepsBar');
+ bar.innerHTML=c.beats.map((b,i)=>{
+  const has=!!(DEFECT[c.id]&&DEFECT[c.id][i]);
+  return `<button class="${i===beat?'active':''}${has&&logged.has(c.id)?' bad':''}" data-i="${i}">${i+1}${has&&i===beat?' ⚠':''}</button>`}).join('');
+ bar.querySelectorAll('button').forEach(b=>b.onclick=()=>{beat=+b.dataset.i;render()});
+}
+function renderChal(){
+ $('#chalScore').textContent=chal.score;
+ $('#chalMeta').textContent='COMBO '+chal.streak+' · 命中 '+chal.hits+'/'+chal.tries;
+ $('#chalRank').textContent=rankName();
+ $('#chalBtn').textContent=chal.on?(chal.revealed?'提交判定':'提交判定（或先揭示）'):'开始挑战';
+ $('#revealBtn').style.display=chal.on&&!chal.revealed?'block':'none';
+}
+function rankName(){const s=chal.score;return s>=60?'总导演（评测负责人）':s>=35?'主评测员':s>=15?'初级评测员':'实习评测员'}
+function startChal(){
+ const ids=Object.keys(DEFECT),cid=ids[Math.floor(Math.random()*ids.length)];
+ const bs=Object.keys(DEFECT[cid]),b=+bs[Math.floor(Math.random()*bs.length)];
+ stopAuto();active=cid;beat=b;picks[cid]=[];chal.on=true;chal.revealed=false;
+ render();toast('挑战开始：'+cid+' 第 '+(b+1)+' 步 —— 观察模型 B 的画面，勾选你认为正确的故障标签后提交');
+}
+function submitChal(){
+ const truth=DEFECT[active][beat].flags,mine=picks[active]||[];
+ const hit=truth.filter(t=>mine.includes(t)).length,extra=mine.filter(t=>!truth.includes(t)).length;
+ chal.tries++;
+ const ok=hit===truth.length&&extra===0;
+ if(ok){chal.hits++;chal.streak++;chal.score+=10+chal.streak*2+(chal.revealed?0:5)}
+ else{chal.streak=0;chal.score=Math.max(0,chal.score-3)}
+ chal.on=false;
+ const msg=ok?`✅ 判定正确（${truth.map(t=>TAGS[t].zh).join(' · ')}）${!chal.revealed?' · 未用提示 +5':''}`
+  :`❌ 应为：${truth.map(t=>TAGS[t].zh).join(' · ')}${extra?' · 多勾了 '+extra+' 项':''}`;
+ const bx=$('#reportBox');
+ bx.textContent='## 找茬挑战判定\n\n任务 '+active+' 第 '+(beat+1)+' 步\n\n'+msg+'\n\n得分 '+chal.score+' · 连击 '+chal.streak+' · 命中率 '
+  +(chal.tries?(chal.hits/chal.tries*100).toFixed(0):0)+'%\n\n当前评级：'+rankName();
+ render();toast(msg);
+}
+function buildReport(){
+ const c=getCase(),sel=picks[active]||[],st=evOf(active);
+ const evNames=[...st.on].map(k=>EVENTS[k].zh);if(st.custom)evNames.push('自定义：'+st.custom);
+ const drift=c.keys.map((k,i)=>{
+  const va=c.states[beat][i],d=DEFECT[c.id]&&DEFECT[c.id][beat];
+  return d&&d.st&&d.st[i]!==va?`- **${k}**：应然「${va}」→ 实然「${d.st[i]}」 ✕`:null}).filter(Boolean);
+ const L=['—','L1','L2','L3'];
+ return `# 世界模型评测诊断报告 · ${c.id}
+
+**任务**：${c.title}（${c.track==='film'?'影视预演':'游戏交互'}）· 观察到第 ${beat+1}/${c.beats.length} 步
+**证据阶梯**：L${ladder} ${LADDERS[ladder-1].name} — ${LADDERS[ladder-1].desc}
+**视角**：${zoom?'机位视角（放大观察细节）':'导演视角'} · **注入事件**：${evNames.length?evNames.join('、'):'无'}
+
+## 一、评分
+
+| | 人工分 | 规则法自动预估 | 差值 |
+|---|---|---|---|
+| 模型 A（一致性优先·长记忆） | ${$('#scoreA').value} | ${autoScore('A').toFixed(1)} | ${(+$('#scoreA').value-autoScore('A')).toFixed(1)} |
+| 模型 B（实时性优先·短记忆） | ${$('#scoreB').value} | ${autoScore('B').toFixed(1)} | ${(+$('#scoreB').value-autoScore('B')).toFixed(1)} |
+
+A−B 人工分差：${(+$('#scoreA').value-+$('#scoreB').value).toFixed(1)} 分。
+
+## 二、世界状态漂移（${drift.length?drift.length+' 项':'本步未观察到'}）
+
+${drift.length?drift.join('\n'):'- 模型 B 本步状态与应然一致'}
+
+## 三、故障标签 → 数据回流
+
+${sel.length?sel.map(t=>{const d=TAGS[t];return `- **${d.zh}**（${t}）→ 回流 ${d.layer}：${d.action}`}).join('\n'):'- 尚未勾选标签'}
+
+## 四、结论与下一步
+
+${sel.length?`本步失败集中在 ${[...new Set(sel.map(t=>TAGS[t].layer.split('+')[0]))].join(' / ')} 层，建议先补标注定义再决定是否进回归集；若人工与自动预估差异 ≥1 分，优先复查标注定义一致性。`
+ :'本步未标记故障，可继续推进下一步或提高任务难度（如延长交互步数、加入多主体）。'}
+
+> 说明：本报告的画面与分数来自原型预设的示意反应，不代表任何真实模型的测试结果，仅用于演示评测流程与数据结构。`;
+}
+function render(){
+ const c=getCase();
+ $('#taskId').textContent='TASK '+c.id;$('#caseTitle').textContent=c.title;$('#caseDesc').textContent=c.desc;
  $('#beatTitle').textContent='第 '+(beat+1)+' 步';$('#beatText').textContent=c.beats[beat];
- $('#beatNo').textContent=`STEP ${beat+1} / ${c.beats.length}`;$('#beatState').textContent=beat===0?'等待动作':beat===c.beats.length-1?'状态待复核':'动作进行中';
+ $('#beatNo').textContent=`STEP ${beat+1} / ${c.beats.length}`;$('#beatTag').textContent=`STEP ${beat+1} / ${c.beats.length}`;
+ $('#beatState').textContent=beat===0?'等待动作':beat===c.beats.length-1?'状态待复核':'动作进行中';
  $('#progress').style.width=((beat+1)/c.beats.length*100)+'%';
+ $('#masterTC').textContent='00:00:0'+beat+':'+String(beat*6).padStart(2,'0');
  $('#expectations').innerHTML=c.expect.map((x,i)=>`<div class="expect"><i>0${i+1}</i><span>${x}</span></div>`).join('');
- const fl=$('#failureList');fl.innerHTML=c.tags.map(t=>`<button class="tag${(picks[c.id]||[]).includes(t)?' on':''}" data-tag="${t}">${TAGS[t].zh}<span class="tag-en">${t}</span></button>`).join('');
- fl.querySelectorAll('.tag').forEach(b=>b.onclick=()=>{const s=picks[active]=picks[active]||[];const i=s.indexOf(b.dataset.tag);i>=0?s.splice(i,1):s.push(b.dataset.tag);b.classList.toggle('on');renderAdvice()});
- renderAdvice();
- $('#scoreA').value=scoresA[c.id]??4;$('#scoreNumA').textContent=($('#scoreA').value)+' / 5';
- $('#scoreB').value=scoresB[c.id]??3;$('#scoreNumB').textContent=($('#scoreB').value)+' / 5';
- renderGap();
- $('#doneCount').textContent=String(logged.size).padStart(2,'0')+' / 04';
+ const fl=$('#failureList');
+ fl.innerHTML=c.tags.map(t=>`<button class="tag${(picks[c.id]||[]).includes(t)?' on':''}" data-tag="${t}">${TAGS[t].zh}<span class="tag-en">${t}</span></button>`).join('');
+ fl.querySelectorAll('.tag').forEach(b=>b.onclick=()=>{
+  const s=picks[active]=picks[active]||[];const i=s.indexOf(b.dataset.tag);
+  i>=0?s.splice(i,1):s.push(b.dataset.tag);b.classList.toggle('on');renderAdvice();renderQueue()});
+ renderAdvice();renderQueue();
+ $('#scoreA').value=scoresA[c.id]??4;$('#scoreNumA').textContent=$('#scoreA').value+' / 5';
+ $('#scoreB').value=scoresB[c.id]??3;$('#scoreNumB').textContent=$('#scoreB').value+' / 5';
+ renderGap();renderLedger();renderDims();renderSteps();renderChal();
  ['A','B'].forEach(s=>{buildScene(s);paintScene(s)});
- renderList(c.track);renderRecords()
+ renderList(c.track);renderRecords();
+ $('#doneCount').textContent=String(logged.size).padStart(2,'0')+' / 04';
 }
-function renderRecords(){const body=$('#recordsBody');
- if(!records.length){body.innerHTML='<div class="rec-empty">还没有记录。左侧选任务 → 中间逐步播放（可自动播放、切机位视角、注入世界事件）观察 A/B 两个模型的反应差异 → 右侧评分并勾选模型 B 的故障标签 → 点「记录本次评测」。记录保存在本地浏览器，可导出 JSON / CSV。</div>';return}
- body.innerHTML='<table class="rec-table"><thead><tr><th>Case</th><th>任务 / 进度</th><th>A 人工 / 自动</th><th>B 人工 / 自动</th><th>故障标签 → 回流</th><th>事件</th><th>时间</th></tr></thead><tbody>'+records.map(r=>`<tr><td><b>${r.case_id}</b></td><td>${r.title}<br><span style="color:var(--faint);font-size:10px">${r.track} · 观察到第 ${r.step}/${r.steps} 步 · ${r.zoom?'机位':'导演'}视角</span></td><td>${r.scoreA} / ${r.autoA}</td><td>${r.scoreB} / ${r.autoB}</td><td>${r.failure_tags.length?r.failure_tags.map(t=>`<span class="layer-pill">${t.layer}</span>${t.zh}`).join('<br>'):'<span style="color:var(--faint)">无</span>'}</td><td>${r.events.length?r.events.join('、'):'无'}</td><td style="white-space:nowrap;color:var(--faint)">${r.time}</td></tr>`).join('')+'</tbody></table>'}
+function renderRecords(){
+ const body=$('#recordsBody');
+ if(!records.length){body.innerHTML='<div class="rec-empty">还没有记录。左侧选任务 → 中间逐步播放（可自动播放、切机位视角、注入世界事件）观察 A/B 反应差异 → 看状态账本定位漂移 → 右侧评分并勾选故障标签 → 点「记录本次评测」。记录保存在本地浏览器，可导出 JSON / CSV。</div>';return}
+ body.innerHTML='<table class="rec-table"><thead><tr><th>Case</th><th>任务 / 进度</th><th>档位</th><th>A 人工/自动</th><th>B 人工/自动</th><th>故障标签 → 回流</th><th>事件</th><th>时间</th></tr></thead><tbody>'
+  +records.map(r=>`<tr><td><b>${r.case_id}</b></td><td>${r.title}<br><span style="color:var(--faint);font-size:10px">${r.track} · 第 ${r.step}/${r.steps} 步 · ${r.zoom?'机位':'导演'}视角 · ${r.drift_count} 项状态漂移</span></td>
+   <td>L${r.ladder}</td><td>${r.scoreA} / ${r.autoA}</td><td>${r.scoreB} / ${r.autoB}</td>
+   <td>${r.failure_tags.length?r.failure_tags.map(t=>`<span class="layer-pill">${t.layer}</span>${t.zh}`).join('<br>'):'<span style="color:var(--faint)">无</span>'}</td>
+   <td>${r.events.length?r.events.join('、'):'无'}</td><td style="white-space:nowrap;color:var(--faint)">${r.time}</td></tr>`).join('')+'</tbody></table>';
+}
+function driftCount(){const c=getCase(),d=DEFECT[c.id]&&DEFECT[c.id][beat];let n=0;
+ if(d&&d.st)c.keys.forEach((k,i)=>{if(d.st[i]!==c.states[beat][i])n++});return n}
 function download(name,content,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)}
-function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast._h);toast._h=setTimeout(()=>t.classList.remove('show'),2200)}
-function stopAuto(){if(timer){clearInterval(timer);timer=null;$('#autoPlay').classList.remove('on');$('#autoPlay').textContent='自动播放'}}
-document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active');stopAuto();active=b.dataset.track==='film'?'V01':'G01';beat=0;render()});
+function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast._h);toast._h=setTimeout(()=>t.classList.remove('show'),2400)}
+function stopAuto(){if(timer){clearInterval(timer);timer=null;$('#autoPlay').classList.remove('on')}}
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active');
+ stopAuto();active=b.dataset.track==='film'?'V01':'G01';beat=0;render()});
 $('#nextBeat').onclick=()=>{beat=(beat+1)%getCase().beats.length;render()};
+$('#prevBeat').onclick=()=>{beat=(beat-1+getCase().beats.length)%getCase().beats.length;render()};
 $('#resetScene').onclick=()=>{stopAuto();beat=0;render()};
 $('#viewToggle').onclick=e=>{zoom=!zoom;e.target.classList.toggle('on',zoom);e.target.textContent=zoom?'导演视角':'机位视角';['A','B'].forEach(paintScene);toast(zoom?'已切换到机位视角（放大观察细节）':'已回到导演视角')};
-$('#autoPlay').onclick=e=>{if(timer){stopAuto();return}e.target.classList.add('on');e.target.textContent='暂停播放';timer=setInterval(()=>{beat=(beat+1)%getCase().beats.length;render()},1300)};
+$('#autoPlay').onclick=e=>{if(timer){stopAuto();return}e.target.classList.add('on');timer=setInterval(()=>{beat=(beat+1)%getCase().beats.length;render()},1400)};
 $('#scoreA').oninput=e=>{scoresA[active]=+e.target.value;$('#scoreNumA').textContent=e.target.value+' / 5';renderGap()};
 $('#scoreB').oninput=e=>{scoresB[active]=+e.target.value;$('#scoreNumB').textContent=e.target.value+' / 5';renderGap()};
-document.querySelectorAll('#eventChips [data-ev]').forEach(b=>b.onclick=()=>{const st=evOf(active);st.beat=beat;st.on.has(b.dataset.ev)?st.on.delete(b.dataset.ev):st.on.add(b.dataset.ev);if(!st.on.size)st.custom='';b.classList.toggle('on',st.on.has(b.dataset.ev));['A','B'].forEach(paintScene);toast('已在第 '+(beat+1)+' 步注入事件：'+EVENTS[b.dataset.ev].zh+'（观察后续步骤 A/B 是否都保持）')});
-$('#clearEvents').onclick=()=>{const st=evOf(active);st.on.clear();st.custom='';['A','B'].forEach(paintScene);toast('事件已清空')};
+document.querySelectorAll('#eventChips [data-ev]').forEach(b=>b.onclick=()=>{
+ const st=evOf(active);st.beat=beat;
+ st.on.has(b.dataset.ev)?st.on.delete(b.dataset.ev):st.on.add(b.dataset.ev);
+ if(!st.on.size)st.custom='';b.classList.toggle('on',st.on.has(b.dataset.ev));
+ ['A','B'].forEach(paintScene);
+ toast('已在第 '+(beat+1)+' 步注入事件：'+EVENTS[b.dataset.ev].zh+'（往下走一步，看 A/B 是否都记得）')});
+$('#customEv').oninput=e=>{evOf(active).custom=e.target.value;evOf(active).beat=beat;['A','B'].forEach(paintScene)};
+$('#clearEvents').onclick=()=>{const st=evOf(active);st.on.clear();st.custom='';$('#customEv').value='';
+ document.querySelectorAll('#eventChips [data-ev]').forEach(b=>b.classList.remove('on'));['A','B'].forEach(paintScene);toast('事件已清空')};
+$('#chalBtn').onclick=()=>{chal.on?submitChal():startChal()};
+$('#revealBtn').onclick=()=>{chal.revealed=true;render();toast('已揭示状态账本（本轮不计「未用提示」加分）')};
+$('#genReport').onclick=()=>{$('#reportBox').textContent=buildReport();toast('诊断报告已生成，可复制或截图带走')};
+$('#copyReport').onclick=()=>{const t=$('#reportBox').textContent;if(navigator.clipboard)navigator.clipboard.writeText(t).then(()=>toast('已复制到剪贴板'));else toast('请手动选中复制')};
 $('#record').onclick=()=>{const c=getCase(),sel=picks[active]||[],st=evOf(active);
  const evNames=[...st.on].map(k=>EVENTS[k].zh);if(st.custom)evNames.push('自定义：'+st.custom);
- records.push({case_id:active,title:c.title,track:c.track==='film'?'影视预演':'游戏交互',step:beat+1,steps:c.beats.length,zoom:zoom,
+ records.push({case_id:active,title:c.title,track:c.track==='film'?'影视预演':'游戏交互',step:beat+1,steps:c.beats.length,
+  zoom:zoom,ladder:ladder,drift_count:driftCount(),
   scoreA:+$('#scoreA').value,autoA:autoScore('A'),scoreB:+$('#scoreB').value,autoB:autoScore('B'),
   failure_tags:sel.map(t=>({tag:t,zh:TAGS[t].zh,layer:TAGS[t].layer,action:TAGS[t].action})),events:evNames,
   note:$('#note').value,time:new Date().toLocaleString('zh-CN',{hour12:false})});
- localStorage.setItem('wmfl_records',JSON.stringify(records));logged.add(active);render();toast(`${active} 已记录 · A ${$('#scoreA').value}/B ${$('#scoreB').value} · ${sel.length} 个标签`)};
-$('#exportJson').onclick=()=>{download('wmfl-records.json',JSON.stringify({exported_at:new Date().toISOString(),tool:'world-model-playground',version:'v4',mode:'A/B paired evaluation',taxonomy:'对应 world-model-data-kit 的 L0-L3 数据分层',records},null,2),'application/json')};
-$('#exportCsv').onclick=()=>{const head='case_id,任务,轨道,视角,A人工分,A自动预估,B人工分,B自动预估,A-B分差,故障标签,回流层,回流动作,注入事件,备注,时间';
- const rows=records.map(r=>[r.case_id,r.title,r.track,r.zoom?'机位':'导演',r.scoreA,r.autoA,r.scoreB,r.autoB,(r.scoreA-r.scoreB).toFixed(1),r.failure_tags.map(t=>t.zh).join(' | '),[...new Set(r.failure_tags.map(t=>t.layer))].join(' | '),r.failure_tags.map(t=>t.action).join(' | '),r.events.join(' | '),r.note,r.time].map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(','));
+ localStorage.setItem('wmfl_records',JSON.stringify(records));logged.add(active);render();
+ toast(`${active} 已记录 · A ${$('#scoreA').value}/B ${$('#scoreB').value} · ${sel.length} 个标签 · ${driftCount()} 项状态漂移`)};
+$('#exportJson').onclick=()=>{download('wmfl-records.json',JSON.stringify({exported_at:new Date().toISOString(),
+ tool:'world-model-playground',version:'v5',mode:'A/B paired evaluation + world state ledger',
+ taxonomy:'对应 world-model-data-kit 的 L0-L3 数据分层',records},null,2),'application/json')};
+$('#exportCsv').onclick=()=>{
+ const head='case_id,任务,轨道,证据档位,视角,A人工分,A自动预估,B人工分,B自动预估,A-B分差,状态漂移数,故障标签,回流层,回流动作,注入事件,备注,时间';
+ const rows=records.map(r=>[r.case_id,r.title,r.track,'L'+r.ladder,r.zoom?'机位':'导演',r.scoreA,r.autoA,r.scoreB,r.autoB,
+  (r.scoreA-r.scoreB).toFixed(1),r.drift_count,r.failure_tags.map(t=>t.zh).join(' | '),
+  [...new Set(r.failure_tags.map(t=>t.layer))].join(' | '),r.failure_tags.map(t=>t.action).join(' | '),
+  r.events.join(' | '),r.note,r.time].map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(','));
  download('wmfl-records.csv','\ufeff'+head+'\n'+rows.join('\n'),'text/csv')};
-$('#clearRecords').onclick=()=>{if(!records.length)return;if(!confirm('确定清空全部本地评测记录？'))return;records=[];logged.clear();localStorage.removeItem('wmfl_records');render()};
-document.querySelectorAll('.rail button[data-goto]').forEach(b=>b.onclick=()=>{const id=b.dataset.goto;const el=$(id==='pageTop'?'#pageTop':'#'+id);el&&el.scrollIntoView({behavior:'smooth'})});
-render();
+$('#clearRecords').onclick=()=>{if(!records.length)return;if(!confirm('确定清空全部本地评测记录？'))return;
+ records=[];logged.clear();localStorage.removeItem('wmfl_records');render()};
+document.addEventListener('keydown',e=>{
+ if(/input|select|textarea/i.test(e.target.tagName))return;
+ if(e.code==='Space'||e.key==='ArrowRight'){e.preventDefault();beat=(beat+1)%getCase().beats.length;render()}
+ else if(e.key==='ArrowLeft'){beat=(beat-1+getCase().beats.length)%getCase().beats.length;render()}
+ else if(e.key==='v'||e.key==='V'){$('#viewToggle').click()}
+ else if(e.key==='r'||e.key==='R'){$('#record').click()}
+ else if(e.key==='e'||e.key==='E'){document.querySelector('#eventChips [data-ev="rain"]').click()}
+ else if(/^[1-4]$/.test(e.key)){const i=+e.key-1;if(i<getCase().beats.length){beat=i;render()}}
+});
+renderLadder();render();
 </script></body></html>
