@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>看片场 · 世界模型评测台 v5 | World Model Field Lab</title>
+<title>看片场 · 世界模型评测台 v6 | World Model Field Lab</title>
 <style>
 :root{
  --bg:#0B0C0F;--panel:#14161B;--panel2:#191C22;--panel3:#1F232B;--line:#262A33;--line2:#323844;
- --tx:#E6E8EC;--muted:#8B93A1;--faint:#5A6270;
+ --tx:#E6E8EC;--muted:#AAB2BF;--faint:#8993A2;
  --pgm:#4FD1C5;--pvw:#E8B04B;--red:#FF5F5F;--pur:#A78BFA;--blue:#6BA6F5;
  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
 }
@@ -58,10 +58,22 @@ a:hover{border-bottom-color:var(--pgm)}
 .kbd b{color:var(--tx)}
 
 /* ===== stats ===== */
-.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
 .stat{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:11px 13px}
 .stat strong{display:block;font-family:var(--mono);font-size:19px;color:var(--pgm);letter-spacing:.03em}
-.stat span{display:block;font-size:10.5px;color:var(--faint);margin-top:2px}
+.stat span{display:block;font-size:10.5px;color:var(--muted);margin-top:2px}
+.guide{margin:0 0 16px;padding:16px;border:1px solid var(--line2);border-radius:10px;background:linear-gradient(120deg,#171B22,#111318)}
+.guide-title{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:12px}
+.guide-title h2{font-size:16px;margin:0 0 4px}.guide-title p{margin:0;color:var(--muted);font-size:12px}
+.guide-counter{font:12px var(--mono);color:var(--pgm);white-space:nowrap}
+.guide-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.guide-step{border:1px solid var(--line2);background:#0E1014;color:var(--muted);border-radius:7px;padding:9px 11px;text-align:left;cursor:pointer}
+.guide-step b{display:block;color:var(--tx);font-size:12px;margin-bottom:3px}.guide-step span{font-size:10.5px}
+.guide-step.active{border-color:var(--pgm);background:rgba(79,209,197,.09)}
+.guide-foot{display:flex;align-items:center;gap:10px;margin-top:12px}.guide-current{color:var(--tx);font-size:11.5px;flex:1}.guide-current strong{color:var(--pgm)}
+.guided-focus{outline:2px solid var(--pgm);outline-offset:2px;box-shadow:0 0 0 5px rgba(79,209,197,.08)}
+.panel{scroll-margin-top:82px}
+.advanced details{border-top:1px solid var(--line);padding:10px 12px}.advanced summary{cursor:pointer;color:var(--muted);font-size:11px;font-weight:600}
 
 /* ===== main grid ===== */
 .grid{display:grid;grid-template-columns:255px minmax(0,1fr) 320px;gap:14px;align-items:start}
@@ -80,11 +92,11 @@ a:hover{border-bottom-color:var(--pgm)}
 .tabs button.active{background:var(--pgm);border-color:var(--pgm);color:#041F1C;font-weight:700}
 .tabs button:hover:not(.active){color:var(--tx);border-color:var(--pgm)}
 .scenario-list{padding:10px 12px 14px;display:flex;flex-direction:column;gap:7px}
-.scenario{text-align:left;border:1px solid var(--line);background:#101217;border-radius:7px;padding:9px 11px;cursor:pointer;transition:.15s}
+.scenario{text-align:left;border:1px solid var(--line);background:#101217;border-radius:7px;padding:9px 11px;cursor:pointer;transition:.15s;color:var(--tx)}
 .scenario:hover{border-color:var(--line2);background:#161A21}
 .scenario.active{border-color:var(--pgm);background:rgba(79,209,197,.07)}
 .scenario b{display:block;font-size:12px}
-.scenario span{display:block;font-family:var(--mono);font-size:9.5px;color:var(--faint);margin-top:3px;letter-spacing:.05em}
+.scenario span{display:block;font-family:var(--mono);font-size:9.5px;color:var(--muted);margin-top:3px;letter-spacing:.02em}
 .score-mini{float:right;font-family:var(--mono);font-size:9px;color:var(--pgm)}
 .tag-line{display:inline-block;font-family:var(--mono);font-size:9px;padding:1px 6px;border-radius:3px;
  background:#0E1014;border:1px solid var(--line2);color:var(--muted);margin-left:5px}
@@ -331,11 +343,11 @@ table.os-table td{padding:10px 12px;border-bottom:1px solid #1B1E25;vertical-ali
  opacity:0;pointer-events:none;transition:.25s;z-index:99;max-width:80vw;box-shadow:0 8px 24px rgba(0,0,0,.5)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 @media(max-width:1180px){.grid{grid-template-columns:1fr}.hero{grid-template-columns:1fr}
- .stats{grid-template-columns:repeat(2,1fr)}.research{grid-template-columns:1fr}.takeaway{grid-column:span 1}
+ .stats{grid-template-columns:repeat(2,1fr)}.guide-steps{grid-template-columns:repeat(2,1fr)}.research{grid-template-columns:1fr}.takeaway{grid-column:span 1}
  .monitor-wall{grid-template-columns:1fr}}
 </style></head><body>
 <div class="topbar">
-  <div class="brand"><span class="brand-mark">场</span>WORLD MODEL FIELD LAB<span class="sub">／看片场 · 世界模型评测台 v5 · 梁爽的岗位作品样例</span></div>
+  <div class="brand"><span class="brand-mark">场</span>WORLD MODEL FIELD LAB<span class="sub">／看片场 · 世界模型评测台 v6 · 梁爽的岗位作品样例</span></div>
   <div class="tb-lights"><span class="tb-light on">PGM · A</span><span class="tb-light pvw">PVW · B</span><span class="rec"><i></i>REC</span></div>
   <div class="tb-tc" id="masterTC">00:00:00:00</div>
   <div class="tb-right">A/B PAIRED EVAL × FILM LANGUAGE × DATA REFLOW</div>
@@ -346,46 +358,46 @@ table.os-table td{padding:10px 12px;border-bottom:1px solid #1B1E25;vertical-ali
   <div class="hero-main">
     <div class="eyebrow">Making world models measurable — one state at a time</div>
     <h1>看片场<em> ／ </em>世界模型评测台</h1>
-    <p>用两个<strong>预设示意情景</strong>演示同一任务下的状态变化，再用故障标签把可观察现象翻译成数据处理建议。核心假设是：对交互式世界模型，除画面外观外，也应检查<strong>动作是否生效、状态是否持续、后续结果是否一致</strong>。本页不是模型评测结果。</p>
-    <div class="kbd-row"><span class="kbd"><b>空格</b> 下一步</span><span class="kbd"><b>V</b> 切视角</span><span class="kbd"><b>E</b> 注入雨天</span><span class="kbd"><b>R</b> 记录</span><span class="kbd"><b>1-4</b> 跳步</span></div>
+    <p><strong>评测思路：</strong>先把任务拆成连续步骤，再对照每一步的参考状态，记录动作、物体和空间关系是否持续；发现差异后标注故障、提出数据补充方向并保存记录。本页用预设示意场景演示流程，不是模型评测结果。</p>
   </div>
   <div class="hero-side">
-    <div class="big">同一任务，两种预设反应<br>用于演示逐步标注流程。</div>
-    <small>这里的 A/B 是页面预设的示意情景，不是真实模型或盲测配对。目标是展示如何记录步骤差异、状态漂移和候选数据动作；真实模型比较还需锁定输入、运行条件和评测口径。</small>
+    <div class="big">你要回答的问题<br>每一步发生了什么变化？</div>
+    <small>A/B 是页面预设示意，不代表模型或盲测配对。观察顺序：动作输入 → 画面变化 → 状态账本 → 故障标签 → 数据动作。</small>
   </div>
 </section>
 
-<div class="stats">
-  <div class="stat"><strong>04</strong><span>评测任务 · 影视预演 / 游戏交互</span></div>
-  <div class="stat"><strong>04</strong><span>本项目自拟证据档位 · 受综述启发</span></div>
-  <div class="stat"><strong>08</strong><span>评测维度 · 实时 A/B 剖面</span></div>
-  <div class="stat"><strong>15</strong><span>故障标签 · 绑定数据回流层</span></div>
-  <div class="stat"><strong id="doneCount">00 / 04</strong><span>已记录评测 · 本地状态</span></div>
-</div>
+<section class="guide" aria-label="四步评测指引">
+  <div class="guide-title"><div><h2>评测思路与操作顺序</h2><p>先选任务，再逐步观察；确认状态差异后标注，最后保存一条可复查记录。</p></div><span class="guide-counter" id="guideCounter">第 1 步 / 共 4 步</span></div>
+  <div class="guide-steps">
+    <button class="guide-step active" data-guide="1"><b>1 · 选任务</b><span>选择影视或游戏任务，读清预期状态</span></button>
+    <button class="guide-step" data-guide="2"><b>2 · 逐步观察</b><span>按顺序播放，比较 A/B 与状态账本</span></button>
+    <button class="guide-step" data-guide="3"><b>3 · 标注差异</b><span>给练习评分、选故障标签、看候选动作</span></button>
+    <button class="guide-step" data-guide="4"><b>4 · 保存记录</b><span>记录本次练习，再查看或导出结果</span></button>
+  </div>
+  <div class="guide-foot"><div class="guide-current" id="guideCurrent"><strong>第 1 步：选择一个任务。</strong> 从左侧场景库选影视预演或游戏交互，再读右侧任务要求。</div><button class="ghostbtn" id="guidePrev" disabled>上一步</button><button class="tbtn primary" id="guideNext">开始：去选任务</button></div>
+</section>
 
 <main class="grid">
 <!-- ========== 左：场景库 / 证据阶梯 / 挑战 ========== -->
 <section class="panel" id="panelLeft">
-  <div class="panel-head"><h2>01 / 场景库</h2><small>CASE LIBRARY</small></div>
+  <div class="panel-head"><h2>步骤 1 / 选择评测任务</h2><small>从任务卡开始</small></div>
   <div class="tabs"><button class="active" data-track="film">影视预演</button><button data-track="game">游戏交互</button></div>
   <div class="scenario-list" id="scenarioList"></div>
-  <div class="panel-head" style="border-top:1px solid var(--line)"><h2>02 / 证据档位</h2><small>PROJECT EVIDENCE TIERS</small></div>
-  <div class="ladder" id="ladderBar"></div>
-  <div class="ladder-desc" id="ladderDesc"></div>
-  <div class="panel-head" style="border-top:1px solid var(--line)"><h2>03 / 找茬挑战</h2><small>SPOT THE FLAW</small></div>
-  <div class="chal pad" id="chalCard">
+  <div class="advanced">
+  <details><summary>进阶设置：证据档位（可先跳过）</summary><div class="ladder" id="ladderBar"></div><div class="ladder-desc" id="ladderDesc"></div></details>
+  <details><summary>额外练习：找茬挑战（可先跳过）</summary><div class="chal pad" id="chalCard">
     <div class="chal-score" id="chalScore">0</div>
     <div class="chal-meta" id="chalMeta">COMBO 0 · ACCURACY —</div>
     <div class="chal-hint" id="chalHint">随机抽取一帧预设示意画面，不给提示——练习识别故障标签。挑战分数仅是交互反馈，不衡量标注能力。</div>
     <button class="ghostbtn" id="chalBtn" style="width:100%">开始挑战</button>
     <div class="rank" id="chalRank">实习评测员</div>
-  </div>
+  </div></details></div>
 </section>
 
 <!-- ========== 中：监视器墙 ========== -->
 <section class="panel" id="panelCenter">
-  <div class="panel-head"><h2>04 / A/B 示意对照 · 监视器墙</h2><small id="taskId">TASK V01</small>
-    <div class="head-actions"><span class="tag-line" id="ladderTag">证据档位 E3 · 一致世界状态</span></div>
+  <div class="panel-head"><h2>步骤 2 / 逐步观察 A/B 与状态账本</h2><small id="taskId">TASK V01</small>
+    <div class="head-actions"><span class="tag-line" id="ladderTag">练习档位 E3 · 一致世界状态</span></div>
   </div>
   <div class="monitor-wall">
     <div class="monitor">
@@ -395,7 +407,7 @@ table.os-table td{padding:10px 12px;border-bottom:1px solid #1B1E25;vertical-ali
       <div class="stage-note" id="noteA"></div>
     </div>
     <div class="monitor">
-      <div class="mon-head"><span class="mon-badge pvw">示意情景 B</b><span class="m">预设：特定步骤出现故障</span><span class="tc" id="tcB">00:00.0</span></div>
+      <div class="mon-head"><span class="mon-badge pvw">示意情景 B</span><span class="m">预设：特定步骤出现故障</span><span class="tc" id="tcB">00:00.0</span></div>
       <div class="scene" id="sceneB"></div>
       <div class="mon-foot"><span>1280×704</span><span>·</span><span>24 FPS</span><span>·</span><span id="viewB">导演视角</span><span style="margin-left:auto">CAM B</span></div>
       <div class="stage-note" id="noteB"></div>
@@ -415,7 +427,7 @@ table.os-table td{padding:10px 12px;border-bottom:1px solid #1B1E25;vertical-ali
     <div class="beat right"><b id="beatNo">STEP 1 / 4</b><span id="beatState">等待动作</span></div></div>
 
   <div class="promptbar">
-    <div class="pb-head"><b>PROMPTABLE WORLD EVENT</b><span>注入世界事件 · 观察后续步骤两侧是否都「记住」</span></div>
+  <div class="pb-head"><b>OPTIONAL EVENT</b><span>可选：注入示意事件，再观察后续预设画面</span></div>
     <div class="pb-body" id="eventChips">
       <button data-ev="rain">🌧 雨天</button><button data-ev="cat">🐈 新增角色</button><button data-ev="dim">🌙 关灯</button>
       <input id="customEv" placeholder="自定义事件，例如：窗外驶过一辆车">
@@ -424,28 +436,29 @@ table.os-table td{padding:10px 12px;border-bottom:1px solid #1B1E25;vertical-ali
   </div>
 
   <div class="ledger">
-    <h4>世界状态账本 <span style="font-weight:400;color:var(--faint)">WORLD STATE LEDGER</span><small>逐格对照 · ✕ 表示状态漂移</small></h4>
+    <h4>世界状态账本 <span style="font-weight:400;color:var(--faint)">WORLD STATE LEDGER</span><small>逐项核对参考状态 · ✕ 表示示意差异</small></h4>
     <table class="led"><thead><tr><th style="width:26%">状态项</th><th>参考状态</th><th style="width:38%">示意情景 B</th></tr></thead><tbody id="ledgerBody"></tbody></table>
   </div>
 
   <div class="dims">
-    <h4>8 维实时剖面 <span style="font-weight:400;color:var(--faint);font-size:10px">DIMENSION PROFILE · 来自 world-model-data-kit</span></h4>
+    <h4>8 维参考剖面 <span style="font-weight:400;color:var(--faint);font-size:10px">示意规则值 · A 青绿 / B 黄色 / N/A 不适用</span></h4>
     <div id="dimsBody"></div>
   </div>
 </section>
 
 <!-- ========== 右：标注 / 回流 / 报告 ========== -->
 <section class="panel" id="panelRight">
-  <div class="panel-head"><h2>05 / 标注与评分</h2><small>HUMAN REVIEW</small></div>
+  <div class="panel-head"><h2>步骤 3 / 标注观察结果</h2><small>练习评分 · 故障标签 · 候选动作</small></div>
   <div class="right-body">
     <div><p class="case-title" id="caseTitle"></p><p class="case-desc" id="caseDesc"></p><div id="expectations"></div></div>
+    <div class="mini-note" style="margin:0 0 -6px;color:var(--muted)">评分含义：1 = 明显不符合本步预期，3 = 部分符合，5 = 符合。滑块是练习输入；下方规则值由预设公式生成，未经校准，两者都不是模型分数。</div>
     <div class="score-row">
-      <div class="score-box"><div class="lbl"><span>A 示意画面练习评分</span><b id="scoreNumA">4 / 5</b></div>
+      <div class="score-box"><div class="lbl"><span>你给 A 的练习分（1–5）</span><b id="scoreNumA">4 / 5</b></div>
         <input class="range" id="scoreA" type="range" min="1" max="5" value="4">
-        <div class="auto-line">预设规则演示值（未校准） <b id="autoA">4.5</b></div></div>
-      <div class="score-box b"><div class="lbl"><span>B 示意画面练习评分</span><b id="scoreNumB">3 / 5</b></div>
+        <div class="auto-line">预设公式参考值 · 未校准 <b id="autoA">4.5</b></div></div>
+      <div class="score-box b"><div class="lbl"><span>你给 B 的练习分（1–5）</span><b id="scoreNumB">3 / 5</b></div>
         <input class="range" id="scoreB" type="range" min="1" max="5" value="3">
-        <div class="auto-line">预设规则演示值（未校准） <b id="autoB">3.0</b></div></div>
+        <div class="auto-line">预设公式参考值 · 未校准 <b id="autoB">3.0</b></div></div>
     </div>
     <div class="gap-warn" id="gapWarn"></div>
     <div><div class="field-label"><span>故障标签（观察对象：示意情景 B）</span><span>可多选</span></div>
@@ -459,7 +472,6 @@ table.os-table td{padding:10px 12px;border-bottom:1px solid #1B1E25;vertical-ali
         <option>疑似提示理解问题，需复测</option><option>疑似物理或空间状态错误</option>
         <option>事件注入后状态未持续</option><option>练习评分与预设规则值差异较大</option>
       </select>
-      <button class="primary" id="record">记录本次练习（含示意评分）</button>
       <div class="mini-note">非模型实测：画面由 CSS 绘制，A/B 为预设情景。此处评分只练习观察和记录，不代表模型表现；规则预估未校准。L0–L3 是建议的数据加工阶段，不是质量等级或样本类型。真实评测需记录来源授权、模型版本、运行条件、任务卡版本及评审信息。详见 <a href="https://github.com/Daisyyy-LS/world-model-data-kit/blob/main/eval_kit/schema.md" target="_blank" rel="noreferrer">Schema 与解释口径</a>。</div>
     </div>
     <div class="queue"><h4>回流队列 · REFLOW QUEUE</h4><div id="queueBody"><div class="qempty">勾选标签后，这里按 L0–L3 统计待补标注的样本分布。</div></div></div>
@@ -471,9 +483,10 @@ table.os-table td{padding:10px 12px;border-bottom:1px solid #1B1E25;vertical-ali
 </main>
 
 <section class="panel" id="panelRecords">
-  <div class="panel-head"><h2>06 / 流程演示记录与导出</h2><small>SESSION LOG · 示意评分、状态漂移与建议动作</small>
+  <div class="panel-head"><h2>步骤 4 / 保存与查看记录</h2><small>本地练习记录 · 可导出</small>
     <div class="head-actions"><button class="ghostbtn" id="exportJson">导出 JSON</button><button class="ghostbtn" id="exportCsv">导出 CSV</button><button class="ghostbtn" id="clearRecords">清空</button></div>
   </div>
+  <div class="pad"><button class="primary" id="record">记录本次练习（保存到本地浏览器）</button><div class="mini-note" style="color:var(--muted)">记录包含所选任务、当前步骤、示意评分、故障标签和候选数据动作；用于回顾本次练习，不是模型评测结论。</div></div>
   <div class="rec-wrap" id="recordsBody"></div>
 </section>
 
@@ -587,7 +600,7 @@ const DIMS=[
  {k:'instruct',n:'指令遵循'},{k:'latency',n:'交互延迟'},{k:'memory',n:'长时记忆与因果'},{k:'editability',n:'局部可编辑性'}
 ];
 function loadRecords(){try{const value=JSON.parse(localStorage.getItem('wmfl_records')||'[]');return Array.isArray(value)?value:[]}catch{return []}}
-let active='V01',beat=0,zoom=false,logged=new Set(),scoresA={},scoresB={},picks={},evState={},ladder=3,
+let active='V01',beat=0,guideStep=1,zoom=false,logged=new Set(),scoresA={},scoresB={},picks={},evState={},ladder=3,
     chal={on:false,score:0,streak:0,tries:0,hits:0,revealed:false},
     records=loadRecords(),timer=null;
 const $=(s)=>document.querySelector(s);
@@ -601,14 +614,14 @@ function renderLadder(){
  bar.querySelectorAll('button').forEach(b=>b.onclick=()=>{ladder=+b.dataset.l;renderLadder();render();toast('已切到证据档位 E'+ladder+'：'+LADDERS[ladder-1].name)});
  const l=LADDERS[ladder-1];
  $('#ladderDesc').innerHTML=`<b>E${l.n} ${l.name}</b> — ${l.desc}<div class="chk"><i>检验</i><span>${l.check}</span></div><div class="chk"><i>提示</i><span>${l.hint}</span></div>`;
- $('#ladderTag').textContent='证据档位 E'+ladder+' · '+l.name;
+ $('#ladderTag').textContent='练习档位 E'+ladder+' · '+l.name;
 }
 function renderList(track){
  const list=$('#scenarioList');list.innerHTML='';
  Object.values(cases).filter(c=>c.track===track).forEach(c=>{
   const b=document.createElement('button');b.className='scenario'+(c.id===active?' active':'');
   b.innerHTML=`<b>${c.id}　${c.title}<span class="score-mini">${logged.has(c.id)?'已记录':''}</span></b><span>${c.track==='film'?'影视预演':'游戏交互'} · ${c.beats.length} 步 · ${c.keys.length} 项状态</span>`;
-  b.onclick=()=>{stopAuto();active=c.id;beat=0;render()};list.appendChild(b)});
+  b.onclick=()=>{stopAuto();active=c.id;beat=0;goGuideStep(2,false);render()};list.appendChild(b)});
 }
 function reaction(side,idx){
  const c=getCase(),d=(side==='B'&&DEFECT[c.id]&&DEFECT[c.id][idx])||null;
@@ -790,6 +803,22 @@ ${sel.length?`本步候选数据动作涉及 ${[...new Set(sel.map(t=>TAGS[t].la
 
 > 说明：本报告只演示评测流程和数据结构；不含模型名、模型版本、真实运行参数、素材授权记录或多人复核信息。规则值和人工练习评分不应用于模型比较。`;
 }
+function renderGuide(){
+ const targets={1:$('#panelLeft'),2:$('#panelCenter'),3:$('#panelRight'),4:$('#panelRecords')};
+ document.querySelectorAll('.guide-step').forEach(b=>b.classList.toggle('active',+b.dataset.guide===guideStep));
+ Object.values(targets).forEach(el=>el.classList.remove('guided-focus'));targets[guideStep].classList.add('guided-focus');
+ $('#guideCounter').textContent=`第 ${guideStep} 步 / 共 4 步`;$('#guidePrev').disabled=guideStep===1;
+ const labels={
+  1:['选择一个任务。','从左侧场景库选影视预演或游戏交互，再读任务要求。','开始：去选任务'],
+  2:['按顺序观察。',`正在查看第 ${beat+1}/${getCase().beats.length} 步。对照 A/B 示意画面和下方状态账本，点按钮推进。`,beat<getCase().beats.length-1?'下一步：播放第 '+(beat+2)+' 步':'完成观察：去标注'],
+  3:['标注观察结果。','给示意画面练习评分，选择故障标签，并查看候选数据动作。所有数值仅用于演示。','去步骤 4：保存记录'],
+  4:['保存并复查。','点击右侧“记录本次练习”；记录保存在当前浏览器，下方可查看或导出 JSON / CSV。','回到步骤 1']};
+ const [title,body,next]=labels[guideStep];$('#guideCurrent').innerHTML=`<strong>第 ${guideStep} 步：${title}</strong> ${body}`;$('#guideNext').textContent=next;
+}
+function goGuideStep(n,scroll=true){
+ guideStep=Math.max(1,Math.min(4,n));renderGuide();
+ if(scroll){const ids={1:'#panelLeft',2:'#panelCenter',3:'#panelRight',4:'#panelRecords'};$(ids[guideStep]).scrollIntoView({behavior:'smooth',block:'start'})}
+}
 function render(){
  const c=getCase();
  $('#taskId').textContent='TASK '+c.id;$('#caseTitle').textContent=c.title;$('#caseDesc').textContent=c.desc;
@@ -810,12 +839,23 @@ function render(){
  renderGap();renderLedger();renderDims();renderSteps();renderChal();
  ['A','B'].forEach(s=>{buildScene(s);paintScene(s)});
  renderList(c.track);renderRecords();
- $('#doneCount').textContent=String(logged.size).padStart(2,'0')+' / 04';
+ renderGuide();
 }
+document.querySelectorAll('.guide-step').forEach(b=>b.onclick=()=>goGuideStep(+b.dataset.guide));
+$('#guideNext').onclick=()=>{
+ if(guideStep===1){goGuideStep(2);return}
+ if(guideStep===2){if(beat<getCase().beats.length-1){beat++;render();$('#panelCenter').scrollIntoView({behavior:'smooth',block:'start'})}else goGuideStep(3);return}
+ if(guideStep===3){goGuideStep(4);return}
+ goGuideStep(1);
+};
+$('#guidePrev').onclick=()=>{
+ if(guideStep===2&&beat>0){beat--;render();$('#panelCenter').scrollIntoView({behavior:'smooth',block:'start'});return}
+ goGuideStep(guideStep-1);
+};
 function renderRecords(){
  const body=$('#recordsBody');
- if(!records.length){body.innerHTML='<div class="rec-empty">还没有记录。左侧选任务 → 中间逐步播放（可自动播放、切机位视角、注入世界事件）观察 A/B 反应差异 → 看状态账本定位漂移 → 右侧评分并勾选故障标签 → 点「记录本次评测」。记录保存在本地浏览器，可导出 JSON / CSV。</div>';return}
-  body.innerHTML='<table class="rec-table"><thead><tr><th>Case</th><th>任务 / 进度</th><th>档位</th><th>A 示意评分/规则值</th><th>B 示意评分/规则值</th><th>故障标签 → 建议阶段</th><th>事件</th><th>时间</th></tr></thead><tbody>'
+ if(!records.length){body.innerHTML='<div class="rec-empty">完成四步后点右侧“记录本次练习”。记录保存在当前浏览器，可在此查看并导出 JSON / CSV。</div>';return}
+  body.innerHTML='<table class="rec-table"><thead><tr><th>任务编号</th><th>任务 / 当前步骤</th><th>练习档位</th><th>A 练习评分 / 规则参考</th><th>B 练习评分 / 规则参考</th><th>标注标签 → 建议阶段</th><th>注入事件</th><th>记录时间</th></tr></thead><tbody>'
   +records.map(r=>`<tr><td><b>${r.case_id}</b></td><td>${r.title}<br><span style="color:var(--faint);font-size:10px">${r.track} · 第 ${r.step}/${r.steps} 步 · ${r.zoom?'机位':'导演'}视角 · ${r.drift_count} 项状态漂移</span></td>
    <td>E${r.ladder}</td><td>${r.scoreA} / ${r.autoA}</td><td>${r.scoreB} / ${r.autoB}</td>
    <td>${r.failure_tags.length?r.failure_tags.map(t=>`<span class="layer-pill">${t.layer}</span>${t.zh}`).join('<br>'):'<span style="color:var(--faint)">无</span>'}</td>
@@ -829,7 +869,7 @@ function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show'
 function stopAuto(){if(timer){clearInterval(timer);timer=null;$('#autoPlay').classList.remove('on')}}
 document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{
  document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active');
- stopAuto();active=b.dataset.track==='film'?'V01':'G01';beat=0;render()});
+ stopAuto();active=b.dataset.track==='film'?'V01':'G01';beat=0;goGuideStep(2,false);render()});
 $('#nextBeat').onclick=()=>{beat=(beat+1)%getCase().beats.length;render()};
 $('#prevBeat').onclick=()=>{beat=(beat-1+getCase().beats.length)%getCase().beats.length;render()};
 $('#resetScene').onclick=()=>{stopAuto();beat=0;render()};
@@ -857,10 +897,10 @@ $('#record').onclick=()=>{const c=getCase(),sel=picks[active]||[],st=evOf(active
   scoreA:+$('#scoreA').value,autoA:autoScore('A'),scoreB:+$('#scoreB').value,autoB:autoScore('B'),
   failure_tags:sel.map(t=>({tag:t,zh:TAGS[t].zh,layer:TAGS[t].layer,action:TAGS[t].action})),events:evNames,
   note:$('#note').value,time:new Date().toLocaleString('zh-CN',{hour12:false})});
- localStorage.setItem('wmfl_records',JSON.stringify(records));logged.add(active);render();
+ localStorage.setItem('wmfl_records',JSON.stringify(records));logged.add(active);goGuideStep(4,false);render();
  toast(`${active} 已记录 · A ${$('#scoreA').value}/B ${$('#scoreB').value} · ${sel.length} 个标签 · ${driftCount()} 项状态漂移`)};
 $('#exportJson').onclick=()=>{download('wmfl-records.json',JSON.stringify({exported_at:new Date().toISOString(),
-  tool:'world-model-playground',version:'v5',record_type:'synthetic_workflow_demo',
+  tool:'world-model-playground',version:'v6',record_type:'synthetic_workflow_demo',
   evidence_boundary:'CSS scene and preset defect rules; not model outputs or evaluation results',
   taxonomy:'L0-L3 are suggested data processing stages, not quality levels or sample types',records},null,2),'application/json')};
 $('#exportCsv').onclick=()=>{
