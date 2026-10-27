@@ -346,18 +346,18 @@ table.os-table td{padding:10px 12px;border-bottom:1px solid #1B1E25;vertical-ali
   <div class="hero-main">
     <div class="eyebrow">Making world models measurable — one state at a time</div>
     <h1>看片场<em> ／ </em>世界模型评测台</h1>
-    <p>把同一个任务同时交给两个示意模型，看它们对同一动作、同一事件注入的<strong>不同反应</strong>；再用故障标签定位缺陷，实时翻译成「回流到 L0–L3 哪一层、补什么标注」。核心不是打分——<strong>世界模型是一个状态机，要测的是「世界记不记得发生了什么」</strong>。</p>
+    <p>用两个<strong>预设示意情景</strong>演示同一任务下的状态变化，再用故障标签把可观察现象翻译成数据处理建议。核心假设是：对交互式世界模型，除画面外观外，也应检查<strong>动作是否生效、状态是否持续、后续结果是否一致</strong>。本页不是模型评测结果。</p>
     <div class="kbd-row"><span class="kbd"><b>空格</b> 下一步</span><span class="kbd"><b>V</b> 切视角</span><span class="kbd"><b>E</b> 注入雨天</span><span class="kbd"><b>R</b> 记录</span><span class="kbd"><b>1-4</b> 跳步</span></div>
   </div>
   <div class="hero-side">
-    <div class="big">同一任务，两个反应<br>同一个世界，两种记忆。</div>
-    <small>A/B 配对对照是评测的基本功：不看绝对分数，看差异发生在第几步、属于哪一类失败——那才是能变成数据的东西。事件注入后，A 的雨还在下，B 的雨停了，世界记忆的差异就成了肉眼可见的分差。</small>
+    <div class="big">同一任务，两种预设反应<br>用于演示逐步标注流程。</div>
+    <small>这里的 A/B 是页面预设的示意情景，不是真实模型或盲测配对。目标是展示如何记录步骤差异、状态漂移和候选数据动作；真实模型比较还需锁定输入、运行条件和评测口径。</small>
   </div>
 </section>
 
 <div class="stats">
   <div class="stat"><strong>04</strong><span>评测任务 · 影视预演 / 游戏交互</span></div>
-  <div class="stat"><strong>04</strong><span>证据阶梯档位 · 牛津综述口径</span></div>
+  <div class="stat"><strong>04</strong><span>本项目自拟证据档位 · 受综述启发</span></div>
   <div class="stat"><strong>08</strong><span>评测维度 · 实时 A/B 剖面</span></div>
   <div class="stat"><strong>15</strong><span>故障标签 · 绑定数据回流层</span></div>
   <div class="stat"><strong id="doneCount">00 / 04</strong><span>已记录评测 · 本地状态</span></div>
@@ -369,14 +369,14 @@ table.os-table td{padding:10px 12px;border-bottom:1px solid #1B1E25;vertical-ali
   <div class="panel-head"><h2>01 / 场景库</h2><small>CASE LIBRARY</small></div>
   <div class="tabs"><button class="active" data-track="film">影视预演</button><button data-track="game">游戏交互</button></div>
   <div class="scenario-list" id="scenarioList"></div>
-  <div class="panel-head" style="border-top:1px solid var(--line)"><h2>02 / 证据阶梯</h2><small>EVIDENCE LADDER</small></div>
+  <div class="panel-head" style="border-top:1px solid var(--line)"><h2>02 / 证据档位</h2><small>PROJECT EVIDENCE TIERS</small></div>
   <div class="ladder" id="ladderBar"></div>
   <div class="ladder-desc" id="ladderDesc"></div>
   <div class="panel-head" style="border-top:1px solid var(--line)"><h2>03 / 找茬挑战</h2><small>SPOT THE FLAW</small></div>
   <div class="chal pad" id="chalCard">
     <div class="chal-score" id="chalScore">0</div>
     <div class="chal-meta" id="chalMeta">COMBO 0 · ACCURACY —</div>
-    <div class="chal-hint" id="chalHint">随机抽一帧有缺陷的画面，只给你看画面，不给提示——找出模型 B 的问题并勾对标签。</div>
+    <div class="chal-hint" id="chalHint">随机抽取一帧预设示意画面，不给提示——练习识别故障标签。挑战分数仅是交互反馈，不衡量标注能力。</div>
     <button class="ghostbtn" id="chalBtn" style="width:100%">开始挑战</button>
     <div class="rank" id="chalRank">实习评测员</div>
   </div>
@@ -384,18 +384,18 @@ table.os-table td{padding:10px 12px;border-bottom:1px solid #1B1E25;vertical-ali
 
 <!-- ========== 中：监视器墙 ========== -->
 <section class="panel" id="panelCenter">
-  <div class="panel-head"><h2>04 / 双模型对照 · 监视器墙</h2><small id="taskId">TASK V01</small>
-    <div class="head-actions"><span class="tag-line" id="ladderTag">档位 3 · 一致世界状态</span></div>
+  <div class="panel-head"><h2>04 / A/B 示意对照 · 监视器墙</h2><small id="taskId">TASK V01</small>
+    <div class="head-actions"><span class="tag-line" id="ladderTag">证据档位 E3 · 一致世界状态</span></div>
   </div>
   <div class="monitor-wall">
     <div class="monitor">
-      <div class="mon-head"><span class="mon-badge pgm">PGM</span><b>模型 A</b><span class="m">一致性优先 · 长记忆</span><span class="tc" id="tcA">00:00.0</span></div>
+      <div class="mon-head"><span class="mon-badge pgm">PGM</span><b>示意情景 A</b><span class="m">预设：状态持续</span><span class="tc" id="tcA">00:00.0</span></div>
       <div class="scene" id="sceneA"></div>
       <div class="mon-foot"><span>1280×704</span><span>·</span><span>24 FPS</span><span>·</span><span id="viewA">导演视角</span><span style="margin-left:auto">CAM A</span></div>
       <div class="stage-note" id="noteA"></div>
     </div>
     <div class="monitor">
-      <div class="mon-head"><span class="mon-badge pvw">PVW</span><b>模型 B</b><span class="m">实时性优先 · 短记忆</span><span class="tc" id="tcB">00:00.0</span></div>
+      <div class="mon-head"><span class="mon-badge pvw">示意情景 B</b><span class="m">预设：特定步骤出现故障</span><span class="tc" id="tcB">00:00.0</span></div>
       <div class="scene" id="sceneB"></div>
       <div class="mon-foot"><span>1280×704</span><span>·</span><span>24 FPS</span><span>·</span><span id="viewB">导演视角</span><span style="margin-left:auto">CAM B</span></div>
       <div class="stage-note" id="noteB"></div>
@@ -425,7 +425,7 @@ table.os-table td{padding:10px 12px;border-bottom:1px solid #1B1E25;vertical-ali
 
   <div class="ledger">
     <h4>世界状态账本 <span style="font-weight:400;color:var(--faint)">WORLD STATE LEDGER</span><small>逐格对照 · ✕ 表示状态漂移</small></h4>
-    <table class="led"><thead><tr><th style="width:26%">状态项</th><th>模型 A（应然）</th><th style="width:38%">模型 B（实然）</th></tr></thead><tbody id="ledgerBody"></tbody></table>
+    <table class="led"><thead><tr><th style="width:26%">状态项</th><th>参考状态</th><th style="width:38%">示意情景 B</th></tr></thead><tbody id="ledgerBody"></tbody></table>
   </div>
 
   <div class="dims">
@@ -440,15 +440,15 @@ table.os-table td{padding:10px 12px;border-bottom:1px solid #1B1E25;vertical-ali
   <div class="right-body">
     <div><p class="case-title" id="caseTitle"></p><p class="case-desc" id="caseDesc"></p><div id="expectations"></div></div>
     <div class="score-row">
-      <div class="score-box"><div class="lbl"><span>模型 A 人工分</span><b id="scoreNumA">4 / 5</b></div>
+      <div class="score-box"><div class="lbl"><span>A 示意画面练习评分</span><b id="scoreNumA">4 / 5</b></div>
         <input class="range" id="scoreA" type="range" min="1" max="5" value="4">
-        <div class="auto-line">规则法自动预估 <b id="autoA">4.5</b></div></div>
-      <div class="score-box b"><div class="lbl"><span>模型 B 人工分</span><b id="scoreNumB">3 / 5</b></div>
+        <div class="auto-line">预设规则演示值（未校准） <b id="autoA">4.5</b></div></div>
+      <div class="score-box b"><div class="lbl"><span>B 示意画面练习评分</span><b id="scoreNumB">3 / 5</b></div>
         <input class="range" id="scoreB" type="range" min="1" max="5" value="3">
-        <div class="auto-line">规则法自动预估 <b id="autoB">3.0</b></div></div>
+        <div class="auto-line">预设规则演示值（未校准） <b id="autoB">3.0</b></div></div>
     </div>
     <div class="gap-warn" id="gapWarn"></div>
-    <div><div class="field-label"><span>故障标签（观察对象：模型 B）</span><span>可多选</span></div>
+    <div><div class="field-label"><span>故障标签（观察对象：示意情景 B）</span><span>可多选</span></div>
       <div class="failure-list" id="failureList"></div>
       <div class="advice" id="advice"></div>
       <button class="ghostbtn" id="revealBtn" style="margin-top:8px;display:none">揭示状态账本（连击归零）</button>
@@ -457,10 +457,10 @@ table.os-table td{padding:10px 12px;border-bottom:1px solid #1B1E25;vertical-ali
       <select id="note">
         <option>片段时间码与任务条件可复查</option><option>需补充更明确的动作/状态标准</option>
         <option>疑似提示理解问题，需复测</option><option>疑似物理或空间状态错误</option>
-        <option>事件注入后状态未持续</option><option>人工与自动预估差异需复核标注定义</option>
+        <option>事件注入后状态未持续</option><option>练习评分与预设规则值差异较大</option>
       </select>
-      <button class="primary" id="record">记录本次评测（含 A/B 双分）</button>
-      <div class="mini-note">原型演示：示意画面由 CSS 绘制，两个「模型」是预设的示意反应，不连接任何生成服务，分数不代表真实模型测试结果。故障标签的回流层对应 <a href="https://github.com/Daisyyy-LS/world-model-data-kit" target="_blank" rel="noreferrer">world-model-data-kit</a> 的 L0–L3 数据分层。</div>
+      <button class="primary" id="record">记录本次练习（含示意评分）</button>
+      <div class="mini-note">非模型实测：画面由 CSS 绘制，A/B 为预设情景。此处评分只练习观察和记录，不代表模型表现；规则预估未校准。L0–L3 是建议的数据加工阶段，不是质量等级或样本类型。真实评测需记录来源授权、模型版本、运行条件、任务卡版本及评审信息。详见 <a href="https://github.com/Daisyyy-LS/world-model-data-kit/blob/main/eval_kit/schema.md" target="_blank" rel="noreferrer">Schema 与解释口径</a>。</div>
     </div>
     <div class="queue"><h4>回流队列 · REFLOW QUEUE</h4><div id="queueBody"><div class="qempty">勾选标签后，这里按 L0–L3 统计待补标注的样本分布。</div></div></div>
     <div class="queue"><h4>诊断报告 · 一键生成 <span style="float:right"><button class="ghostbtn" id="genReport">生成</button> <button class="ghostbtn" id="copyReport">复制</button></span></h4>
@@ -471,7 +471,7 @@ table.os-table td{padding:10px 12px;border-bottom:1px solid #1B1E25;vertical-ali
 </main>
 
 <section class="panel" id="panelRecords">
-  <div class="panel-head"><h2>06 / 评测记录与导出</h2><small>SESSION LOG · 含 A/B 双分、自动预估、状态漂移与回流动作</small>
+  <div class="panel-head"><h2>06 / 流程演示记录与导出</h2><small>SESSION LOG · 示意评分、状态漂移与建议动作</small>
     <div class="head-actions"><button class="ghostbtn" id="exportJson">导出 JSON</button><button class="ghostbtn" id="exportCsv">导出 CSV</button><button class="ghostbtn" id="clearRecords">清空</button></div>
   </div>
   <div class="rec-wrap" id="recordsBody"></div>
@@ -481,8 +481,8 @@ table.os-table td{padding:10px 12px;border-bottom:1px solid #1B1E25;vertical-ali
   <div class="panel-head"><h2>07 / 开源世界模型 · 上手与实测入口</h2><small>OPEN MODELS · 可直接点开</small></div>
   <table class="os-table"><thead><tr><th style="width:16%">项目</th><th style="width:34%">定位与关键能力</th><th style="width:20%">代码 / 权重</th><th>我要测什么</th></tr></thead>
   <tbody>
-  <tr><td><b>Hy-Nomas</b><br><span style="color:var(--faint);font-size:10px">腾讯混元 · 2026-10-23 · Apache 2.0</span></td>
-    <td>自由形态交互式<b>视频</b>世界模型：文本 + 相机轨迹双控制，分段自回归 + lifelong KV cache，蒸馏 4–8 步，1280×704；单张 RTX 4090（INT8 + 滑动窗口 + CPU offload）可跑</td>
+  <tr><td><b>Hy-Nomas</b><br><span style="color:var(--faint);font-size:10px">腾讯混元 · 2026-10-23</span></td>
+    <td>自由形态交互式<b>视频</b>世界模型：文本 + 相机轨迹双控制，分段自回归 + lifelong KV cache；官方仓库列有单张 RTX 4090 低显存配置，本项目未实跑</td>
     <td><a href="https://github.com/Tencent-Hunyuan/Hy-Nomas" target="_blank" rel="noreferrer">GitHub</a> · <a href="https://huggingface.co/tencent/Hy-Nomas" target="_blank" rel="noreferrer">HF 权重</a> · <a href="https://hy-nomas.hy.tencent.com/demo" target="_blank" rel="noreferrer">在线 demo</a></td>
     <td>事件持久化 · 房间回访（空间记忆）· 影视分镜（相机轨迹控制）</td></tr>
   <tr><td><b>HY-World 2.0</b><br><span style="color:var(--faint);font-size:10px">腾讯混元 · 2026-04</span></td>
@@ -494,23 +494,23 @@ table.os-table td{padding:10px 12px;border-bottom:1px solid #1B1E25;vertical-ali
     <td><a href="https://github.com/Tencent-Hunyuan/HunyuanWorld-1.0" target="_blank" rel="noreferrer">GitHub</a></td>
     <td>对照组：3D 路线 vs 视频路线的失败模式差异</td></tr>
   </tbody></table>
-  <div class="os-note">只有能在本地复现的模型，才谈得上「评测 → 定位缺陷 → 回流标注 → 回归验证」的闭环。完整上手命令与四条评测任务设计见 <a href="https://github.com/Daisyyy-LS/world-model-data-kit/blob/main/open_models/hy-nomas_eval_plan.md" target="_blank" rel="noreferrer">hy-nomas_eval_plan.md</a>。⚠️ 上述能力来自官方 README 与公开报道，我尚未在 GPU 上实跑验证。</div>
+  <div class="os-note">本地运行是复现评测流程的候选路径之一；完成生成、记录、复核和回归验证后，才能判断闭环是否有效。完整上手命令与四条评测任务设计见 <a href="https://github.com/Daisyyy-LS/world-model-data-kit/blob/main/open_models/hy-nomas_eval_plan.md" target="_blank" rel="noreferrer">hy-nomas_eval_plan.md</a>。⚠️ 能力与硬件描述以官方资料为依据，本项目尚未在 GPU 上实跑；许可应查阅代码和权重各自条款。</div>
 </section>
 
 <section class="research">
-  <article class="research-card"><span class="pill">EVIDENCE LADDER · arXiv:2610.31668</span><h3>“世界模型”自称之前，先过证据阶梯</h3>
-    <p>牛津等校 102 页综述《Reading, Writing, Sharing, and Interacting with the World through Video》（2026-10-22）提出：视频不是世界，只是对世界有损的时序投影；领域可收拢为读 / 写 / 共享 / 交互四种操作，证据分四档——合理输出 → 忠实条件 → <b>一致世界状态</b> → 决策效用，至少到第三档才配叫世界模型。本台把「证据阶梯」做成了前置选择器。</p></article>
+  <article class="research-card"><span class="pill">RESEARCH INSPIRATION · arXiv:2610.31668</span><h3>把评测结论和证据强度分开</h3>
+    <p>该综述讨论视频观测与世界状态的关系，并梳理读、写、共享、交互等研究视角。本项目据此自拟 E1–E4 证据档位，作为声明评测目标的产品设计；该档位不是论文原有分类，也不是对模型是否属于“世界模型”的官方判定标准。</p></article>
   <article class="research-card"><span class="pill">STATE MACHINE · 本台核心</span><h3>世界模型不是生成视频，是维护状态</h3>
-    <p>判断一个系统是不是世界模型，看它能否在交互后<b>保持并更新一份可查询的世界状态</b>：门开了还开着、雨下了还在下、离开房间再回来布局不变。所以本台把「逐帧看画」升级为<b>逐格状态账本</b>——每一步都列出该步应然状态，模型 B 偏离的格子标 ✕。这也是故障标签能落到具体标注动作的前提。</p></article>
+    <p>这些任务观察交互后的可见行为：门状态是否持续、事件是否延续、回访布局是否稳定。它们能提供特定任务上的证据，不能单凭原型证明模型内部机制。状态账本是对照表；真实评测需由任务卡定义参考状态，并记录证据和复核信息。</p></article>
   <article class="research-card"><span class="pill">EXECUTABILITY · arXiv:2604.19092</span><h3>看着对 ≠ 做得到</h3>
-    <p>RoboWM-Bench 把生成视频经逆动力学转成动作、放进物理仿真执行，发现视觉分数高度聚集而执行成功率差异显著。这是本台把故障标签绑定「数据回流」而非「分数」的依据；也是把人工评分与规则法自动预估并列显示的原因——自动指标会聚集，人的判断才知道差在哪一步。</p></article>
+    <p>RoboWM-Bench 是本项目关注“视觉合理性与下游可执行性需分开评估”的研究线索。这里的 CSS 预设场景并未复现该基准，也没有真实人工评分、自动指标校准或标注一致性实验。</p></article>
   <article class="research-card"><span class="pill">OFFICIAL LIMITS · Genie 3</span><h3>官方承认的局限，就是任务卡</h3>
     <p>Genie 3 博客自列：动作空间受限、多智能体交互难、真实地理位置失真、文字渲染不稳、连续交互仅数分钟。每一条对应一张评测任务卡——本台 V01 双人交接测多主体与接触时序、V02 绕拍测跨视角一致与轴线、G01 推球测动作生效与因果、G02 开门进屋测状态持久与拓扑。</p></article>
   <article class="research-card"><span class="pill">LANDSCAPE · 四大阵营（2026.10）</span><h3>越封闭的阵营，数据回流越稀缺</h3>
-    <p>Google Genie 3 封闭订阅｜NVIDIA Cosmos 3 开放权重｜World Labs（Marble/Atlas）并入 AMD｜Meta V-JEPA 2.1 开源。<b>2026-10-23 补记</b>：腾讯开源 Hy-Nomas（Apache 2.0，单卡 4090 可跑），开源侧第一次有了可本地复现的交互式世界模型——闭环不必再依附封闭 API。</p></article>
+    <p>Google Genie 3、NVIDIA Cosmos、World Labs 与 Meta 的产品开放方式和研究路线不同，具体状态应以各方最新官方信息为准。<b>2026-10-23 补记</b>：腾讯发布 Hy-Nomas，官方仓库列有单张 RTX 4090 低显存配置；本项目尚未实跑，也不据此宣称已具备可复现闭环。</p></article>
   <div class="takeaway"><h3>我的拆解逻辑<br><span style="font-weight:400;color:var(--muted)">从片场约束到模型评测，再到数据回流</span></h3>
     <p><b>影视生成：</b>主体/道具连续性、动作顺序、镜头运动与轴线——机位视角切换演示的就是「同一世界，换镜头观察」。<br>
-    <b>交互世界：</b>动作是否生效、状态是否持续、后果是否合理、换视角后空间关系是否稳定——事件注入演示的是「世界会不会记住发生了什么」，A/B 对照让「记不记得」变成可比的分差。<br>
+    <b>交互世界：</b>动作是否生效、状态是否持续、后果是否合理、换视角后空间关系是否稳定——事件注入帮助演示如何观察预设事件的后续状态；要形成可比结论，仍需真实模型输出、明确参考状态和校准后的评审流程。<br>
     <b>数据闭环：</b>用失败标签定位问题属于场景覆盖、标注定义、产品控制还是模型能力，再补进回归集——这就是这个岗位每天要做的事。</p></div>
 </section>
 
@@ -519,25 +519,25 @@ table.os-table td{padding:10px 12px;border-bottom:1px solid #1B1E25;vertical-ali
 
 <script>
 const cases={
- V01:{track:'film',id:'V01',title:'双人交接：动作连续吗？',desc:'影视预演 · 中景双人对话。A 把杯子递给 B，B 接过后放在桌面。观察接触时序、手部路径与道具状态。',
+ V01:{track:'film',id:'V01',notApplicable:['latency'],title:'双人交接：动作连续吗？',desc:'影视预演 · 中景双人对话。A 把杯子递给 B，B 接过后放在桌面。观察接触时序、手部路径与道具状态。',
   step:18,py:8,beats:['A 与 B 对坐，杯子在 A 手中','A 向 B 递杯，杯子应保持单一','B 接杯后，A 的手自然离开','B 把杯子放桌上，杯子稳定停留'],
   expect:['动作顺序：递出 → 接触 → 接收 → 放置','道具状态：杯子数量、位置、朝向连续','镜头约束：保持双人轴线与景别'],
   tags:['contact_error','object_duplication','hand_morph','state_jump'],
   keys:['道具 杯子','杯子位置','接触状态','手部形态'],
   states:[['1 个','A 手中','未接触','正常'],['1 个','A→B 交接','接触中','正常'],['1 个','B 手中','已分离','正常'],['1 个','桌面稳定','已放置','正常']]},
- V02:{track:'film',id:'V02',title:'绕拍镜头：角色一致吗？',desc:'影视预演 · 镜头围绕角色从正面移到侧面。观察人物外观、空间位置、屏幕方向与背景关系。',
+ V02:{track:'film',id:'V02',notApplicable:['latency'],title:'绕拍镜头：角色一致吗？',desc:'影视预演 · 镜头围绕角色从正面移到侧面。观察人物外观、空间位置、屏幕方向与背景关系。',
   step:12,py:4,beats:['角色站在窗边，右手拿伞','相机沿左侧平滑绕行','人物外观与伞保持一致','窗户仍在角色身后同一侧'],
   expect:['角色身份/服装跨视角保持一致','空间布局能被视角变化正确解释','镜头路径平滑，不跳切或穿透主体'],
   tags:['identity_drift','spatial_flip','camera_jump','prop_disappear'],
   keys:['人物外观','屏幕方位','道具 伞','背景 窗户'],
   states:[['一致','正面','右手持伞','身后左侧'],['一致','侧 45°','右手持伞','身后左侧'],['一致','侧面','右手持伞','身后左侧'],['一致','侧面','右手持伞','身后左侧']]},
- G01:{track:'game',id:'G01',title:'推球过坡：动作有后果吗？',desc:'游戏交互 · 玩家把球推向斜坡。观察速度、方向、碰撞与停止状态是否符合场景规律。',
+ G01:{track:'game',id:'G01',notApplicable:['camera'],title:'推球过坡：动作有后果吗？',desc:'游戏交互 · 玩家把球推向斜坡。观察速度、方向、碰撞与停止状态是否符合场景规律。',
   step:26,py:10,beats:['球在平台中央，坡面向右下倾斜','玩家向右推球，球开始滚动','球顺坡加速，方向保持连续','球撞墙后减速并停在可解释位置'],
   expect:['输入动作能触发可辨认的状态变化','运动方向/速度随坡度与碰撞合理变化','多步交互后物体仍保持可追踪状态'],
   tags:['action_ignored','causal_break','physics_error','state_reset'],
   keys:['球位置','球速度','碰撞状态','可追踪性'],
   states:[['平台中央','静止','无','可追踪'],['向右滚动','加速中','无','可追踪'],['坡面中段','顺坡加速','无','可追踪'],['撞墙后停止','减速 → 0','已碰撞','可追踪']]},
- G02:{track:'game',id:'G02',title:'开门进屋：世界状态持续吗？',desc:'游戏交互 · 玩家开门、走入房间，再回头观察。检查可达性、状态持久与视角一致。',
+ G02:{track:'game',id:'G02',notApplicable:['camera'],title:'开门进屋：世界状态持续吗？',desc:'游戏交互 · 玩家开门、走入房间，再回头观察。检查可达性、状态持久与视角一致。',
   step:22,py:6,beats:['玩家在关门的门外，房间可见','玩家与门交互，门旋转打开','玩家通过门洞进入室内','门保持打开，房间布局不重置'],
   expect:['门状态随交互改变并持续','门洞与房间空间连通且可通行','转身/换视角后房间拓扑关系稳定'],
   tags:['interaction_missing','topology_error','state_reset','view_inconsistency'],
@@ -545,7 +545,7 @@ const cases={
   states:[['关闭','房间可见','—','一致'],['打开','可通行','一致','一致'],['保持打开','已进入','一致','一致'],['保持打开','—','一致','一致']]}
 };
 const TAGS={
- contact_error:{zh:'接触时序错误',layer:'L1',action:'补「手—物接触帧」时序标注（起始/接触/分离）',dim:'causal'},
+ contact_error:{zh:'接触时序错误',layer:'L1',action:'补「手—物接触帧」时序标注（起始/接触/分离）',dim:'instruct'},
  object_duplication:{zh:'道具复制',layer:'L1',action:'补道具跨帧唯一 ID 与状态快照',dim:'persist'},
  hand_morph:{zh:'手部形变',layer:'L3',action:'整段入库为 hard negative，标「肢体细节」类',dim:'spatial'},
  state_jump:{zh:'状态跳变',layer:'L1+L3',action:'标注跳变前后状态对，用于一致性训练',dim:'spatial'},
@@ -554,7 +554,7 @@ const TAGS={
  camera_jump:{zh:'镜头跳切/穿透',layer:'L2',action:'补（运镜指令, 实际轨迹）配对数据',dim:'camera'},
  prop_disappear:{zh:'道具丢失',layer:'L1',action:'补道具持久 ID 与存在区间',dim:'persist'},
  action_ignored:{zh:'动作未响应',layer:'L2',action:'补指令—执行结果人工判定对',dim:'instruct'},
- causal_break:{zh:'因果断裂',layer:'L3',action:'多步链整条入库，标关键状态记忆点',dim:'causal'},
+ causal_break:{zh:'因果断裂',layer:'L3',action:'保留完整多步链，复核关键状态检查点',dim:'memory'},
  physics_error:{zh:'物理异常',layer:'L1+L3',action:'标违反的物理类别，作 hard negative',dim:'physics'},
  state_reset:{zh:'状态重置',layer:'L3',action:'标「世界记忆丢失」，失败链整条入库',dim:'memory'},
  interaction_missing:{zh:'交互未触发',layer:'L2',action:'补可交互物清单与触发条件标注',dim:'instruct'},
@@ -579,16 +579,17 @@ const EVENTS={rain:{zh:'雨天'},cat:{zh:'新增角色'},dim:{zh:'关灯'}};
 const LADDERS=[
  {n:1,name:'合理输出',desc:'帧面看起来对吗？',check:'只看单帧观感：清晰度、美观度、有无明显伪影。',hint:'够做 demo，不足以支撑结论。'},
  {n:2,name:'忠实条件',desc:'结果依赖给定证据与控制吗？',check:'加「控制条件组 vs 无条件组」对照：给了相机轨迹/动作指令，画面是否真的照做。',hint:'本台的事件注入即在这档做对照。'},
- {n:3,name:'一致世界状态',desc:'跨视角/跨步骤身份、布局、物理保持吗？',check:'逐格状态账本：模型 B 偏离应然状态的格子即失败证据。',hint:'自称世界模型至少要过这一档——本台主战场。'},
+ {n:3,name:'一致世界状态',desc:'跨视角/跨步骤身份、布局、物理保持吗？',check:'逐格状态账本：示意情景 B 与参考状态的差异作为待复核线索。',hint:'这是本项目选择重点观察的证据类型，不构成“是否为世界模型”的判定。'},
  {n:4,name:'决策效用',desc:'能改进下游规划/策略吗？',check:'把生成结果转成可执行动作，进仿真器验证成功率（RoboWM-Bench 口径）。',hint:'超出本台范围，需具身基准配合。'}
 ];
 const DIMS=[
  {k:'spatial',n:'时空一致性'},{k:'persist',n:'物体恒存'},{k:'physics',n:'物理合理性'},{k:'camera',n:'相机控制'},
- {k:'instruct',n:'指令遵循'},{k:'latency',n:'交互延迟'},{k:'memory',n:'长时记忆'},{k:'causal',n:'因果正确'}
+ {k:'instruct',n:'指令遵循'},{k:'latency',n:'交互延迟'},{k:'memory',n:'长时记忆与因果'},{k:'editability',n:'局部可编辑性'}
 ];
+function loadRecords(){try{const value=JSON.parse(localStorage.getItem('wmfl_records')||'[]');return Array.isArray(value)?value:[]}catch{return []}}
 let active='V01',beat=0,zoom=false,logged=new Set(),scoresA={},scoresB={},picks={},evState={},ladder=3,
     chal={on:false,score:0,streak:0,tries:0,hits:0,revealed:false},
-    records=JSON.parse(localStorage.getItem('wmfl_records')||'[]'),timer=null;
+    records=loadRecords(),timer=null;
 const $=(s)=>document.querySelector(s);
 const getCase=()=>cases[active];
 const evOf=id=>evState[id]||(evState[id]={on:new Set(),custom:'',beat:0});
@@ -596,11 +597,11 @@ const masked=()=>chal.on&&!chal.revealed;
 
 function renderLadder(){
  const bar=$('#ladderBar');
- bar.innerHTML=LADDERS.map(l=>`<button data-l="${l.n}" class="${l.n===ladder?'active':''}"><i>L${l.n}</i>${l.name}</button>`).join('');
- bar.querySelectorAll('button').forEach(b=>b.onclick=()=>{ladder=+b.dataset.l;renderLadder();render();toast('已切到证据阶梯 L'+ladder+'：'+LADDERS[ladder-1].name)});
+ bar.innerHTML=LADDERS.map(l=>`<button data-l="${l.n}" class="${l.n===ladder?'active':''}"><i>E${l.n}</i>${l.name}</button>`).join('');
+ bar.querySelectorAll('button').forEach(b=>b.onclick=()=>{ladder=+b.dataset.l;renderLadder();render();toast('已切到证据档位 E'+ladder+'：'+LADDERS[ladder-1].name)});
  const l=LADDERS[ladder-1];
- $('#ladderDesc').innerHTML=`<b>L${l.n} ${l.name}</b> — ${l.desc}<div class="chk"><i>检验</i><span>${l.check}</span></div><div class="chk"><i>提示</i><span>${l.hint}</span></div>`;
- $('#ladderTag').textContent='档位 L'+ladder+' · '+l.name;
+ $('#ladderDesc').innerHTML=`<b>E${l.n} ${l.name}</b> — ${l.desc}<div class="chk"><i>检验</i><span>${l.check}</span></div><div class="chk"><i>提示</i><span>${l.hint}</span></div>`;
+ $('#ladderTag').textContent='证据档位 E'+ladder+' · '+l.name;
 }
 function renderList(track){
  const list=$('#scenarioList');list.innerHTML='';
@@ -668,8 +669,7 @@ function renderLedger(){
 }
 function dimScore(side,k){
  const c=getCase();
- if(c.track==='film'&&k==='latency')return null;
- if(c.track==='game'&&k==='camera')return null;
+ if((c.notApplicable||[]).includes(k))return null;
  let s=5;
  for(let i=0;i<=beat;i++){
   reaction(side,i).flags.forEach(f=>{const t=TAGS[f];if(t&&t.dim===k)s-=1.6});
@@ -694,7 +694,7 @@ function autoScore(side){let s=4.6;
 }
 function renderAdvice(){
  const sel=picks[active]||[],box=$('#advice');
- if(!sel.length){box.innerHTML='<h4>数据回流建议</h4><ul><li class="hint">勾选模型 B 的故障标签后，这里实时给出：样本应回流到 L0–L3 哪一层、要补什么标注。</li></ul>';return}
+ if(!sel.length){box.innerHTML='<h4>候选数据动作</h4><ul><li class="hint">勾选示意情景 B 的标签后，查看建议加工阶段与标注动作；这是规则映射示例，需按团队数据口径复核。</li></ul>';return}
  box.innerHTML='<h4>数据回流建议 · '+sel.length+' 项</h4><ul>'+sel.map(t=>{const d=TAGS[t];
   return d?`<li><span class="layer-pill">${d.layer}</span><b>${d.zh}</b>：${d.action}</li>`:''}).join('')+'</ul>';
 }
@@ -704,15 +704,15 @@ function renderQueue(){
  const body=$('#queueBody');
  if(!Object.keys(counts).length){body.innerHTML='<div class="qempty">勾选标签后，这里按 L0–L3 统计待补标注的样本分布。</div>';return}
  body.innerHTML='<div class="qbars">'+keys.map(k=>`<div class="qbar"><span>${k}</span><i><b style="width:${((counts[k]||0)/max*100)}%"></b></i><span class="n">${counts[k]||0}</span></div>`).join('')
-  +`<div style="font-size:10.5px;color:var(--faint);margin-top:4px">L0 原始采集 · L1 结构化标注 · L2 交互轨迹 · L3 失败链与 hard negative</div></div>`;
+  +`<div style="font-size:10.5px;color:var(--faint);margin-top:4px">建议加工阶段：L0 来源/原始素材 · L1 结构化观测 · L2 交互轨迹 · L3 经复核的归因与学习用途。等级不代表样本质量或类型。</div></div>`;
 }
 function renderGap(){
  const aA=autoScore('A'),aB=autoScore('B'),hA=+$('#scoreA').value,hB=+$('#scoreB').value;
  $('#autoA').textContent=aA.toFixed(1);$('#autoB').textContent=aB.toFixed(1);
- const gaps=[];if(Math.abs(hA-aA)>=1)gaps.push(`模型 A：人工 ${hA} vs 自动 ${aA.toFixed(1)}`);
- if(Math.abs(hB-aB)>=1)gaps.push(`模型 B：人工 ${hB} vs 自动 ${aB.toFixed(1)}`);
+ const gaps=[];if(Math.abs(hA-aA)>=1)gaps.push(`情景 A：练习评分 ${hA} vs 预设值 ${aA.toFixed(1)}`);
+ if(Math.abs(hB-aB)>=1)gaps.push(`情景 B：练习评分 ${hB} vs 预设值 ${aB.toFixed(1)}`);
  const w=$('#gapWarn');
- if(gaps.length){w.classList.add('show');w.innerHTML='⚠ 人工与自动预估差异 ≥1 分（'+gaps.join('；')+'）：优先复查标注定义是否一致，而不是急着改模型——对应牛津综述的挑战 4「世界属性的标准化评测」。'}
+ if(gaps.length){w.classList.add('show');w.innerHTML='⚠ 示意练习评分与预设规则值差异 ≥1 分（'+gaps.join('；')+'）。这不是一致性测量或模型诊断；真实流程应结合盲评、任务口径和争议样本复核。'}
  else w.classList.remove('show');
 }
 function renderSteps(){
@@ -734,7 +734,7 @@ function startChal(){
  const ids=Object.keys(DEFECT),cid=ids[Math.floor(Math.random()*ids.length)];
  const bs=Object.keys(DEFECT[cid]),b=+bs[Math.floor(Math.random()*bs.length)];
  stopAuto();active=cid;beat=b;picks[cid]=[];chal.on=true;chal.revealed=false;
- render();toast('挑战开始：'+cid+' 第 '+(b+1)+' 步 —— 观察模型 B 的画面，勾选你认为正确的故障标签后提交');
+ render();toast('挑战开始：'+cid+' 第 '+(b+1)+' 步 —— 观察预设示意画面，练习选择故障标签');
 }
 function submitChal(){
  const truth=DEFECT[active][beat].flags,mine=picks[active]||[];
@@ -757,25 +757,27 @@ function buildReport(){
  const drift=c.keys.map((k,i)=>{
   const va=c.states[beat][i],d=DEFECT[c.id]&&DEFECT[c.id][beat];
   return d&&d.st&&d.st[i]!==va?`- **${k}**：应然「${va}」→ 实然「${d.st[i]}」 ✕`:null}).filter(Boolean);
- const L=['—','L1','L2','L3'];
- return `# 世界模型评测诊断报告 · ${c.id}
+ const L=['—','E1','E2','E3','E4'];
+  return `# 世界模型评测流程演示记录 · ${c.id}
+
+> 数据类型：CSS 绘制 + 预设故障情景；不是模型输出，也不是模型评测结果。评分规则未经校准。
 
 **任务**：${c.title}（${c.track==='film'?'影视预演':'游戏交互'}）· 观察到第 ${beat+1}/${c.beats.length} 步
-**证据阶梯**：L${ladder} ${LADDERS[ladder-1].name} — ${LADDERS[ladder-1].desc}
+**证据档位**：E${ladder} ${LADDERS[ladder-1].name} — ${LADDERS[ladder-1].desc}
 **视角**：${zoom?'机位视角（放大观察细节）':'导演视角'} · **注入事件**：${evNames.length?evNames.join('、'):'无'}
 
 ## 一、评分
 
-| | 人工分 | 规则法自动预估 | 差值 |
+| | 示意练习评分 | 预设规则演示值 | 差值 |
 |---|---|---|---|
-| 模型 A（一致性优先·长记忆） | ${$('#scoreA').value} | ${autoScore('A').toFixed(1)} | ${(+$('#scoreA').value-autoScore('A')).toFixed(1)} |
-| 模型 B（实时性优先·短记忆） | ${$('#scoreB').value} | ${autoScore('B').toFixed(1)} | ${(+$('#scoreB').value-autoScore('B')).toFixed(1)} |
+| 示意情景 A | ${$('#scoreA').value} | ${autoScore('A').toFixed(1)} | ${(+$('#scoreA').value-autoScore('A')).toFixed(1)} |
+| 示意情景 B | ${$('#scoreB').value} | ${autoScore('B').toFixed(1)} | ${(+$('#scoreB').value-autoScore('B')).toFixed(1)} |
 
-A−B 人工分差：${(+$('#scoreA').value-+$('#scoreB').value).toFixed(1)} 分。
+ A−B 示意评分差：${(+$('#scoreA').value-+$('#scoreB').value).toFixed(1)} 分（非模型分差）。
 
 ## 二、世界状态漂移（${drift.length?drift.length+' 项':'本步未观察到'}）
 
-${drift.length?drift.join('\n'):'- 模型 B 本步状态与应然一致'}
+${drift.length?drift.join('\n'):'- 本步示意情景与参考状态一致'}
 
 ## 三、故障标签 → 数据回流
 
@@ -783,10 +785,10 @@ ${sel.length?sel.map(t=>{const d=TAGS[t];return `- **${d.zh}**（${t}）→ 回�
 
 ## 四、结论与下一步
 
-${sel.length?`本步失败集中在 ${[...new Set(sel.map(t=>TAGS[t].layer.split('+')[0]))].join(' / ')} 层，建议先补标注定义再决定是否进回归集；若人工与自动预估差异 ≥1 分，优先复查标注定义一致性。`
+${sel.length?`本步候选数据动作涉及 ${[...new Set(sel.map(t=>TAGS[t].layer.split('+')[0]))].join(' / ')} 阶段。真实流程需先复核证据、标签定义与数据权利，再决定是否进入回归集。`
  :'本步未标记故障，可继续推进下一步或提高任务难度（如延长交互步数、加入多主体）。'}
 
-> 说明：本报告的画面与分数来自原型预设的示意反应，不代表任何真实模型的测试结果，仅用于演示评测流程与数据结构。`;
+> 说明：本报告只演示评测流程和数据结构；不含模型名、模型版本、真实运行参数、素材授权记录或多人复核信息。规则值和人工练习评分不应用于模型比较。`;
 }
 function render(){
  const c=getCase();
@@ -813,15 +815,16 @@ function render(){
 function renderRecords(){
  const body=$('#recordsBody');
  if(!records.length){body.innerHTML='<div class="rec-empty">还没有记录。左侧选任务 → 中间逐步播放（可自动播放、切机位视角、注入世界事件）观察 A/B 反应差异 → 看状态账本定位漂移 → 右侧评分并勾选故障标签 → 点「记录本次评测」。记录保存在本地浏览器，可导出 JSON / CSV。</div>';return}
- body.innerHTML='<table class="rec-table"><thead><tr><th>Case</th><th>任务 / 进度</th><th>档位</th><th>A 人工/自动</th><th>B 人工/自动</th><th>故障标签 → 回流</th><th>事件</th><th>时间</th></tr></thead><tbody>'
+  body.innerHTML='<table class="rec-table"><thead><tr><th>Case</th><th>任务 / 进度</th><th>档位</th><th>A 示意评分/规则值</th><th>B 示意评分/规则值</th><th>故障标签 → 建议阶段</th><th>事件</th><th>时间</th></tr></thead><tbody>'
   +records.map(r=>`<tr><td><b>${r.case_id}</b></td><td>${r.title}<br><span style="color:var(--faint);font-size:10px">${r.track} · 第 ${r.step}/${r.steps} 步 · ${r.zoom?'机位':'导演'}视角 · ${r.drift_count} 项状态漂移</span></td>
-   <td>L${r.ladder}</td><td>${r.scoreA} / ${r.autoA}</td><td>${r.scoreB} / ${r.autoB}</td>
+   <td>E${r.ladder}</td><td>${r.scoreA} / ${r.autoA}</td><td>${r.scoreB} / ${r.autoB}</td>
    <td>${r.failure_tags.length?r.failure_tags.map(t=>`<span class="layer-pill">${t.layer}</span>${t.zh}`).join('<br>'):'<span style="color:var(--faint)">无</span>'}</td>
    <td>${r.events.length?r.events.join('、'):'无'}</td><td style="white-space:nowrap;color:var(--faint)">${r.time}</td></tr>`).join('')+'</tbody></table>';
 }
 function driftCount(){const c=getCase(),d=DEFECT[c.id]&&DEFECT[c.id][beat];let n=0;
  if(d&&d.st)c.keys.forEach((k,i)=>{if(d.st[i]!==c.states[beat][i])n++});return n}
 function download(name,content,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)}
+function csvCell(value){const text=String(value??'');const safe=/^\s*[=+\-@]/.test(text)?"'"+text:text;return '"'+safe.replace(/"/g,'""')+'"'}
 function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast._h);toast._h=setTimeout(()=>t.classList.remove('show'),2400)}
 function stopAuto(){if(timer){clearInterval(timer);timer=null;$('#autoPlay').classList.remove('on')}}
 document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{
@@ -857,14 +860,15 @@ $('#record').onclick=()=>{const c=getCase(),sel=picks[active]||[],st=evOf(active
  localStorage.setItem('wmfl_records',JSON.stringify(records));logged.add(active);render();
  toast(`${active} 已记录 · A ${$('#scoreA').value}/B ${$('#scoreB').value} · ${sel.length} 个标签 · ${driftCount()} 项状态漂移`)};
 $('#exportJson').onclick=()=>{download('wmfl-records.json',JSON.stringify({exported_at:new Date().toISOString(),
- tool:'world-model-playground',version:'v5',mode:'A/B paired evaluation + world state ledger',
- taxonomy:'对应 world-model-data-kit 的 L0-L3 数据分层',records},null,2),'application/json')};
+  tool:'world-model-playground',version:'v5',record_type:'synthetic_workflow_demo',
+  evidence_boundary:'CSS scene and preset defect rules; not model outputs or evaluation results',
+  taxonomy:'L0-L3 are suggested data processing stages, not quality levels or sample types',records},null,2),'application/json')};
 $('#exportCsv').onclick=()=>{
- const head='case_id,任务,轨道,证据档位,视角,A人工分,A自动预估,B人工分,B自动预估,A-B分差,状态漂移数,故障标签,回流层,回流动作,注入事件,备注,时间';
- const rows=records.map(r=>[r.case_id,r.title,r.track,'L'+r.ladder,r.zoom?'机位':'导演',r.scoreA,r.autoA,r.scoreB,r.autoB,
+ const head='case_id,任务,轨道,证据档位,视角,A示意练习分,A预设规则值,B示意练习分,B预设规则值,A-B差值,状态漂移数,故障标签,建议加工阶段,建议动作,注入事件,备注,时间';
+ const rows=records.map(r=>[r.case_id,r.title,r.track,'E'+r.ladder,r.zoom?'机位':'导演',r.scoreA,r.autoA,r.scoreB,r.autoB,
   (r.scoreA-r.scoreB).toFixed(1),r.drift_count,r.failure_tags.map(t=>t.zh).join(' | '),
   [...new Set(r.failure_tags.map(t=>t.layer))].join(' | '),r.failure_tags.map(t=>t.action).join(' | '),
-  r.events.join(' | '),r.note,r.time].map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(','));
+  r.events.join(' | '),r.note,r.time].map(csvCell).join(','));
  download('wmfl-records.csv','\ufeff'+head+'\n'+rows.join('\n'),'text/csv')};
 $('#clearRecords').onclick=()=>{if(!records.length)return;if(!confirm('确定清空全部本地评测记录？'))return;
  records=[];logged.clear();localStorage.removeItem('wmfl_records');render()};
