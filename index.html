@@ -342,6 +342,90 @@ table.os-table td{padding:10px 12px;border-bottom:1px solid #1B1E25;vertical-ali
  border:1px solid var(--line2);border-radius:8px;padding:10px 16px;font-size:12px;color:var(--tx);
  opacity:0;pointer-events:none;transition:.25s;z-index:99;max-width:80vw;box-shadow:0 8px 24px rgba(0,0,0,.5)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* ===== low-saturation pixel game theme ===== */
+:root{
+ --bg:#17254A;--panel:#BDB7EA;--panel2:#D6D1F2;--panel3:#A9A4DC;--line:#334573;--line2:#263960;
+ --tx:#20284A;--muted:#35466D;--faint:#506184;
+ --pgm:#48D3C6;--pvw:#F4C85A;--red:#E96B86;--pur:#8E75D9;--blue:#67B7E8;
+}
+body{background-color:var(--bg);background-image:
+ linear-gradient(90deg,rgba(103,183,232,.07) 1px,transparent 1px),
+ linear-gradient(rgba(103,183,232,.07) 1px,transparent 1px),
+ radial-gradient(ellipse at 50% -25%,#315B91 0%,transparent 62%);
+ background-size:16px 16px,16px 16px,100% 520px;color:#F0F1FA;
+ font-family:"Courier New","Microsoft YaHei","PingFang SC",sans-serif;}
+.topbar{background:#101B39;border-bottom:3px solid #354D7C;box-shadow:0 4px 0 #0B1530}
+.brand,.tb-right,.tb-tc{color:#E5E9FA}.brand .sub{color:#A8B5D3}
+.hero-main,.hero-side,.guide,.panel,.research-card,.takeaway{
+ --tx:#20284A;--muted:#35466D;--faint:#506184;
+ border:2px solid #344977;border-radius:2px;box-shadow:4px 4px 0 #0D1733, inset 0 0 0 2px rgba(255,255,255,.18);
+}
+.hero-main{background:linear-gradient(145deg,#D6D1F2,#B9B2E7);}
+.hero-main:before{background:repeating-linear-gradient(0deg,rgba(255,255,255,.10) 0 2px,transparent 2px 5px)}
+.eyebrow{color:#197E7B}
+.brand-mark{border-radius:2px;box-shadow:2px 2px 0 #F4C85A,-2px -2px 0 #8E75D9}
+.hero h1{text-shadow:3px 3px 0 rgba(91,101,177,.24)}.hero h1 em{color:#65729D}
+.hero-side,.guide,.panel,.research-card{background:#BDB7EA}
+.guide{background:#D6D1F2}
+.panel-head{background:#E7E4F8;border-bottom:2px solid #344977}
+.panel-head h2{color:#20284A}
+.panel-head small{color:#64749A}.tb-right{color:#A8B5D3}
+.guide-step{background:#EEEAF9;border:2px solid #52638E;color:#34466E;border-radius:2px;box-shadow:2px 2px 0 #25385F}
+.guide-step b{color:#20284A}.guide-step.active{background:#C9F0E9;border-color:#238E89;box-shadow:3px 3px 0 #25385F}
+.guide-counter,.guide-current strong{color:#197E7B}
+.guide-title h2:before{content:"◆ ";color:#D79828;text-shadow:2px 2px 0 #E96B86}
+.guide-current{color:#26385F}
+.guided-focus{outline:3px solid #37BDB1;outline-offset:3px;box-shadow:5px 5px 0 #101B39}
+.tabs button,.scenario,.ladder button,.tag,.ghostbtn,.tbtn{
+ border-radius:2px;box-shadow:2px 2px 0 #27395F;
+}
+.tabs button,.scenario,.ladder button,.tag,.ghostbtn{background:#EEEAF9;color:#26385F;border-color:#52638E}
+.scenario{color:#20284A}.scenario span{color:#465A82}
+.scenario.active,.ladder button.active{background:#C9F0E9;color:#173D4C;border-color:#238E89}
+.tabs button.active{background:#48D3C6;color:#123A48;border-color:#238E89}
+.advanced summary{color:#33466F}
+.monitor{border:3px solid #24365E;border-radius:2px;box-shadow:3px 3px 0 #101B39}
+.monitor .mon-head,.monitor .mon-foot{background:#18284A;color:#E2E7F8}
+.monitor{--tx:#E6E8EC;--muted:#AAB2BF;--faint:#A2AEC5}
+.monitor .m,.monitor .mon-foot{color:#AAB8D2}
+.promptbar{background:#E8E4F6;--tx:#20284A;--muted:#35466D;--faint:#506184}
+.promptbar .pb-head{background:#D5D0F0;color:#40547C;border-color:#B9B5DB}
+.promptbar .pb-head b{color:#8A6416}
+.pb-body button{background:#F4F1FC;color:#35466D;border-color:#6476A0}
+.pb-body button.on{background:#F4C85A;color:#49340B;border-color:#B38324}
+.pb-body input{background:#F8F7FD;color:#20284A;border-color:#6476A0}
+.pb-body input::placeholder{color:#657596}
+.transport .tbtn{background:#E8E4F6;color:#2E426B;border:2px solid #50628E}
+.transport .tbtn.primary{background:#55D3C4;color:#163D4A;border-color:#248F88}
+.tbtn.primary,button.primary{box-shadow:3px 3px 0 #263960}
+.tabs button.active,.scenario.active{box-shadow:3px 3px 0 #263960}
+.steps button{background:#E8E4F6;color:#40547C;border-color:#52638E;border-radius:2px}
+.steps button.active{background:#C9F0E9;color:#1B716F;border-color:#238E89}
+.ledger,.dims,.promptbar,.queue,.score-box,.expect,.advice{border:2px solid #52638E;border-radius:2px;box-shadow:2px 2px 0 #344977}
+.ledger h4,.dims h4{background:#E9E6F8;color:#20284A}
+table.led th{background:#D5D0F0;color:#33466F}
+table.led td{border-color:#C1BCE3}
+table.led td.k{color:#364B76}
+.score-box{background:#EEEAF9}.range{accent-color:#238E89}.score-box.b .range{accent-color:#D79828}
+.score-box .lbl,.field-label{color:#35466D}
+.score-box .lbl b{color:#20284A}.auto-line{color:#53658A}.auto-line b{color:#654FB1}
+.expect{background:#EEEAF9;color:#34466D}.expect i{color:#238E89}
+.tag.on{background:#F8D6DE;color:#812E4A}
+.advice{background:#E8E4F6}.advice li{color:#35466D}.advice li b{color:#20284A}
+.queue{background:#E8E4F6}.qempty,.qbar{color:#40547C}.qbar .n{color:#40547C}
+.reportbox{background:#F1EFFB;color:#35466D;border-color:#52638E}
+.rec-wrap,.pad{color:#20284A}.rec-empty{color:#40547C}
+table.rec-table th{background:#D5D0F0;color:#33466F}table.rec-table td{border-color:#C1BCE3}
+table.os-table th{background:#E7E4F8;color:#33466F}table.os-table td{border-color:#C1BCE3}
+.os-note{background:#E8E4F6;color:#35466D}
+.research-card:nth-child(2){border-top-color:#D79828}.research-card:nth-child(3){border-top-color:#8E75D9}
+.research-card:nth-child(4){border-top-color:#E96B86}.research-card:nth-child(5){border-top-color:#4D9ACA}
+.pill{color:#425680;border-color:#6476A0}
+.takeaway{background:#D6D1F2}
+.footer{color:#CFD8ED}
+.tbtn,.ghostbtn,button.primary,.guide-step{transition:transform .08s,box-shadow .08s,filter .15s}
+.tbtn:active,.ghostbtn:active,button.primary:active,.guide-step:active{transform:translate(2px,2px);box-shadow:none}
+.chal{background:#E8DFF4}
 @media(max-width:1180px){.grid{grid-template-columns:1fr}.hero{grid-template-columns:1fr}
  .stats{grid-template-columns:repeat(2,1fr)}.guide-steps{grid-template-columns:repeat(2,1fr)}.research{grid-template-columns:1fr}.takeaway{grid-column:span 1}
  .monitor-wall{grid-template-columns:1fr}}
