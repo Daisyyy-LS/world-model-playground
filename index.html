@@ -57,6 +57,26 @@ a:hover{border-bottom-color:var(--pgm)}
  border-radius:4px;padding:2px 7px;color:var(--muted);background:#0E1014}
 .kbd b{color:var(--tx)}
 
+/* ===== 真实案例入口横幅（首屏突出） ===== */
+.realcase{display:grid;grid-template-columns:minmax(0,1fr) 210px;gap:18px;align-items:center;
+ margin:0 0 16px;padding:16px 20px;border:1px solid rgba(79,209,197,.42);border-radius:11px;
+ background:linear-gradient(115deg,rgba(79,209,197,.09),rgba(23,27,34,.9) 52%),var(--panel);position:relative;overflow:hidden}
+.realcase:before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--pgm),#2E8C84)}
+.rc-tag{display:inline-flex;align-items:center;gap:7px;font:10px var(--mono);letter-spacing:.16em;
+ color:#06231F;background:var(--pgm);padding:3px 10px;border-radius:3px;font-weight:800}
+.rc-tag i{width:7px;height:7px;border-radius:50%;background:#06231F;animation:blink 1.4s infinite}
+.realcase h2{margin:9px 0 5px;font-size:19px;line-height:1.35}
+.realcase h2 b{color:var(--pgm)}
+.realcase p{margin:0 0 11px;color:var(--muted);font-size:11.8px;max-width:78ch}
+.realcase p b{color:var(--tx)}
+.rc-actions{display:flex;flex-wrap:wrap;align-items:center;gap:9px}
+.rc-metrics{font:10px var(--mono);color:var(--faint)}
+.rc-metrics em{font-style:normal;color:var(--pgm)}
+.rc-thumbs{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.rc-thumbs video,.rc-thumbs img{width:100%;height:66px;object-fit:cover;border-radius:5px;border:1px solid var(--line2);background:#05060A}
+.rc-thumbs .rc-wide{grid-column:span 2;height:74px}
+@media(max-width:900px){.realcase{grid-template-columns:1fr}.rc-thumbs{display:none}}
+
 /* ===== stats ===== */
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
 .stat{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:11px 13px}
@@ -70,6 +90,8 @@ a:hover{border-bottom-color:var(--pgm)}
 .guide-step{border:1px solid var(--line2);background:#0E1014;color:var(--muted);border-radius:7px;padding:9px 11px;text-align:left}
 .guide-step b{display:block;color:var(--tx);font-size:12px;margin-bottom:3px}.guide-step span{font-size:10.5px}
 .guide-step.active{border-color:var(--pgm);background:rgba(79,209,197,.09)}
+.guide-step.real{border-color:rgba(79,209,197,.55);background:linear-gradient(135deg,rgba(79,209,197,.13),rgba(79,209,197,.03))}
+.guide-step.real b{color:var(--pgm)}
 .guide-foot{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:10px;margin-top:12px;min-width:0}
 .guide-current{grid-column:1;min-width:0;color:var(--tx);font-size:11.5px;overflow-wrap:anywhere}
 .guide-current strong,.guide-current span{display:block}.guide-current strong{color:var(--pgm);margin-bottom:3px}
@@ -470,6 +492,24 @@ table.os-table td{padding:10px 12px;border-bottom:1px solid #1B1E25;vertical-ali
   </div>
 </section>
 
+<!-- ========== 真实案例入口横幅（首屏突出，一键直达） ========== -->
+<section class="realcase" id="realcase" aria-label="真实案例入口">
+  <div>
+    <span class="rc-tag"><i></i>REAL RUN · 真实跑通</span>
+    <h2>不只有设计：腾讯 <b>HunyuanWorld-Mirror</b> 世界模型已真实跑通</h2>
+    <p>2026-11-18 用 HF 认证调用腾讯官方 ZeroGPU 云端，对一张室内图做<b>单图 3D 几何重建</b>，产出 <b>7 件真实模型产物</b>（3DGS 点云 / 漫游视频 / 深度图 / 法线图 / 相机参数）。全部是模型真实输出，非 CSS 示意。下面第 5 步可直接查看并评测。</p>
+    <div class="rc-actions">
+      <button class="tbtn primary" id="rcJump">▶ 查看真实案例并评测</button>
+      <span class="rc-metrics">7 件产物 · <em>119,351</em> 高斯基元 · source_type=<em>real_model</em></span>
+    </div>
+  </div>
+  <div class="rc-thumbs">
+    <video class="rc-wide" src="real_run/output/rgb_video.mp4" muted loop autoplay playsinline></video>
+    <img src="real_run/output/depth_map.png" alt="真实深度图">
+    <img src="real_run/output/normal_map.png" alt="真实法线图">
+  </div>
+</section>
+
 <!-- ========== v7 · 测评与设计思路（放在最前面） ========== -->
 <section class="method" id="method" aria-label="测评与设计思路">
   <div class="method-head">
@@ -493,13 +533,14 @@ table.os-table td{padding:10px 12px;border-bottom:1px solid #1B1E25;vertical-ali
   <div class="method-boundary"><b>边界声明：</b>E1–E4 是本项目自拟的评测视角，不是论文官方分类，也不用于判定「是否为世界模型」。页面默认画面为 CSS 绘制的示意，不是模型输出；真实结论需来自明确任务卡、可复核证据与校准后的多人评审流程。</div>
 </section>
 
-<section class="guide" aria-label="四步评测指引">
-  <div class="guide-title"><div><h2>评测思路与操作顺序</h2><p>先选任务，再逐步观察；确认状态差异后标注，最后保存一条可复查记录。</p></div><span class="guide-counter" id="guideCounter">第 1 步 / 共 4 步</span></div>
+<section class="guide" aria-label="五步评测指引">
+  <div class="guide-title"><div><h2>评测思路与操作顺序</h2><p>先用示意场景练通方法（1–4 步），再到第 5 步看真实模型跑出的产物并评测。</p></div><span class="guide-counter" id="guideCounter">第 1 步 / 共 5 步</span></div>
   <div class="guide-steps">
     <div class="guide-step active" data-guide="1"><b>1 · 选任务</b><span>选择影视或游戏任务，读清预期状态</span></div>
     <div class="guide-step" data-guide="2"><b>2 · 逐步观察</b><span>按顺序播放，比较 A/B 与状态账本</span></div>
     <div class="guide-step" data-guide="3"><b>3 · 标注差异</b><span>给练习评分、选故障标签、看候选动作</span></div>
     <div class="guide-step" data-guide="4"><b>4 · 保存记录</b><span>记录本次练习，再查看或导出结果</span></div>
+    <div class="guide-step real" data-guide="5"><b>5 · 真实案例 ★</b><span>看腾讯世界模型真实产物并评测</span></div>
   </div>
   <div class="guide-foot"><div class="guide-current" id="guideCurrent"><strong>第 1 步：选择一个任务。</strong> 从左侧场景库选影视预演或游戏交互，再读右侧任务要求。</div><button class="ghostbtn" id="guidePrev" disabled>上一步</button><button class="tbtn primary" id="guideNext">开始：去选任务</button></div>
 </section>
@@ -619,8 +660,8 @@ table.os-table td{padding:10px 12px;border-bottom:1px solid #1B1E25;vertical-ali
 
 <!-- ========== v7 · 真实模型接入台 ========== -->
 <section class="panel" id="panelLive">
-  <div class="panel-head"><h2>05 / 真实模型接入台 <span style="font-weight:400;color:var(--faint)">LIVE MODEL BENCH</span></h2><small>接腾讯开源世界模型 · 真实输出与示意严格分离</small>
-    <div class="head-actions"><span class="tag-line" id="liveSrcTag">当前：示意模式</span></div>
+  <div class="panel-head"><h2>05 / 真实案例 · 腾讯 HunyuanWorld-Mirror 实测 <span style="font-weight:400;color:var(--faint)">REAL CASE STUDY</span></h2><small>已真实跑通 · 7 件模型产物可直接查看评测 · 也支持接入其他开源模型</small>
+    <div class="head-actions"><span class="tag-line" id="liveSrcTag">当前：真实产物（已载入）</span></div>
   </div>
   <div class="lab">
     <div class="lab-col">
@@ -628,10 +669,10 @@ table.os-table td{padding:10px 12px;border-bottom:1px solid #1B1E25;vertical-ali
       <div class="model-pick" id="liveModelPick"></div>
       <div class="lab-lab">02 / 接入方式</div>
       <div class="mode-switch" id="liveModeSwitch">
-        <button data-mode="space" class="active"><b>在线 Space</b><span>真实 · 免部署</span></button>
+        <button data-mode="artifacts" class="active"><b>实测产物 ★</b><span>本次真实跑通</span></button>
+        <button data-mode="space"><b>在线 Space</b><span>真实 · 免部署</span></button>
         <button data-mode="local"><b>本地 Gradio</b><span>真实 · 需 GPU</span></button>
         <button data-mode="upload"><b>上传输出</b><span>真实 · 离线评测</span></button>
-        <button data-mode="artifacts"><b>实测产物</b><span>真实 · 本次跑通</span></button>
         <button data-mode="schematic"><b>示意降级</b><span>非模型</span></button>
       </div>
       <div id="liveCfgSpace" class="cfg-wrap">
@@ -1015,20 +1056,22 @@ ${sel.length?`本步候选数据动作涉及 ${[...new Set(sel.map(t=>TAGS[t].la
 > 说明：本报告只演示评测流程和数据结构；不含模型名、模型版本、真实运行参数、素材授权记录或多人复核信息。规则值和人工练习评分不应用于模型比较。`;
 }
 function renderGuide(){
- const targets={1:$('#panelLeft'),2:$('#panelCenter'),3:$('#panelRight'),4:$('#panelRecords')};
+ const targets={1:$('#panelLeft'),2:$('#panelCenter'),3:$('#panelRight'),4:$('#panelRecords'),5:$('#panelLive')};
  document.querySelectorAll('.guide-step').forEach(b=>b.classList.toggle('active',+b.dataset.guide===guideStep));
  Object.values(targets).forEach(el=>el.classList.remove('guided-focus'));targets[guideStep].classList.add('guided-focus');
- $('#guideCounter').textContent=`第 ${guideStep} 步 / 共 4 步`;$('#guidePrev').disabled=guideStep===1;
+ $('#guideCounter').textContent=`第 ${guideStep} 步 / 共 5 步`;$('#guidePrev').disabled=guideStep===1;
  const labels={
   1:['选择一个任务。','从左侧场景库选影视预演或游戏交互，再读任务要求。','开始：去选任务'],
   2:['按顺序观察。',`正在查看第 ${beat+1}/${getCase().beats.length} 步。对照 A/B 示意画面和下方状态账本，点按钮推进。`,beat<getCase().beats.length-1?'下一步：播放第 '+(beat+2)+' 步':'完成观察：去标注'],
   3:['标注观察结果。','给示意画面练习评分，选择故障标签，并查看候选数据动作。所有数值仅用于演示。','去步骤 4：保存记录'],
-  4:['保存并复查。','点击右侧“记录本次练习”；记录保存在当前浏览器，下方可查看或导出 JSON / CSV。','回到步骤 1']};
+  4:['保存并复查。','点击右侧“记录本次练习”；记录保存在当前浏览器，下方可查看或导出 JSON / CSV。','下一步：看真实案例'],
+  5:['看真实案例并评测。','已载入腾讯 HunyuanWorld-Mirror 真实跑通的 7 件产物：漫游视频、深度图、3DGS 等。点缩略图预览，勾选故障标签后记录为 source_type=real_model。','回到步骤 1']};
  const [title,body,next]=labels[guideStep];$('#guideCurrent').innerHTML=`<strong>第 ${guideStep} 步：${title}</strong><span>${body}</span>`;$('#guideNext').textContent=next;
 }
 function goGuideStep(n,scroll=true){
- guideStep=Math.max(1,Math.min(4,n));renderGuide();
- if(scroll){const ids={1:'#panelLeft',2:'#panelCenter',3:'#panelRight',4:'#panelRecords'};$(ids[guideStep]).scrollIntoView({behavior:'smooth',block:'start'})}
+ guideStep=Math.max(1,Math.min(5,n));renderGuide();
+ if(guideStep===5)setMode('artifacts');
+ if(scroll){const ids={1:'#panelLeft',2:'#panelCenter',3:'#panelRight',4:'#panelRecords',5:'#panelLive'};$(ids[guideStep]).scrollIntoView({behavior:'smooth',block:'start'})}
 }
 function render(){
  const c=getCase();
@@ -1056,6 +1099,7 @@ $('#guideNext').onclick=()=>{
  if(guideStep===1){goGuideStep(2);return}
  if(guideStep===2){if(beat<getCase().beats.length-1){advanceBeat();$('#panelCenter').scrollIntoView({behavior:'smooth',block:'start'})}else goGuideStep(3);return}
  if(guideStep===3){goGuideStep(4);return}
+ if(guideStep===4){goGuideStep(5);return}
  goGuideStep(1);
 };
 $('#guidePrev').onclick=()=>{
@@ -1175,7 +1219,7 @@ const REAL_ARTIFACTS={
   {file:'camera_params.json', kind:'file', label:'相机外参矩阵', bytes:945, preview:false}
  ]
 };
-let liveModel='mirror',liveMode='space',liveMedia=[];
+let liveModel='mirror',liveMode='artifacts',liveMedia=[];
 function renderLiveModels(){
  $('#liveModelPick').innerHTML=Object.entries(LIVE_MODELS).map(([k,m])=>
   `<button data-m="${k}" class="${k===liveModel?'active':''}"><b>${m.name}</b><span>${m.ver}</span></button>`).join('');
@@ -1329,5 +1373,14 @@ $('#liveRecord').onclick=()=>{
  logged.add(active);renderRecords();
  toast((real?'✅ 真实测评':'示意')+'已记录：'+run.id+' · '+run.model+' · '+sel.length+' 个标签');
 };
-renderLiveModels();setMode('space');updateMeta();
+// 首屏横幅 / 第 5 步：一键直达真实案例并切到实测产物模式
+function jumpToRealCase(){
+ setMode('artifacts');
+ $('#panelLive').scrollIntoView({behavior:'smooth',block:'start'});
+ toast('已载入真实产物：点击缩略图可预览漫游视频与深度图');
+}
+$('#rcJump').onclick=jumpToRealCase;
+// 引导里的 5 个步骤按钮可直接点击跳转
+document.querySelectorAll('.guide-step').forEach(b=>b.onclick=()=>goGuideStep(+b.dataset.guide));
+renderLiveModels();setMode('artifacts');updateMeta();
 </script></body></html>
