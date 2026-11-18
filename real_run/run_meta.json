@@ -1,0 +1,55 @@
+{
+  "model": "HunyuanWorld-Mirror",
+  "provider": "Tencent (official open-source world model)",
+  "endpoint": "https://tencent-hunyuanworld-mirror.hf.space/",
+  "source_type": "real_model",
+  "authenticated": true,
+  "input_image": "bright_room_1.jpg",
+  "input_source": "official Space example: examples/realistic/Bright_Room/image_0001.jpg",
+  "started_at": "2026-11-18 20:01:09",
+  "steps": [
+    {
+      "name": "update_gallery_on_file_upload",
+      "elapsed_sec": 6.8,
+      "output_path": "input_images_20261118_130116_856412",
+      "terminal": "Processed files to input_images_20261118_130116_856412/images\n"
+    },
+    {
+      "name": "gradio_demo",
+      "elapsed_sec": 82.4
+    }
+  ],
+  "outputs": {
+    "pointmap_mesh": {
+      "file": "pointmap_mesh.glb",
+      "bytes": 2437912
+    },
+    "depth_map": {
+      "file": "depth_map.png",
+      "bytes": 41246
+    },
+    "normal_map": {
+      "file": "normal_map.png",
+      "bytes": 137968
+    },
+    "camera_params": {
+      "file": "camera_params.json",
+      "bytes": 945
+    },
+    "gaussian_splatting": {
+      "file": "gaussian_splatting.ply",
+      "bytes": 8116284
+    },
+    "rgb_video": {
+      "file": "rgb_video.mp4",
+      "bytes": 497192
+    },
+    "depth_video": {
+      "file": "depth_video.mp4",
+      "bytes": 647394
+    }
+  },
+  "terminal_output": "Running WorldMirror model...\nProcessing images from input_images_20261118_130116_856412\nLoading images...\nLoaded 1 images\nRunning inference...\nBuilding GLB scene\nUsing Pointmap Branch\nGLB Scene built\nTotal time: 14.10 seconds\nSaved Gaussian Splatting PLY to: input_images_20261118_130116_856412/gaussians.ply\nFile exists: True\nFile size: 8116284 bytes\nVideo saved to input_images_20261118_130116_856412/rendered_video (mode: split)\n",
+  "status": "success",
+  "finished_at": "2026-11-18 20:02:43"
+}

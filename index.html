@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>看片场 · 世界模型评测台 v6 | World Model Field Lab</title>
+<title>看片场 · 世界模型评测台 v7 | World Model Field Lab</title>
 <style>
 :root{
  --bg:#0B0C0F;--panel:#14161B;--panel2:#191C22;--panel3:#1F232B;--line:#262A33;--line2:#323844;
@@ -347,6 +347,105 @@ table.os-table td{padding:10px 12px;border-bottom:1px solid #1B1E25;vertical-ali
  border:1px solid var(--line2);border-radius:8px;padding:10px 16px;font-size:12px;color:var(--tx);
  opacity:0;pointer-events:none;transition:.25s;z-index:99;max-width:80vw;box-shadow:0 8px 24px rgba(0,0,0,.5)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ===== v7 · 测评与设计思路 ===== */
+.method{margin:18px 0 16px;border:1px solid var(--line2);border-radius:12px;overflow:hidden;
+ background:radial-gradient(900px 340px at 6% -25%,rgba(79,209,197,.13),transparent 60%),linear-gradient(180deg,#171B22,#0E1014)}
+.method-head{padding:22px 26px 18px;border-bottom:1px solid var(--line)}
+.method-head h2{margin:9px 0 8px;font-size:23px;letter-spacing:.01em}
+.method-head h2 em{font-style:normal;color:var(--faint);font-weight:300;font-size:15px}
+.method-lead{margin:0;color:var(--muted);max-width:92ch;font-size:12.5px}
+.method-lead b{color:var(--tx)}
+.mchain{display:grid;grid-template-columns:repeat(6,1fr)}
+.mnode{position:relative;padding:17px 15px 18px;border-right:1px solid var(--line);min-height:158px}
+.mnode:last-child{border-right:0}
+.mnode .mno{font:10px var(--mono);color:var(--pgm);letter-spacing:.14em}
+.mnode .micon{font-size:17px;margin:9px 0 7px}
+.mnode h3{margin:0 0 6px;font-size:12.5px}
+.mnode p{margin:0;font-size:10.6px;color:var(--muted);line-height:1.62}
+.mnode:after{content:"›";position:absolute;right:-6px;top:50%;transform:translateY(-50%);z-index:2;
+ color:var(--line2);font-size:22px;line-height:1}
+.mnode:last-child:after{display:none}
+.method-insight{display:grid;grid-template-columns:1.15fr 1fr 1fr;border-top:1px solid var(--line)}
+.insight{padding:15px 20px;border-right:1px solid var(--line)}
+.insight:last-child{border-right:0}
+.insight .ilbl{font:9.5px var(--mono);letter-spacing:.13em;color:var(--pvw);margin-bottom:7px}
+.insight h4{margin:0 0 6px;font-size:12.5px}
+.insight p{margin:0;font-size:10.8px;color:var(--muted)}
+.method-boundary{padding:11px 20px;border-top:1px solid var(--line);background:#0B0D11;font-size:10.6px;color:var(--faint)}
+.method-boundary b{color:var(--pvw)}
+
+/* ===== v7 · 模型画像 / 能力映射 ===== */
+.mdl-table{width:100%;border-collapse:collapse;font-size:11px}
+.mdl-table th{text-align:left;padding:9px 11px;background:var(--panel2);color:var(--faint);
+ font-size:9.5px;border-bottom:1px solid var(--line);letter-spacing:.06em;text-transform:uppercase}
+.mdl-table td{padding:9px 11px;border-bottom:1px solid #1B1E25;vertical-align:top;color:var(--muted)}
+.mdl-table tr:last-child td{border-bottom:0}
+.mdl-table td b{color:var(--tx)}
+.mdl-table .route{font-family:var(--mono);font-size:9.5px;color:var(--pur)}
+.open-pill{display:inline-block;font:9px var(--mono);padding:1px 6px;border-radius:3px;border:1px solid var(--line2);color:var(--muted)}
+.open-pill.yes{color:var(--pgm);border-color:rgba(79,209,197,.5)}
+.open-pill.no{color:var(--faint)}
+.mapnote{padding:11px 14px;font-size:10.8px;color:var(--muted);background:#0C0E12;border-top:1px solid var(--line)}
+.mapnote b{color:var(--pgm)}
+
+/* ===== v7 · 真实模型接入台 ===== */
+.lab{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.lab-col{padding:16px;border-right:1px solid var(--line)}
+.lab-col:last-child{border-right:0}
+.lab-lab{font:9.5px var(--mono);letter-spacing:.12em;color:var(--faint);margin-bottom:9px;text-transform:uppercase}
+.mode-switch{display:flex;gap:6px;margin-bottom:13px;flex-wrap:wrap}
+.mode-switch button{flex:1;min-width:110px;padding:8px 10px;border-radius:6px;border:1px solid var(--line2);
+ background:#0E1014;color:var(--muted);cursor:pointer;font-size:11px;transition:.15s;text-align:left}
+.mode-switch button b{display:block;color:var(--tx);font-size:11.5px;margin-bottom:2px}
+.mode-switch button span{font-size:9.8px;color:var(--faint)}
+.mode-switch button.active{border-color:var(--pgm);background:rgba(79,209,197,.09)}
+.mode-switch button.active b{color:var(--pgm)}
+.cfg-row{display:flex;gap:7px;align-items:center;margin-bottom:8px}
+.cfg-row input{flex:1;min-width:0;background:#08090C;border:1px solid var(--line2);border-radius:6px;
+ color:var(--tx);padding:7px 9px;font:11px var(--mono)}
+.cfg-row button{white-space:nowrap}
+.status-line{font:10px var(--mono);padding:7px 10px;border-radius:6px;background:#0C0E12;border:1px solid var(--line);
+ color:var(--faint);margin:8px 0;min-height:30px}
+.status-line.ok{color:var(--pgm);border-color:rgba(79,209,197,.4)}
+.status-line.err{color:var(--red);border-color:rgba(255,95,95,.4)}
+.model-pick{display:flex;flex-direction:column;gap:6px;margin:10px 0}
+.model-pick button{text-align:left;border:1px solid var(--line);background:#101217;border-radius:7px;padding:8px 10px;
+ color:var(--tx);cursor:pointer;transition:.15s}
+.model-pick button:hover{border-color:var(--line2)}
+.model-pick button.active{border-color:var(--pvw);background:rgba(232,176,75,.08)}
+.model-pick button b{font-size:11.5px}
+.model-pick button span{display:block;font:9.5px var(--mono);color:var(--faint);margin-top:2px}
+.dropzone{border:1px dashed var(--line2);border-radius:8px;padding:16px;text-align:center;color:var(--muted);
+ font-size:11px;background:#0C0E12;cursor:pointer;transition:.15s}
+.dropzone:hover,.dropzone.drag{border-color:var(--pgm);background:rgba(79,209,197,.06)}
+.dropzone b{display:block;color:var(--tx);font-size:12px;margin-bottom:4px}
+.run-out{margin-top:10px;border:1px solid var(--line);border-radius:8px;overflow:hidden;display:none}
+.run-out.show{display:block}
+.run-media{background:#08090C;min-height:150px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.run-media img,.run-media video{max-width:100%;max-height:260px;display:block}
+.run-media .ph{font:11px var(--mono);color:var(--faint);padding:20px;text-align:center}
+.run-meta{padding:10px 12px;font:10px var(--mono);color:var(--muted);white-space:pre-wrap;line-height:1.7;
+ border-top:1px solid var(--line);max-height:150px;overflow:auto}
+.run-meta b{color:var(--pgm)}
+.artifact-strip{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:7px;margin-top:8px}
+.artifact-card{border:1px solid var(--line);border-radius:7px;background:#0C0E12;overflow:hidden;position:relative}
+.artifact-card img,.artifact-card video{width:100%;height:74px;object-fit:cover;display:block;background:#05060A;cursor:pointer}
+.artifact-card .ac-body{padding:5px 7px}
+.artifact-card .ac-name{font:9.5px var(--mono);color:var(--tx);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.artifact-card .ac-meta{font:8.5px var(--mono);color:var(--faint);margin-top:2px}
+.artifact-card .ac-tag{position:absolute;top:4px;left:4px;font:8px var(--mono);padding:1px 5px;border-radius:3px;background:rgba(5,6,10,.82);color:var(--pgm);border:1px solid rgba(79,209,197,.4)}
+.artifact-note{font:9.5px var(--mono);color:var(--faint);line-height:1.6;margin-top:8px;padding:7px 9px;background:#0C0E12;border:1px solid var(--line);border-radius:6px}
+.artifact-note b{color:var(--pgm)}
+.lab-foot{padding:11px 16px;border-top:1px solid var(--line);background:#0C0E12;font-size:10.6px;color:var(--faint)}
+.lab-foot b{color:var(--pvw)}
+.lab-foot code{font-family:var(--mono);color:var(--pgm);font-size:10px}
+@media(max-width:1180px){.method-head{padding:18px}.mchain{grid-template-columns:repeat(2,1fr)}
+ .mnode{border-bottom:1px solid var(--line)}.mnode:after{display:none}
+ .method-insight{grid-template-columns:1fr}.insight{border-right:0;border-bottom:1px solid var(--line)}
+ .lab{grid-template-columns:1fr}.lab-col{border-right:0;border-bottom:1px solid var(--line)}
+ .os-table,.mdl-table{display:block;overflow-x:auto}}
+
 @media(max-width:1180px){.grid{grid-template-columns:1fr}.hero{grid-template-columns:1fr}
  .stats{grid-template-columns:repeat(2,1fr)}.guide-steps{grid-template-columns:repeat(2,1fr)}.guide-foot{grid-template-columns:minmax(0,1fr) auto}.guide-current{grid-column:1/-1}.guide-foot > #guidePrev{grid-column:1;justify-self:start}.guide-foot > #guideNext{grid-column:2}.research{grid-template-columns:1fr}.takeaway{grid-column:span 1}
  .monitor-wall{grid-template-columns:1fr}}
@@ -355,7 +454,7 @@ table.os-table td{padding:10px 12px;border-bottom:1px solid #1B1E25;vertical-ali
   <div class="brand"><span class="brand-mark">场</span>WORLD MODEL FIELD LAB</div>
   <div class="tb-lights"><span class="tb-light on">PGM · A</span><span class="tb-light pvw">PVW · B</span><span class="rec"><i></i>REC</span></div>
   <div class="tb-tc" id="masterTC">00:00:00:00</div>
-  <div class="tb-right">A/B PAIRED EVAL × FILM LANGUAGE × DATA REFLOW</div>
+  <div class="tb-right">A/B PAIRED EVAL × LIVE MODEL BENCH × DATA REFLOW</div>
 </div>
 
 <div class="shell">
@@ -369,6 +468,29 @@ table.os-table td{padding:10px 12px;border-bottom:1px solid #1B1E25;vertical-ali
     <div class="big">你要回答的问题<br>每一步发生了什么变化？</div>
     <small>A/B 是页面预设示意，不代表模型或盲测配对。观察顺序：动作输入 → 画面变化 → 状态账本 → 故障标签 → 数据动作。</small>
   </div>
+</section>
+
+<!-- ========== v7 · 测评与设计思路（放在最前面） ========== -->
+<section class="method" id="method" aria-label="测评与设计思路">
+  <div class="method-head">
+    <div class="eyebrow">DESIGN RATIONALE · 先讲清楚为什么这样测</div>
+    <h2>测评与设计思路 <em>／ 把「模型好不好」拆成一条可复核的证据链</em></h2>
+    <p class="method-lead">2024 年 Sora 把「视频生成」推向「世界模拟」叙事，但到 2026 年，<b>Omni-WorldBench、Physics-IQ 等基准反复给出一个结论：画面越真实，不等于交互越可控、物理越正确、状态越持久</b>。所以本台不以单帧观感当结论，而是把一句模糊的「世界模型行不行」，逐层拆成可观察、可标注、可回流的行为证据。</p>
+  </div>
+  <div class="mchain">
+    <div class="mnode"><div class="mno">01 / 定问题</div><div class="micon">🎯</div><h3>生成画面 ≠ 可行动环境</h3><p>先分清使用者与失败成本：影视预演要镜头与连续性，游戏/具身要动作后果与状态持久。任务不同，指标不同。</p></div>
+    <div class="mnode"><div class="mno">02 / 拆能力</div><div class="micon">🧩</div><h3>世界模型 = 维护状态</h3><p>把「世界模型」落到五件可观察的事：动作是否生效、状态是否持续、后果是否合理、跨视角是否一致、长时是否稳定。</p></div>
+    <div class="mnode"><div class="mno">03 / 可观察化</div><div class="micon">📒</div><h3>能力 → 逐格状态对照</h3><p>每一步写清「参考状态」，与实际输出逐项比对。差异落到具体状态项与时间码，而不是一个笼统总分。</p></div>
+    <div class="mnode"><div class="mno">04 / 分证据</div><div class="micon">📶</div><h3>E1→E4 证据分层</h3><p>合理输出 → 忠实条件 → 一致世界状态 → 决策效用。声明本轮收哪类证据，避免用 E1 的画面去支撑 E3 的结论。</p></div>
+    <div class="mnode"><div class="mno">05 / 造任务</div><div class="micon">🎬</div><h3>任务卡 = 输入+步骤+失败标签</h3><p>影视与游戏各两张卡，每张定义预期事件序列与故障标签；标签直接对应模型的某类能力缺口。</p></div>
+    <div class="mnode"><div class="mno">06 / 回流</div><div class="micon">🔁</div><h3>失败 → 数据 → 回归集</h3><p>故障标签映射到 L0–L3 加工阶段与采集动作，入库后做版本对比，验证补数据是否真的改善任务表现。</p></div>
+  </div>
+  <div class="method-insight">
+    <div class="insight"><div class="ilbl">CORE INSIGHT · 本台的核心判断</div><h4>看着对 ≠ 做得到：视觉质量和交互保真度要分开测</h4><p>Physics-IQ 中视觉最讨喜的 Sora 物理理解反而垫底；Omni-WorldBench 也发现模型在时间闪烁、运动平滑上得分高，却在交互效果与中间状态演化上落后。腾讯 Hy-Nomas 用分段自回归 + 持久 KV cache 攻的正是「跨段空间记忆」，这说明评测单位必须从单段画面扩展到动作—状态—后果链。</p></div>
+    <div class="insight"><div class="ilbl">WHY A/B PAIRING · 为什么成对对照</div><h4>状态账本 + A/B 配对，控制主观漂移</h4><p>成对比较是控制评审主观漂移的常规做法。把差异固定到「第几步、哪个状态项变了」，标注才有一致口径，也才能定位到是场景覆盖、标注定义还是模型能力的问题。</p></div>
+    <div class="insight"><div class="ilbl">FROM DEMO TO REAL · 从示意到实测</div><h4>示意演示流程，真实模型接入台产出证据</h4><p>默认四步用 CSS 预设情景演示方法；下方「真实模型接入台」可接腾讯开源世界模型。两种来源严格标记：示意 ≠ 官方样例 ≠ 本机实时生成，记录里带模型版本与运行元信息。</p></div>
+  </div>
+  <div class="method-boundary"><b>边界声明：</b>E1–E4 是本项目自拟的评测视角，不是论文官方分类，也不用于判定「是否为世界模型」。页面默认画面为 CSS 绘制的示意，不是模型输出；真实结论需来自明确任务卡、可复核证据与校准后的多人评审流程。</div>
 </section>
 
 <section class="guide" aria-label="四步评测指引">
@@ -446,7 +568,7 @@ table.os-table td{padding:10px 12px;border-bottom:1px solid #1B1E25;vertical-ali
   </div>
 
   <div class="dims">
-    <h4>8 维参考剖面 <span style="font-weight:400;color:var(--faint);font-size:10px">示意规则值 · A 青绿 / B 黄色 / N/A 不适用</span></h4>
+    <h4>9 维参考剖面 <span style="font-weight:400;color:var(--faint);font-size:10px">示意规则值 · A 青绿 / B 黄色 / N/A 不适用 · 悬停维度名看对应模型/基准</span></h4>
     <div id="dimsBody"></div>
   </div>
 </section>
@@ -495,6 +617,61 @@ table.os-table td{padding:10px 12px;border-bottom:1px solid #1B1E25;vertical-ali
   <div class="rec-wrap" id="recordsBody"></div>
 </section>
 
+<!-- ========== v7 · 真实模型接入台 ========== -->
+<section class="panel" id="panelLive">
+  <div class="panel-head"><h2>05 / 真实模型接入台 <span style="font-weight:400;color:var(--faint)">LIVE MODEL BENCH</span></h2><small>接腾讯开源世界模型 · 真实输出与示意严格分离</small>
+    <div class="head-actions"><span class="tag-line" id="liveSrcTag">当前：示意模式</span></div>
+  </div>
+  <div class="lab">
+    <div class="lab-col">
+      <div class="lab-lab">01 / 选择腾讯开源模型</div>
+      <div class="model-pick" id="liveModelPick"></div>
+      <div class="lab-lab">02 / 接入方式</div>
+      <div class="mode-switch" id="liveModeSwitch">
+        <button data-mode="space" class="active"><b>在线 Space</b><span>真实 · 免部署</span></button>
+        <button data-mode="local"><b>本地 Gradio</b><span>真实 · 需 GPU</span></button>
+        <button data-mode="upload"><b>上传输出</b><span>真实 · 离线评测</span></button>
+        <button data-mode="artifacts"><b>实测产物</b><span>真实 · 本次跑通</span></button>
+        <button data-mode="schematic"><b>示意降级</b><span>非模型</span></button>
+      </div>
+      <div id="liveCfgSpace" class="cfg-wrap">
+        <div class="cfg-row"><input id="liveSpaceUrl" value="https://huggingface.co/spaces/tencent/HunyuanWorld-Mirror" readonly><button class="ghostbtn" id="liveOpenSpace">新窗口打开 ↗</button></div>
+        <div class="status-line" id="liveStatus">在线 Space 直接运行官方模型权重；点「新窗口打开」在浏览器里真实生成，再把输出保存到本地用于下方评测。</div>
+      </div>
+      <div id="liveCfgLocal" class="cfg-wrap" style="display:none">
+        <div class="cfg-row"><input id="liveEndpoint" value="http://127.0.0.1:7860" placeholder="本地 Gradio 地址"><button class="ghostbtn" id="liveTest">测试连接</button></div>
+        <div class="cfg-row"><input id="liveFnIndex" value="0" placeholder="fn_index"><input id="livePrompt" placeholder="文本提示 / 输入"></div>
+        <div class="status-line" id="liveLocalStatus">在已部署模型的机器上运行官方 Gradio（如 <code>python -m hyworld2.worldrecon.gradio_app</code>），此处填地址后用 Gradio API 调用。页面仅向该地址发请求。</div>
+      </div>
+      <div id="liveCfgUpload" class="cfg-wrap" style="display:none">
+        <div class="dropzone" id="liveDrop"><b>拖入 / 点击上传模型的真实输出</b><span>图片或视频 · 文件只留在本地浏览器，不上传服务器</span></div>
+        <input type="file" id="liveFile" accept="image/*,video/*" multiple style="display:none">
+        <div class="status-line" id="liveUploadStatus">在官方 Space / Demo 生成结果后下载，拖进来即可对<b>真实输出</b>跑下方完整评测流程。</div>
+      </div>
+      <div id="liveCfgArtifacts" class="cfg-wrap" style="display:none">
+        <div class="status-line" id="liveArtifactStatus">载入 2026-11-18 用 HF 认证跑通的 HunyuanWorld-Mirror 真实产物（7 件，均为官方模型输出，非 CSS 示意）。</div>
+        <div class="artifact-strip" id="artifactStrip"></div>
+        <div class="artifact-note" id="artifactNote"></div>
+      </div>
+      <div id="liveCfgSchematic" class="cfg-wrap" style="display:none">
+        <div class="status-line">CSS 预设示意，不调用任何模型。仅用于在没有 GPU / 网络时演示评测流程，记录会标记为「示意」。</div>
+      </div>
+      <div class="lab-lab" style="margin-top:14px">03 / 本次运行元信息（用于可复核记录）</div>
+      <div class="cfg-row"><input id="liveRunModel" placeholder="模型 / 版本"><input id="liveRunSeed" placeholder="seed（可选）"></div>
+      <div class="cfg-row"><input id="liveRunParams" placeholder="参数，如 steps=8 / 720×1280 / camera=left-strafe"><input id="liveRunPrompt" placeholder="提示词摘要"></div>
+      <div class="cfg-row"><input id="liveRunDate" placeholder="运行时间"><button class="ghostbtn" id="liveStamp">填入当前时间</button></div>
+    </div>
+    <div class="lab-col">
+      <div class="lab-lab">04 / 输出预览 <span id="liveSrcBadge" class="open-pill">SCHEMATIC</span></div>
+      <div class="run-media" id="liveFrame"><div class="ph">选择一个接入方式以载入真实模型或其输出</div></div>
+      <div class="run-meta" id="liveMeta">等待运行…<br>记录将包含：<b>模型版本 · 来源类型 · 接入地址 · 输入/参数 · 运行时间 · 评测员标注</b>。</div>
+      <div class="cfg-row" style="margin-top:10px"><button class="tbtn primary" id="liveRecord" style="flex:1">记录本次真实测评 →</button></div>
+      <div class="mini-note" id="liveHint">建议任务：HunyuanWorld-Mirror → 跨视角几何一致；Hy-Nomas → 事件持久化 / 跨段一致性 / 相机控制；HY-World 2.0 → 拓扑可达与漫游。故障标签在右侧「步骤 3」勾选，本按钮保存时会一并带走。</div>
+    </div>
+  </div>
+  <div class="lab-foot"><b>真实性说明：</b>本台不含 GPU 推理能力。「在线 Space / 本地 Gradio / 上传输出」三种模式对应真实模型或其真实产物，记录标记 <code>source_type=real_model</code>；「示意降级」为 CSS 绘制，标记 <code>source_type=schematic</code>。两者在导出中分列，<b>绝不混为模型评测结论</b>。能力描述以官方仓库为准，核对日期 2026-11-18。</div>
+</section>
+
 <section class="panel" id="panelOpen">
   <div class="panel-head"><h2>07 / 开源世界模型 · 上手与实测入口</h2><small>OPEN MODELS · 可直接点开</small></div>
   <table class="os-table"><thead><tr><th style="width:16%">项目</th><th style="width:34%">定位与关键能力</th><th style="width:20%">代码 / 权重</th><th>我要测什么</th></tr></thead>
@@ -507,12 +684,30 @@ table.os-table td{padding:10px 12px;border-bottom:1px solid #1B1E25;vertical-ali
     <td>多模态 <b>3D</b> 世界模型：全景 → 轨迹规划 → 世界扩展 → 合成，输出 3DGS / mesh，可漫游带物理碰撞</td>
     <td><a href="https://github.com/Tencent-Hunyuan/HY-World-2.0" target="_blank" rel="noreferrer">GitHub</a> · <a href="https://huggingface.co/tencent/HY-World-2.0" target="_blank" rel="noreferrer">HF 权重</a></td>
     <td>场景拓扑可达性 · 跨视角一致性 · 与 CG 管线对接方式</td></tr>
+  <tr><td><b>HunyuanWorld-Mirror</b><br><span style="color:var(--faint);font-size:10px">腾讯混元 · ICML 2026</span></td>
+    <td>前馈式通用 3D 几何预测：多视图 / 视频 → 点云、深度、法线、相机位姿、3DGS；<b>有官方 HF 在线 Demo，可零部署实测</b></td>
+    <td><a href="https://github.com/Tencent-Hunyuan/HunyuanWorld-Mirror" target="_blank" rel="noreferrer">GitHub</a> · <a href="https://huggingface.co/spaces/tencent/HunyuanWorld-Mirror" target="_blank" rel="noreferrer">在线 Demo</a></td>
+    <td>跨视角一致性 · 几何重建精度 · 相机位姿准确性</td></tr>
   <tr><td><b>HunyuanWorld-1.0</b><br><span style="color:var(--faint);font-size:10px">腾讯混元 · 2025-07</span></td>
-    <td>文本 / 图像 → 可交互沉浸式 3D 世界，可导出 mesh 供 CG 管线使用</td>
-    <td><a href="https://github.com/Tencent-Hunyuan/HunyuanWorld-1.0" target="_blank" rel="noreferrer">GitHub</a></td>
+    <td>文本 / 图像 → 可交互沉浸式 3D 世界，可导出 mesh 供 CG 管线使用；lite 版支持 4090</td>
+    <td><a href="https://github.com/Tencent-Hunyuan/HunyuanWorld-1.0" target="_blank" rel="noreferrer">GitHub</a> · <a href="https://huggingface.co/tencent/HunyuanWorld-1" target="_blank" rel="noreferrer">HF 权重</a></td>
     <td>对照组：3D 路线 vs 视频路线的失败模式差异</td></tr>
   </tbody></table>
   <div class="os-note">本地运行是复现评测流程的候选路径之一；完成生成、记录、复核和回归验证后，才能判断闭环是否有效。完整上手命令与四条评测任务设计见 <a href="https://github.com/Daisyyy-LS/world-model-data-kit/blob/main/open_models/hy-nomas_eval_plan.md" target="_blank" rel="noreferrer">hy-nomas_eval_plan.md</a>。⚠️ 能力与硬件描述以官方资料为依据，本项目尚未在 GPU 上实跑；许可应查阅代码和权重各自条款。</div>
+</section>
+
+<section class="panel" id="panelMap">
+  <div class="panel-head"><h2>08 / 模型能力 × 评测维度映射 <span style="font-weight:400;color:var(--faint)">WHY THIS DIMENSION</span></h2><small>每个维度都能追到真实模型或基准</small></div>
+  <table class="mdl-table"><thead><tr><th>评测维度</th><th class="route">对应模型 / 基准</th><th>为什么要测（模型侧动机）</th></tr></thead>
+  <tbody>
+   <tr><td><b>跨段一致性</b> <span style="color:var(--pvw);font-size:9px">NEW</span></td><td class="route">Hy-Nomas（分段自回归 + KV cache）</td><td>分段生成模型每段都可能漂移，段边界是否连续直接决定能否长时交互——旧 8 维没有这一项，故补入。</td></tr>
+   <tr><td><b>长时记忆与因果</b></td><td class="route">Hy-Nomas · WorldRoamBench</td><td>持久 KV cache / 事件持久化是 2025–26 世界模型的核心卖点，用「事件注入后是否保留」做行为检验。</td></tr>
+   <tr><td><b>时空 / 跨视角一致性</b></td><td class="route">HunyuanWorld-Mirror · HY-World 2.0</td><td>3D 路线用点云 / 位姿误差量化，视频路线用绕拍任务观察身份与布局是否稳定。</td></tr>
+   <tr><td><b>物理合理性</b></td><td class="route">Physics-IQ · CaliBench</td><td>视觉合理 ≠ 物理正确；基准显示最好模型也仅达物理方差上限的一部分，是明确的高风险区。</td></tr>
+   <tr><td><b>相机控制</b></td><td class="route">Hy-Nomas · WonderWorld</td><td>给定相机轨迹是否照做，是 E2「忠实条件」证据；相机控制分高不等于交互保真度高。</td></tr>
+   <tr><td><b>交互延迟</b></td><td class="route">Genie 3（实时 24fps）· Hy-Nomas（回合制）</td><td>实时 / 回合制路线延迟口径不同，N/A 由任务卡显式声明，不按轨道推断。</td></tr>
+  </tbody></table>
+  <div class="mapnote"><b>读法：</b>维度不是凭空列的，而是从模型架构与公开基准反推「它可能在哪里失败」。这也是本台相对旧版的核心升级：<b>维度表跟着模型架构演进</b>。所有维度分数在示意模式下都是预设规则值，不用于模型比较。</div>
 </section>
 
 <section class="research">
@@ -524,15 +719,17 @@ table.os-table td{padding:10px 12px;border-bottom:1px solid #1B1E25;vertical-ali
     <p>RoboWM-Bench 是本项目关注“视觉合理性与下游可执行性需分开评估”的研究线索。这里的 CSS 预设场景并未复现该基准，也没有真实人工评分、自动指标校准或标注一致性实验。</p></article>
   <article class="research-card"><span class="pill">OFFICIAL LIMITS · Genie 3</span><h3>官方承认的局限，就是任务卡</h3>
     <p>Genie 3 博客自列：动作空间受限、多智能体交互难、真实地理位置失真、文字渲染不稳、连续交互仅数分钟。每一条对应一张评测任务卡——本台 V01 双人交接测多主体与接触时序、V02 绕拍测跨视角一致与轴线、G01 推球测动作生效与因果、G02 开门进屋测状态持久与拓扑。</p></article>
-  <article class="research-card"><span class="pill">LANDSCAPE · 四大阵营（2026.10）</span><h3>越封闭的阵营，数据回流越稀缺</h3>
-    <p>Google Genie 3、NVIDIA Cosmos、World Labs 与 Meta 的产品开放方式和研究路线不同，具体状态应以各方最新官方信息为准。<b>2026-10-23 补记</b>：腾讯发布 Hy-Nomas，官方仓库列有单张 RTX 4090 低显存配置；本项目尚未实跑，也不据此宣称已具备可复现闭环。</p></article>
+  <article class="research-card"><span class="pill">BENCHMARK · Omni-WorldBench / Physics-IQ</span><h3>画面越真实 ≠ 交互越正确</h3>
+    <p>Omni-WorldBench 发现模型在时间闪烁、运动平滑上得分高，却在交互效果保真度、中间状态演化上落后；Physics-IQ 中视觉最讨喜的 Sora 物理理解反而垫底。这正是本台坚持「状态账本 + 证据分层」、不把单帧观感当结论的依据。</p></article>
+  <article class="research-card"><span class="pill">LANDSCAPE · 腾讯开源矩阵（2026.11）</span><h3>腾讯把 3D 与视频两条路线都开源了</h3>
+    <p>HunyuanWorld-Mirror（ICML 2026，有 HF 在线 Demo）、HY-World 2.0（可漫游 3DGS）、Hy-Nomas（交互式视频 + 280 例 Hy-Nomas-Bench）覆盖了不同路线。开放权重让「生成→打分→定位→回流」闭环可复现；本项目通过接入台对接真实输出，但仍不虚构实跑结论。</p></article>
   <div class="takeaway"><h3>我的拆解逻辑<br><span style="font-weight:400;color:var(--muted)">从片场约束到模型评测，再到数据回流</span></h3>
     <p><b>影视生成：</b>主体/道具连续性、动作顺序、镜头运动与轴线——机位视角切换演示的就是「同一世界，换镜头观察」。<br>
     <b>交互世界：</b>动作是否生效、状态是否持续、后果是否合理、换视角后空间关系是否稳定——事件注入帮助演示如何观察预设事件的后续状态；要形成可比结论，仍需真实模型输出、明确参考状态和校准后的评审流程。<br>
     <b>数据闭环：</b>用失败标签定位问题属于场景覆盖、标注定义、产品控制还是模型能力，再补进回归集——这就是这个岗位每天要做的事。</p></div>
 </section>
 
-<footer class="footer">梁爽 · 中国传媒大学国际新闻学硕士在读 · 作品方法样例（非真实模型测试结果） · 信息核对日期 2026-10-28 · 配套仓库：<a href="https://github.com/Daisyyy-LS/world-model-data-kit" target="_blank" rel="noreferrer">world-model-data-kit</a> · <a href="https://github.com/Daisyyy-LS/cinematic-shot-spec" target="_blank" rel="noreferrer">cinematic-shot-spec</a></footer>
+<footer class="footer">梁爽 · 中国传媒大学国际新闻学硕士在读 · 作品方法样例 · v7 新增「设计思路 / 真实模型接入台 / 模型-维度映射」，真实输出与示意分列记录 · 模型与基准信息核对日期 2026-11-18 · 配套仓库：<a href="https://github.com/Daisyyy-LS/world-model-data-kit" target="_blank" rel="noreferrer">world-model-data-kit</a> · <a href="https://github.com/Daisyyy-LS/cinematic-shot-spec" target="_blank" rel="noreferrer">cinematic-shot-spec</a></footer>
 </div><div class="toast" id="toast"></div>
 
 <script>
@@ -558,7 +755,7 @@ const cases={
  G02:{track:'game',id:'G02',notApplicable:['camera'],title:'开门进屋：世界状态持续吗？',desc:'游戏交互 · 玩家开门、走入房间，再回头观察。检查可达性、状态持久与视角一致。',
   step:22,py:6,beats:['玩家在关门的门外，房间可见','玩家与门交互，门旋转打开','玩家通过门洞进入室内','门保持打开，房间布局不重置'],
   expect:['门状态随交互改变并持续','门洞与房间空间连通且可通行','转身/换视角后房间拓扑关系稳定'],
-  tags:['interaction_missing','topology_error','state_reset','view_inconsistency'],
+  tags:['interaction_missing','topology_error','state_reset','view_inconsistency','crossseg_drift','memory_loss'],
   keys:['门状态','门后空间','房间布局','视角一致性'],
   states:[['关闭','房间可见','—','一致'],['打开','可通行','一致','一致'],['保持打开','已进入','一致','一致'],['保持打开','—','一致','一致']]}
 };
@@ -577,7 +774,9 @@ const TAGS={
  state_reset:{zh:'状态重置',layer:'L3',action:'标「世界记忆丢失」，失败链整条入库',dim:'memory'},
  interaction_missing:{zh:'交互未触发',layer:'L2',action:'补可交互物清单与触发条件标注',dim:'instruct'},
  topology_error:{zh:'空间连通错误',layer:'L1',action:'补场景拓扑（可达性）标注',dim:'spatial'},
- view_inconsistency:{zh:'跨视角不一致',layer:'L1',action:'补跨视角一致性锚点（门/窗/家具方位）',dim:'memory'}
+ view_inconsistency:{zh:'跨视角不一致',layer:'L1',action:'补跨视角一致性锚点（门/窗/家具方位）',dim:'spatial'},
+ crossseg_drift:{zh:'跨段状态漂移',layer:'L3',action:'标「分段边界状态不连续」，保留相邻两段做一致性训练对',dim:'crossseg'},
+ memory_loss:{zh:'长时记忆丢失',layer:'L3',action:'标「事件在后续段未保留」，收集长上下文失败链',dim:'memory'}
 };
 const DEFECT={
  V01:{1:{text:'递出瞬间桌上出现第二个杯子',s:{dup:1},flags:['object_duplication'],st:['2 个','A 手中','未接触','正常']},
@@ -591,7 +790,7 @@ const DEFECT={
       3:{text:'球穿墙而过并淡出消失',s:{fade:1},flags:['physics_error','state_reset'],st:['穿墙消失','—','穿透','丢失']}},
  G02:{1:{text:'门打开后门后是墙——拓扑错误',s:{axis:1},flags:['topology_error','interaction_missing'],st:['打开','门后是墙','一致','一致']},
       2:{text:'进入后房间布局与开门前不一致',s:{drift:1},flags:['view_inconsistency'],st:['保持打开','已进入','布局漂移','不一致']},
-      3:{text:'回头时门已关上——世界状态重置',s:{reset:1},flags:['state_reset','view_inconsistency'],st:['重置为关闭','—','一致','不一致']}}
+      3:{text:'回头时门已关上——世界状态重置',s:{reset:1},flags:['state_reset','view_inconsistency','crossseg_drift','memory_loss'],st:['重置为关闭','—','一致','不一致']}}
 };
 const EVENTS={rain:{zh:'雨天'},cat:{zh:'新增角色'},dim:{zh:'关灯'}};
 const LADDERS=[
@@ -601,8 +800,15 @@ const LADDERS=[
  {n:4,name:'决策效用',desc:'能改进下游规划/策略吗？',check:'把生成结果转成可执行动作，进仿真器验证成功率（RoboWM-Bench 口径）。',hint:'超出本台范围，需具身基准配合。'}
 ];
 const DIMS=[
- {k:'spatial',n:'时空一致性'},{k:'persist',n:'物体恒存'},{k:'physics',n:'物理合理性'},{k:'camera',n:'相机控制'},
- {k:'instruct',n:'指令遵循'},{k:'latency',n:'交互延迟'},{k:'memory',n:'长时记忆与因果'},{k:'editability',n:'局部可编辑性'}
+ {k:'spatial',n:'时空一致性',tip:'跨视角/跨步几何稳定 · HY-World 2.0 WorldMirror / HunyuanWorld-Mirror'},
+ {k:'persist',n:'物体恒存',tip:'道具唯一 ID 与存在区间 · Hy-Nomas 长时段'},
+ {k:'physics',n:'物理合理性',tip:'Physics-IQ / CaliBench：视觉合理 ≠ 物理正确'},
+ {k:'camera',n:'相机控制',tip:'给定相机轨迹是否被遵守 · Hy-Nomas camera cross-attention'},
+ {k:'instruct',n:'指令遵循',tip:'文本指令 → 状态变化 · Hy-Nomas 多轮文本控制'},
+ {k:'latency',n:'交互延迟',tip:'实时交互门槛 · Genie 3 720p/24fps；Hy-Nomas 为回合制'},
+ {k:'memory',n:'长时记忆与因果',tip:'持久 KV cache / 事件持久化 · Hy-Nomas world memory'},
+ {k:'crossseg',n:'跨段一致性',tip:'分段自回归专用：段边界前后状态是否连续 · Hy-Nomas'},
+ {k:'editability',n:'局部可编辑性',tip:'局部改写而不破坏全局 · 面向交互式编辑的长期关注'}
 ];
 function loadRecords(){try{const value=JSON.parse(localStorage.getItem('wmfl_records')||'[]');return Array.isArray(value)?value:[]}catch{return []}}
 let records=loadRecords();
@@ -696,12 +902,12 @@ function dimScore(side,k){
  return Math.max(1,Math.min(5,Math.round(s*10)/10));
 }
 function renderDims(){
- const a=dimScore('A'),_=0;
  $('#dimsBody').innerHTML=DIMS.map(d=>{
-  const sa=dimScore('A',d.k),sb=dimScore('B',d.k);
-  if(sa===null)return `<div class="dim-row na"><span class="nm">${d.n}</span><span class="dimbars"><i><b style="width:0"></b></i></span><span class="vv">N/A</span></div>`;
+  const sa=dimScore('A',d.k),sb=dimScore('B',d.k),isNew=d.k==='crossseg';
+  const nm=`<span class="nm" title="${d.tip||''}">${d.n}${isNew?' <span style="color:var(--pvw);font-size:8px">NEW</span>':''}</span>`;
+  if(sa===null)return `<div class="dim-row na">${nm}<span class="dimbars"><i><b style="width:0"></b></i></span><span class="vv">N/A</span></div>`;
   const pa=sa/5*100,pb=sb/5*100;
-  return `<div class="dim-row"><span class="nm">${d.n}</span>
+  return `<div class="dim-row">${nm}
    <span class="dimbars"><i class="a"><b style="width:${pa}%"></b></i><i class="b"><b style="width:${pb}%"></b></i></span>
    <span class="vv">${sa.toFixed(1)}/${sb.toFixed(1)}</span></div>`}).join('');
 }
@@ -859,11 +1065,19 @@ $('#guidePrev').onclick=()=>{
 function renderRecords(){
  const body=$('#recordsBody');
  if(!records.length){body.innerHTML='<div class="rec-empty">完成四步后点右侧“记录本次练习”。记录保存在当前浏览器，可在此查看并导出 JSON / CSV。</div>';return}
-  body.innerHTML='<table class="rec-table"><thead><tr><th>任务编号</th><th>任务 / 当前步骤</th><th>练习档位</th><th>A 练习评分 / 规则参考</th><th>B 练习评分 / 规则参考</th><th>标注标签 → 建议阶段</th><th>注入事件</th><th>记录时间</th></tr></thead><tbody>'
-  +records.map(r=>`<tr><td><b>${r.case_id}</b></td><td>${r.title}<br><span style="color:var(--faint);font-size:10px">${r.track} · 第 ${r.step}/${r.steps} 步 · ${r.zoom?'机位':'导演'}视角 · ${r.drift_count} 项状态漂移</span></td>
-   <td>E${r.ladder}</td><td>${r.scoreA} / ${r.autoA}</td><td>${r.scoreB} / ${r.autoB}</td>
-   <td>${r.failure_tags.length?r.failure_tags.map(t=>`<span class="layer-pill">${t.layer}</span>${t.zh}`).join('<br>'):'<span style="color:var(--faint)">无</span>'}</td>
-   <td>${r.events.length?r.events.join('、'):'无'}</td><td style="white-space:nowrap;color:var(--faint)">${r.time}</td></tr>`).join('')+'</tbody></table>';
+  body.innerHTML='<table class="rec-table"><thead><tr><th>记录 ID / 来源</th><th>任务 / 步骤</th><th>模型 / 版本</th><th>档位</th><th>故障标签 → 阶段</th><th>运行元信息</th><th>时间</th></tr></thead><tbody>'
+  +records.map(r=>{
+   const isReal=r.source_type==='real_model';
+   const src=r.source_type==='real_model'?'<span class="layer-pill" style="border-color:var(--pgm);color:var(--pgm)">REAL</span>'
+     :r.source_type==='schematic'?'<span class="layer-pill" style="border-color:var(--pvw);color:var(--pvw)">示意</span>':'';
+   const sub=r.track==='live_bench'?(r.source_mode||'实时'):`${r.track} · 第 ${r.step}/${r.steps} 步 · ${r.zoom?'机位':'导演'}视角`;
+   const meta=r.track==='live_bench'?`提示：${r.prompt||'—'}<br>参数：${r.params||'—'}<br>seed：${r.seed||'—'}${r.files&&r.files.length?'<br>文件：'+r.files.join('、'):''}`
+     :`A ${r.scoreA}/B ${r.scoreB} · ${r.drift_count} 项漂移 · 事件 ${r.events.length?r.events.join('、'):'无'}`;
+   return `<tr><td><b>${r.id||r.case_id}</b><br>${src}</td><td>${r.title}<br><span style="color:var(--faint);font-size:10px">${sub}</span></td>
+    <td style="font-size:10.5px">${r.model||'<span style="color:var(--faint)">CSS 预设示意</span>'}</td>
+    <td>E${r.ladder}</td>
+    <td>${r.failure_tags.length?r.failure_tags.map(t=>`<span class="layer-pill">${t.layer}</span>${t.zh}`).join('<br>'):'<span style="color:var(--faint)">无</span>'}</td>
+    <td style="font-size:10px;color:var(--muted)">${meta}</td><td style="white-space:nowrap;color:var(--faint)">${r.time}</td></tr>`}).join('')+'</tbody></table>';
 }
 function driftCount(){const c=getCase(),d=DEFECT[c.id]&&DEFECT[c.id][beat];let n=0;
  if(d&&d.st)c.keys.forEach((k,i)=>{if(d.st[i]!==c.states[beat][i])n++});return n}
@@ -902,7 +1116,8 @@ $('#copyReport').onclick=()=>{const t=$('#reportBox').textContent;if(navigator.c
 $('#record').onclick=()=>{const c=getCase(),sel=picks[active]||[],st=evOf(active);
  if(guideStep!==4){toast('请按顺序完成前面的步骤，再保存记录');return}
  const evNames=[...st.on].map(k=>EVENTS[k].zh);if(st.custom)evNames.push('自定义：'+st.custom);
- records.push({case_id:active,title:c.title,track:c.track==='film'?'影视预演':'游戏交互',step:beat+1,steps:c.beats.length,
+ records.push({id:'SIM-'+Date.now().toString().slice(-6),source_type:'schematic',source_mode:'CSS示意',
+  model:'CSS 预设示意（非模型输出）',case_id:active,title:c.title,track:c.track==='film'?'影视预演':'游戏交互',step:beat+1,steps:c.beats.length,
   zoom:zoom,ladder:ladder,drift_count:driftCount(),
   scoreA:+$('#scoreA').value,autoA:autoScore('A'),scoreB:+$('#scoreB').value,autoB:autoScore('B'),
   failure_tags:sel.map(t=>({tag:t,zh:TAGS[t].zh,layer:TAGS[t].layer,action:TAGS[t].action})),events:evNames,
@@ -910,15 +1125,16 @@ $('#record').onclick=()=>{const c=getCase(),sel=picks[active]||[],st=evOf(active
  localStorage.setItem('wmfl_records',JSON.stringify(records));logged.add(active);goGuideStep(4,false);render();
  toast(`${active} 已记录 · A ${$('#scoreA').value}/B ${$('#scoreB').value} · ${sel.length} 个标签 · ${driftCount()} 项状态漂移`)};
 $('#exportJson').onclick=()=>{download('wmfl-records.json',JSON.stringify({exported_at:new Date().toISOString(),
-  tool:'world-model-playground',version:'v6',record_type:'synthetic_workflow_demo',
-  evidence_boundary:'CSS scene and preset defect rules; not model outputs or evaluation results',
+  tool:'world-model-playground',version:'v7',record_types:['schematic_workflow_demo','real_model_annotation'],
+  source_type_legend:{real_model:'真实开源模型输出或其实测产物；仍需按任务卡与多人复核形成结论',schematic:'CSS 预设示意，不是模型输出或评测结果'},
+  evidence_boundary:'真实与示意记录按 source_type 分列；均非官方 benchmark 结论',
   taxonomy:'L0-L3 are suggested data processing stages, not quality levels or sample types',records},null,2),'application/json')};
 $('#exportCsv').onclick=()=>{
- const head='case_id,任务,轨道,证据档位,视角,A示意练习分,A预设规则值,B示意练习分,B预设规则值,A-B差值,状态漂移数,故障标签,建议加工阶段,建议动作,注入事件,备注,时间';
- const rows=records.map(r=>[r.case_id,r.title,r.track,'E'+r.ladder,r.zoom?'机位':'导演',r.scoreA,r.autoA,r.scoreB,r.autoB,
-  (r.scoreA-r.scoreB).toFixed(1),r.drift_count,r.failure_tags.map(t=>t.zh).join(' | '),
-  [...new Set(r.failure_tags.map(t=>t.layer))].join(' | '),r.failure_tags.map(t=>t.action).join(' | '),
-  r.events.join(' | '),r.note,r.time].map(csvCell).join(','));
+ const head='记录ID,来源类型,接入方式,任务,轨道,模型/版本,证据档位,A分,B分,状态漂移数,故障标签,建议加工阶段,提示词,参数,seed,运行时间,文件,记录时间';
+ const rows=records.map(r=>[r.id||r.case_id,r.source_type||'schematic',r.source_mode||'CSS示意',r.title,r.track,r.model||'',
+  'E'+r.ladder,r.scoreA,r.scoreB,r.drift_count,r.failure_tags.map(t=>t.zh).join(' | '),
+  [...new Set(r.failure_tags.map(t=>t.layer))].join(' | '),r.prompt||'',r.params||'',r.seed||'',r.run_date||'',
+  (r.files||[]).join(' | '),r.time].map(csvCell).join(','));
  download('wmfl-records.csv','\ufeff'+head+'\n'+rows.join('\n'),'text/csv')};
 $('#clearRecords').onclick=()=>{if(!records.length)return;if(!confirm('确定清空全部本地评测记录？'))return;
  records=[];logged.clear();localStorage.removeItem('wmfl_records');render()};
@@ -930,5 +1146,188 @@ document.addEventListener('keydown',e=>{
  else if(e.key==='e'||e.key==='E'){document.querySelector('#eventChips [data-ev="rain"]').click()}
  else if(/^[1-4]$/.test(e.key)){const i=+e.key-1;if(i<getCase().beats.length&&i<=furthestBeat){beat=i;render()}}
 });
-renderLadder();render();
+/* ================= v7 · 真实模型接入台 ================= */
+const LIVE_MODELS={
+ mirror:{name:'HunyuanWorld-Mirror',ver:'tencent/HunyuanWorld-Mirror · ICML 2026',space:'https://huggingface.co/spaces/tencent/HunyuanWorld-Mirror',
+  hint:'前馈式 3D 几何重建：上传多视图/视频 → 点云、深度、法线、相机位姿、3DGS。适合测：跨视角一致性、几何一致性、相机位姿准确性（对应任务 V02）。'},
+ nomas:{name:'Hy-Nomas',ver:'tencent/Hy-Nomas · 2026-10 · Apache-2.0',space:'https://hy-nomas.hy.tencent.com/demo',
+  hint:'分段自回归交互式视频世界模型：多轮文本 + 相机轨迹控制，持久 KV cache。适合测：跨段一致性、事件持久化、动作生效、长时记忆（对应 G01/G02）。在线 Demo 为腾讯自有站点，可能无法内嵌，请用「新窗口打开」。'},
+ world2:{name:'HY-World 2.0',ver:'tencent/HY-World-2.0 · 2026-04',space:'https://github.com/Tencent-Hunyuan/HY-World-2.0',
+  hint:'多模态 3D 世界模型：WorldMirror 2.0 重建 + 全景生成 + 世界扩展，输出 3DGS/mesh 可漫游。官方提供本地 Gradio（python -m hyworld2.worldrecon.gradio_app）。适合测：拓扑可达性、场景连通、跨视角一致（对应 G02）。'}
+};
+// 本次真实跑通的产物清单（数据来自 real_run/run_meta.json，非示意）
+const REAL_ARTIFACTS={
+ model:'HunyuanWorld-Mirror',
+ modelFull:'tencent/HunyuanWorld-Mirror · ICML 2026 · 官方在线 Space',
+ endpoint:'https://tencent-hunyuanworld-mirror.hf.space/',
+ runDate:'2026-11-18 19:59:18',
+ auth:true,
+ input:'Bright_Room/image_0001.jpg（官方示例室内场景）',
+ params:'interval=1.0 · 前馈 3D 几何重建 · GPU 约 82s',
+ metaPath:'real_run/run_meta.json',
+ items:[
+  {file:'rgb_video.mp4',      kind:'video', label:'RGB 漫游视频', bytes:497192, preview:true},
+  {file:'depth_video.mp4',    kind:'video', label:'深度漫游视频', bytes:647394, preview:true},
+  {file:'depth_map.png',      kind:'image', label:'深度图 518×294', bytes:41246, preview:true},
+  {file:'normal_map.png',     kind:'image', label:'法线图 518×294', bytes:137968, preview:true},
+  {file:'gaussian_splatting.ply',kind:'file',label:'3DGS 点云', bytes:8116284, preview:false},
+  {file:'pointmap_mesh.glb',  kind:'file', label:'点云 Mesh (glTF)', bytes:2437912, preview:false},
+  {file:'camera_params.json', kind:'file', label:'相机外参矩阵', bytes:945, preview:false}
+ ]
+};
+let liveModel='mirror',liveMode='space',liveMedia=[];
+function renderLiveModels(){
+ $('#liveModelPick').innerHTML=Object.entries(LIVE_MODELS).map(([k,m])=>
+  `<button data-m="${k}" class="${k===liveModel?'active':''}"><b>${m.name}</b><span>${m.ver}</span></button>`).join('');
+ $('#liveModelPick').querySelectorAll('button').forEach(b=>b.onclick=()=>{
+  liveModel=b.dataset.m;renderLiveModels();
+  const m=LIVE_MODELS[liveModel];$('#liveSpaceUrl').value=m.space;$('#liveRunModel').value=m.ver;
+  $('#liveHint').textContent=m.hint;setLiveStatus(m.name+'：'+m.hint,'');
+  if(liveMode==='space')loadSpaceFrame()});
+}
+function setLiveStatus(msg,cls){const el=$('#liveStatus');el.textContent=msg;el.className='status-line'+(cls?' '+cls:'')}
+function badge(text,real){const b=$('#liveSrcBadge');b.textContent=text;b.className='open-pill'+(real?' yes':' no')}
+function clearFrame(html){const f=$('#liveFrame');f.innerHTML='<div class="ph">'+html+'</div>'}
+function loadSpaceFrame(){
+ const m=LIVE_MODELS[liveModel],url=m.space;
+ if(liveModel==='nomas'||liveModel==='world2'){
+  clearFrame((liveModel==='nomas'?'Hy-Nomas 为腾讯自有站点 Demo':'HY-World 2.0 以本地 Gradio 为主')+'，浏览器可能禁止内嵌。<br>请点「新窗口打开」到官方页面/仓库，用「本地 Gradio」或「上传输出」模式把真实产物带入评测。');
+  badge('REAL · 外链',true);$('#liveSrcTag').textContent='当前：真实模型（外链/本地）';
+  setLiveStatus('官方入口：'+url,'ok');return;
+ }
+ clearFrame('正在载入 '+m.name+' 官方 Space…<br><span style="font-size:10px">若长时间空白，多为网络或 iframe 限制，请点「新窗口打开」。</span>');
+ const f=$('#liveFrame');f.innerHTML='';
+ const iframe=document.createElement('iframe');iframe.src=url+'?embed=true';iframe.title=m.name;
+ iframe.style.cssText='width:100%;height:560px;border:0;background:#fff';
+ iframe.referrerPolicy='no-referrer';f.appendChild(iframe);
+ badge('REAL · ONLINE SPACE',true);$('#liveSrcTag').textContent='当前：真实模型（在线 Space）';
+ setLiveStatus('已内嵌官方 Space：'+url+'。这是远程真实模型，非本页示意。','ok');
+}
+function setMode(mode){
+ liveMode=mode;
+ document.querySelectorAll('#liveModeSwitch button').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));
+ ['space','local','upload','artifacts','schematic'].forEach(k=>$('#liveCfg'+k[0].toUpperCase()+k.slice(1)).style.display=k===mode?'block':'none');
+ if(mode==='space'){loadSpaceFrame()}
+ else if(mode==='local'){clearFrame('填入本地 Gradio 地址并测试连接，然后调用真实模型。');badge('REAL · LOCAL',true);$('#liveSrcTag').textContent='当前：真实模型（本地 Gradio）'}
+ else if(mode==='upload'){clearFrame('拖入从官方 Space / Demo 下载的真实输出，即可预览并评测。');badge('REAL · 上传输出',true);$('#liveSrcTag').textContent='当前：真实输出（上传）'}
+ else if(mode==='artifacts'){renderRealArtifacts();badge('REAL · 实测产物',true);$('#liveSrcTag').textContent='当前：真实产物（2026-11-18 跑通）'}
+ else{clearFrame('CSS 预设示意 —— 不是模型输出，不会计入真实评测结论。');badge('SCHEMATIC',false);$('#liveSrcTag').textContent='当前：示意模式'}
+ updateMeta();
+}
+function updateMeta(){
+ const real=liveMode!=='schematic';
+ const lines=[
+  '来源类型：<b>'+(real?'real_model':'schematic')+'</b>',
+  '接入方式：'+({space:'在线 Space',local:'本地 Gradio',upload:'上传输出',artifacts:'实测产物（本次跑通）',schematic:'示意降级'}[liveMode]),
+  '模型 / 版本：'+($('#liveRunModel').value||'未填写'),
+  '输入 / 提示：'+($('#liveRunPrompt').value||'未填写'),
+  '参数：'+($('#liveRunParams').value||'未填写'),
+  'seed：'+($('#liveRunSeed').value||'未填写'),
+  '运行时间：'+($('#liveRunDate').value||'未填写'),
+  '本轮勾选故障标签：'+((picks[active]||[]).map(t=>TAGS[t].zh).join('、')||'未勾选')
+ ];
+ $('#liveMeta').innerHTML=lines.join('<br>');
+}
+['liveRunModel','liveRunSeed','liveRunParams','liveRunPrompt','liveRunDate'].forEach(id=>$('#'+id).addEventListener('input',updateMeta));
+$('#liveStamp').onclick=()=>{$('#liveRunDate').value=new Date().toLocaleString('zh-CN',{hour12:false});updateMeta()};
+document.querySelectorAll('#liveModeSwitch button').forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
+$('#liveOpenSpace').onclick=()=>window.open(LIVE_MODELS[liveModel].space,'_blank','noopener');
+$('#liveTest').onclick=async()=>{
+ const ep=$('#liveEndpoint').value.trim().replace(/\/$/,''),st=$('#liveLocalStatus');
+ st.textContent='正在连接 '+ep+' …';st.className='status-line';
+ try{
+  const r=await fetch(ep+'/config',{signal:AbortSignal.timeout(8000)});
+  if(!r.ok)throw new Error('HTTP '+r.status);
+  const cfg=await r.json();const n=(cfg.dependencies||[]).length;
+  st.textContent='✅ 连接成功：Gradio 应用，识别到 '+n+' 个可调用接口。填入 fn_index 与输入后可调用真实模型。';st.className='status-line ok';
+  window._liveGradioOk=true;
+ }catch(e){st.textContent='❌ 连接失败（'+e.message+'）。请确认模型服务已启动、地址正确，且浏览器允许跨域访问 localhost。也可改用「上传输出」模式。';st.className='status-line err';window._liveGradioOk=false}
+};
+function showUploads(){
+ const f=$('#liveFrame');f.innerHTML='';
+ if(!liveMedia.length){clearFrame('尚无输出。');return}
+ liveMedia.forEach(m=>{
+  const url=URL.createObjectURL(m.file);
+  if(m.file.type.startsWith('video/')){const v=document.createElement('video');v.src=url;v.controls=true;v.style.cssText='max-width:100%;max-height:320px;display:block;margin:6px auto';f.appendChild(v)}
+  else{const im=document.createElement('img');im.src=url;im.style.cssText='max-width:100%;max-height:320px;display:block;margin:6px auto';f.appendChild(im)}
+ });
+ $('#liveUploadStatus').textContent='已载入 '+liveMedia.length+' 个真实输出文件：'+liveMedia.map(m=>m.file.name).join('、');
+ $('#liveUploadStatus').className='status-line ok';updateMeta();
+}
+// 渲染本次真实跑通的产物（路径相对于本页，需通过本地服务器打开）
+function renderRealArtifacts(){
+ const base='real_run/output/';
+ const strip=$('#artifactStrip');strip.innerHTML='';
+ REAL_ARTIFACTS.items.forEach(it=>{
+  const card=document.createElement('div');card.className='artifact-card';
+  const path=base+it.file;
+  if(it.preview){
+   let m;
+   if(it.kind==='video'){m=document.createElement('video');m.src=path;m.muted=true;m.loop=true;m.playsInline=true;m.controls=false;m.title=it.label+'（点击预览大图）'}
+   else{m=document.createElement('img');m.src=path;m.alt=it.label;m.title=it.label+'（点击预览大图）'}
+   m.onclick=()=>{const f=$('#liveFrame');f.innerHTML='';const big=m.cloneNode(true);
+     if(big.tagName==='VIDEO'){big.controls=true;big.muted=false;big.loop=false;big.style.cssText='max-width:100%;max-height:340px'}
+     else{big.style.cssText='max-width:100%;max-height:340px'}
+     f.appendChild(big);$('#liveRunModel').value=REAL_ARTIFACTS.modelFull;updateMeta()};
+   card.appendChild(m);
+  }else{
+   const ph=document.createElement('div');ph.style.cssText='height:74px;display:flex;align-items:center;justify-content:center;font:20px var(--mono);color:var(--faint);background:#05060A';
+   ph.textContent=it.kind==='file'?(it.file.endsWith('.ply')?'◈':'▦'):'▣';card.appendChild(ph);
+  }
+  const tag=document.createElement('span');tag.className='ac-tag';tag.textContent=(it.preview?'可预览':'附件');card.appendChild(tag);
+  const body=document.createElement('div');body.className='ac-body';
+  body.innerHTML='<div class="ac-name">'+it.label+'</div><div class="ac-meta">'+(it.bytes/1024).toFixed(0)+' KB · '+it.file+'</div>';
+  card.appendChild(body);strip.appendChild(card);
+ });
+ // 自动填入真实运行元信息
+ $('#liveRunModel').value=REAL_ARTIFACTS.modelFull;
+ $('#liveRunParams').value=REAL_ARTIFACTS.params;
+ $('#liveRunPrompt').value='单图 → 3D 几何重建（'+REAL_ARTIFACTS.input+'）';
+ $('#liveRunSeed').value='前馈重建 · 无随机 seed';
+ $('#liveRunDate').value=REAL_ARTIFACTS.runDate;
+ // 预览区默认放 RGB 漫游视频
+ const f=$('#liveFrame');f.innerHTML='';
+ const v=document.createElement('video');v.src=base+'rgb_video.mp4';v.controls=true;v.muted=true;v.loop=true;v.playsInline=true;
+ v.style.cssText='max-width:100%;max-height:340px;display:block;margin:0 auto';f.appendChild(v);
+ const kb=REAL_ARTIFACTS.items.reduce((s,i)=>s+i.bytes,0)/1024;
+ $('#artifactNote').innerHTML='<b>来源可复核：</b>'+REAL_ARTIFACTS.items.length+' 件产物合计 '+kb.toFixed(0)+' KB，均下载自 '+REAL_ARTIFACTS.endpoint+'。'
+  +'运行元信息（端点/耗时/字节数/认证状态）见 <b>'+REAL_ARTIFACTS.metaPath+'</b>，字段 <code>source_type=real_model</code>。'
+  +'可预览的 4 件（漫游视频×2、深度图、法线图）直接显示；3DGS/Mesh/相机参数为二进制/结构化附件，可在 real_run/output/ 查看。';
+ $('#liveArtifactStatus').textContent='✅ 已载入 '+REAL_ARTIFACTS.items.length+' 件真实产物（'+REAL_ARTIFACTS.runDate+' 跑通，HF 认证）。点击缩略图预览大图。';
+ $('#liveArtifactStatus').className='status-line ok';
+ updateMeta();
+}
+$('#liveDrop').onclick=()=>$('#liveFile').click();
+['dragenter','dragover'].forEach(ev=>{$('#liveDrop').addEventListener(ev,e=>{e.preventDefault();$('#liveDrop').classList.add('drag')});
+ $('#liveFrame').addEventListener(ev,e=>{if(liveMode!=='upload')return;e.preventDefault();$('#liveFrame').style.outline='2px dashed var(--pgm)'})});
+['dragleave','drop'].forEach(ev=>{$('#liveDrop').addEventListener(ev,e=>{e.preventDefault();$('#liveDrop').classList.remove('drag')});
+ $('#liveFrame').addEventListener(ev,e=>{if(liveMode!=='upload')return;e.preventDefault();$('#liveFrame').style.outline=''})});
+$('#liveFrame').addEventListener('drop',e=>{if(liveMode==='upload'&&e.dataTransfer.files.length)handleFiles(e.dataTransfer.files)});
+$('#liveDrop').addEventListener('drop',e=>{handleFiles(e.dataTransfer.files)});
+$('#liveFile').onchange=e=>handleFiles(e.target.files);
+function handleFiles(files){liveMedia=Array.from(files).filter(f=>f.type.startsWith('image/')||f.type.startsWith('video/'));showUploads()}
+let lastRealRun=null;
+$('#liveRecord').onclick=()=>{
+ const real=liveMode!=='schematic';
+ const sel=picks[active]||[];
+ const run={id:'LIVE-'+Date.now().toString().slice(-6),case_id:active,
+  title:'真实测评 · '+LIVE_MODELS[liveModel].name,track:'live_bench',
+  source_type:real?'real_model':'schematic',
+  source_mode:({space:'在线Space',local:'本地Gradio',upload:'上传输出',artifacts:'实测产物',schematic:'示意'})[liveMode],
+  model:$('#liveRunModel').value||LIVE_MODELS[liveModel].ver,
+  endpoint:liveMode==='local'?$('#liveEndpoint').value:(liveMode==='space'?LIVE_MODELS[liveModel].space:(liveMode==='artifacts'?REAL_ARTIFACTS.endpoint:'')),
+  prompt:$('#liveRunPrompt').value,params:$('#liveRunParams').value,seed:$('#liveRunSeed').value,
+  run_date:$('#liveRunDate').value||new Date().toLocaleString('zh-CN',{hour12:false}),
+  step:beat+1,steps:getCase().beats.length,ladder:ladder,drift_count:driftCount(),
+  scoreA:+$('#scoreA').value,scoreB:+$('#scoreB').value,autoA:autoScore('A'),autoB:autoScore('B'),
+  failure_tags:sel.map(t=>({tag:t,zh:TAGS[t].zh,layer:TAGS[t].layer,action:TAGS[t].action})),
+  events:[],note:$('#note').value,time:new Date().toLocaleString('zh-CN',{hour12:false}),
+  files:liveMode==='artifacts'?REAL_ARTIFACTS.items.map(i=>i.file):liveMedia.map(m=>m.file.name),
+  meta_path:liveMode==='artifacts'?REAL_ARTIFACTS.metaPath:''};
+ if(real&&!run.model){toast('请先填写模型 / 版本，保证记录可复核');return}
+ records.push(run);localStorage.setItem('wmfl_records',JSON.stringify(records));lastRealRun=run;
+ logged.add(active);renderRecords();
+ toast((real?'✅ 真实测评':'示意')+'已记录：'+run.id+' · '+run.model+' · '+sel.length+' 个标签');
+};
+renderLiveModels();setMode('space');updateMeta();
 </script></body></html>
